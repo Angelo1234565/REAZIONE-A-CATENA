@@ -283,6 +283,33 @@
             animation: pulse 0.5s ease-in-out;
         }
         
+        /* Stili per il video introduttivo */
+        .intro-video-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .intro-video {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .skip-video-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .skip-video-btn:hover {
+            background-color: #2980b9;
+        }
+        
         /* Stili per il secondo gioco */
         .quartina-container {
             width: 100%;
@@ -405,6 +432,25 @@
             </div>
             
             <button class="start-btn" id="startGameBtn">Inizia il Gioco</button>
+        </div>
+    </div>
+    
+    <!-- Schermata del video introduttivo -->
+    <div class="container hidden" id="introVideoScreen">
+        <header>
+            <h1>Caccia alla Parola</h1>
+        </header>
+        
+        <div class="intro-video-container">
+            <h2>Video Introduttivo</h2>
+            <video class="intro-video" id="introVideo" controls>
+                <!-- Sostituisci con il tuo video -->
+                <source src="intro-video.mp4" type="video/mp4">
+                Il tuo browser non supporta il tag video.
+            </video>
+            <div>
+                <button class="skip-video-btn" id="skipVideoBtn">Salta Video</button>
+            </div>
         </div>
     </div>
     
@@ -618,6 +664,9 @@
         
         // Elementi DOM per Caccia alla Parola
         const setupScreen = document.getElementById('setupScreen');
+        const introVideoScreen = document.getElementById('introVideoScreen');
+        const introVideo = document.getElementById('introVideo');
+        const skipVideoBtn = document.getElementById('skipVideoBtn');
         const gameScreen = document.getElementById('gameScreen');
         const wordGrid = document.getElementById('wordGrid');
         const message = document.getElementById('message');
@@ -919,11 +968,26 @@
             secondDisplayPlayerB2.textContent = playerB2Input.value;
             secondDisplayPlayerB3.textContent = playerB3Input.value;
             
-            // Nasconde la schermata di setup e mostra il gioco
-            setupScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
+            // Aggiorna anche i pulsanti dei buzzers con i nomi corretti
+            playerA1Buzzer.textContent = playerA1Input.value;
+            playerA2Buzzer.textContent = playerA2Input.value;
+            playerA3Buzzer.textContent = playerA3Input.value;
+            playerB1Buzzer.textContent = playerB1Input.value;
+            playerB2Buzzer.textContent = playerB2Input.value;
+            playerB3Buzzer.textContent = playerB3Input.value;
             
-            // Inizializza il gioco
+            // Nasconde la schermata di setup e mostra il video introduttivo
+            setupScreen.classList.add('hidden');
+            introVideoScreen.classList.remove('hidden');
+            
+            // Riproduce automaticamente il video
+            introVideo.play();
+        }
+        
+        // Salta il video e passa direttamente al gioco
+        function skipVideo() {
+            introVideoScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
             initGame();
         }
         
@@ -1192,6 +1256,10 @@
         correctBtn.addEventListener('click', handleCorrectAnswer);
         wrongBtn.addEventListener('click', handleWrongAnswer);
         nextGameBtn.addEventListener('click', startSecondGame);
+        
+        // Aggiungi event listeners per il video introduttivo
+        skipVideoBtn.addEventListener('click', skipVideo);
+        introVideo.addEventListener('ended', skipVideo);
         
         // Aggiungi event listeners per il secondo gioco
         secondStartBtn.addEventListener('click', startSecondGameRound);
