@@ -365,6 +365,15 @@
             font-size: 1.2rem;
             color: #fdbb2d;
         }
+        
+        .correct-answer {
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: rgba(46, 204, 113, 0.2);
+            border-radius: 8px;
+            border: 1px solid #2ecc71;
+        }
     </style>
 </head>
 <body>
@@ -506,7 +515,7 @@
                 Punti possibili: 20 (se indovinata dopo la prima affermazione: 40)
             </div>
             
-            <div class="message" id="secondMessage">Premi "Inizia" per iniziare il gioco!</div>
+            <div class="message" id="secondMessage">Premi "Inizia Quartina" per iniziare il gioco!</div>
             
             <div class="player-buzzers">
                 <div class="team-buzzers">
@@ -529,9 +538,12 @@
             
             <div class="answer-controls hidden" id="secondAnswerControls">
                 <div class="player-name" id="secondAnsweringPlayer"></div>
-                <input type="text" id="answerInput" placeholder="Inserisci la risposta">
                 <button class="correct-btn" id="secondCorrectBtn">Risposta Esatta</button>
                 <button class="wrong-btn" id="secondWrongBtn">Risposta Errata</button>
+            </div>
+            
+            <div class="correct-answer hidden" id="correctAnswerDisplay">
+                <strong>Risposta corretta:</strong> <span id="correctAnswerText"></span>
             </div>
             
             <div class="game-completed hidden" id="secondGameCompleted">
@@ -674,12 +686,13 @@
         const secondNextQuartinaBtn = document.getElementById('secondNextQuartinaBtn');
         const secondAnswerControls = document.getElementById('secondAnswerControls');
         const secondAnsweringPlayer = document.getElementById('secondAnsweringPlayer');
-        const answerInput = document.getElementById('answerInput');
         const secondCorrectBtn = document.getElementById('secondCorrectBtn');
         const secondWrongBtn = document.getElementById('secondWrongBtn');
         const secondGameCompleted = document.getElementById('secondGameCompleted');
         const secondNextGameBtn = document.getElementById('secondNextGameBtn');
         const quartinaPointsElement = document.getElementById('quartinaPoints');
+        const correctAnswerDisplay = document.getElementById('correctAnswerDisplay');
+        const correctAnswerText = document.getElementById('correctAnswerText');
         
         // Buzzers per i giocatori
         const playerA1Buzzer = document.getElementById('playerA1Buzzer');
@@ -944,6 +957,7 @@
             secondNextBtn.disabled = true;
             secondNextQuartinaBtn.disabled = true;
             secondAnswerControls.classList.add('hidden');
+            correctAnswerDisplay.classList.add('hidden');
         }
         
         // Reset della visualizzazione della quartina
@@ -1016,7 +1030,8 @@
             if (currentQuartinaStep === 3) {
                 secondNextBtn.disabled = true;
                 secondNextQuartinaBtn.disabled = false;
-                secondMessage.textContent = "Quartina completata! Nessuno ha indovinato. Premi 'Prossima Quartina' per continuare.";
+                secondMessage.textContent = "Quartina completata! Nessuno ha indovinato.";
+                showCorrectAnswer();
             }
         }
         
@@ -1043,6 +1058,13 @@
                 percheLine.classList.add('revealed');
                 percheText.textContent = currentQuartina.perche;
             }
+        }
+        
+        // Mostra la risposta corretta
+        function showCorrectAnswer() {
+            const currentQuartina = quartineList[secondCurrentRound - 1];
+            correctAnswerText.textContent = currentQuartina.risposta;
+            correctAnswerDisplay.classList.remove('hidden');
         }
         
         // Gestisce la pressione di un buzzer da parte di un giocatore
@@ -1078,33 +1100,23 @@
             currentAnsweringTeam = team;
             
             secondAnsweringPlayer.textContent = `Risponde: ${playerName} (${team === 'A' ? displayTeamA.textContent : displayTeamB.textContent})`;
-            secondMessage.textContent = `${playerName}, qual è la risposta?`;
+            secondMessage.textContent = `${playerName} ha premuto il buzzer! Ascolta la risposta e premi "Risposta Esatta" o "Risposta Errata".`;
             secondAnswerControls.classList.remove('hidden');
-            answerInput.focus();
         }
         
         // Gestisce una risposta corretta nel secondo gioco
         function handleSecondCorrectAnswer() {
-            const answer = answerInput.value.trim().toUpperCase();
-            const correctAnswer = quartineList[secondCurrentRound - 1].risposta.toUpperCase();
+            const currentQuartina = quartineList[secondCurrentRound - 1];
             
-            if (answer === correctAnswer) {
-                secondMessage.textContent = `Esatto! La risposta è "${quartineList[secondCurrentRound - 1].risposta}". ${quartinaPoints} punti per la ${currentAnsweringTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-                updateScore(currentAnsweringTeam, quartinaPoints);
-                
-                // Rivela tutta la quartina
-                revealAllQuartinaSteps();
-                
-                secondNextQuartinaBtn.disabled = false;
-                secondAnswerControls.classList.add('hidden');
-                answerInput.value = '';
-            } else {
-                secondMessage.textContent = `Risposta errata! La risposta corretta era "${quartineList[secondCurrentRound - 1].risposta}". Riprova!`;
-                // Abilita di nuovo i buzzers per un altro tentativo
-                enableAllBuzzers(true);
-                secondAnswerControls.classList.add('hidden');
-                answerInput.value = '';
-            }
+            secondMessage.textContent = `Esatto! La risposta è "${currentQuartina.risposta}". ${quartinaPoints} punti per la ${currentAnsweringTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentAnsweringTeam, quartinaPoints);
+            
+            // Rivela tutta la quartina
+            revealAllQuartinaSteps();
+            
+            secondNextQuartinaBtn.disabled = false;
+            secondAnswerControls.classList.add('hidden');
+            correctAnswerDisplay.classList.add('hidden');
         }
         
         // Gestisce una risposta errata nel secondo gioco
@@ -1113,7 +1125,6 @@
             // Abilita di nuovo i buzzers
             enableAllBuzzers(true);
             secondAnswerControls.classList.add('hidden');
-            answerInput.value = '';
         }
         
         // Rivela tutti i passi della quartina
