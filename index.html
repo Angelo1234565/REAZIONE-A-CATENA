@@ -79,6 +79,11 @@
             color: #fdbb2d;
         }
         
+        .active-team {
+            background-color: rgba(253, 187, 45, 0.2);
+            border-radius: 10px;
+        }
+        
         .game-area {
             display: flex;
             flex-direction: column;
@@ -186,7 +191,7 @@
             background-color: #8e44ad;
         }
         
-        .timer {
+        .round-info {
             font-size: 1.5rem;
             margin: 10px 0;
             text-align: center;
@@ -267,6 +272,99 @@
             border-radius: 10px;
             border: 2px solid #2ecc71;
         }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        /* Stili per il secondo gioco */
+        .quartina-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .quartina-line {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .quartina-line.revealed {
+            background-color: rgba(253, 187, 45, 0.2);
+            border-left: 4px solid #fdbb2d;
+        }
+        
+        .player-buzzers {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 10px;
+        }
+        
+        .team-buzzers {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .player-buzzer {
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .player-buzzer:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .player-buzzer:disabled {
+            background-color: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .player-buzzer.active {
+            background-color: #e74c3c;
+            animation: pulse 0.5s infinite;
+        }
+        
+        .quartina-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .quartina-points {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.2rem;
+            color: #fdbb2d;
+        }
     </style>
 </head>
 <body>
@@ -301,7 +399,7 @@
         </div>
     </div>
     
-    <!-- Schermata di gioco principale -->
+    <!-- Schermata di gioco principale (Caccia alla Parola) -->
     <div class="container hidden" id="gameScreen">
         <header>
             <h1>Caccia alla Parola</h1>
@@ -309,7 +407,7 @@
         </header>
         
         <div class="game-info">
-            <div class="team team-a">
+            <div class="team team-a" id="teamAElement">
                 <div class="team-name" id="displayTeamA">Squadra A</div>
                 <div class="score" id="scoreA">0</div>
                 <div class="players">
@@ -318,7 +416,7 @@
                     <div id="displayPlayerA3">Giocatore 3</div>
                 </div>
             </div>
-            <div class="team">
+            <div class="team" id="teamBElement">
                 <div class="team-name" id="displayTeamB">Squadra B</div>
                 <div class="score" id="scoreB">0</div>
                 <div class="players">
@@ -334,7 +432,7 @@
                 <!-- Le lettere verranno aggiunte qui dinamicamente -->
             </div>
             
-            <div class="timer" id="timer">Parola: 1/12</div>
+            <div class="round-info" id="roundInfo">Parola: 1/12</div>
             
             <div class="message" id="message">Premi "Inizia" per iniziare il gioco!</div>
             
@@ -353,13 +451,99 @@
             <div class="game-completed hidden" id="gameCompleted">
                 <h2>Gioco Completato!</h2>
                 <p>Hai completato tutte le 12 parole del gioco "Caccia alla Parola"</p>
-                <button class="next-game-btn" id="nextGameBtn">Gioco Successivo →</button>
+                <button class="next-game-btn" id="nextGameBtn">Prossimo Gioco: Quando, Dove, Come, Perché →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schermata del secondo gioco (Quando, Dove, Come, Perché) -->
+    <div class="container hidden" id="secondGameScreen">
+        <header>
+            <h1>Quando, Dove, Come, Perché</h1>
+            <div class="game-mode" id="secondGameMode">Modalità: Quando, Dove, Come, Perché</div>
+        </header>
+        
+        <div class="game-info">
+            <div class="team team-a" id="secondTeamAElement">
+                <div class="team-name" id="secondDisplayTeamA">Squadra A</div>
+                <div class="score" id="secondScoreA">0</div>
+                <div class="players">
+                    <div id="secondDisplayPlayerA1">Giocatore 1</div>
+                    <div id="secondDisplayPlayerA2">Giocatore 2</div>
+                    <div id="secondDisplayPlayerA3">Giocatore 3</div>
+                </div>
+            </div>
+            <div class="team" id="secondTeamBElement">
+                <div class="team-name" id="secondDisplayTeamB">Squadra B</div>
+                <div class="score" id="secondScoreB">0</div>
+                <div class="players">
+                    <div id="secondDisplayPlayerB1">Giocatore 1</div>
+                    <div id="secondDisplayPlayerB2">Giocatore 2</div>
+                    <div id="secondDisplayPlayerB3">Giocatore 3</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="quartina-container">
+                <div class="quartina-line" id="quandoLine">
+                    <span id="quandoText">(Quando)</span>
+                </div>
+                <div class="quartina-line" id="doveLine">
+                    <span id="doveText">(Dove)</span>
+                </div>
+                <div class="quartina-line" id="comeLine">
+                    <span id="comeText">(Come)</span>
+                </div>
+                <div class="quartina-line" id="percheLine">
+                    <span id="percheText">(Perché)</span>
+                </div>
+            </div>
+            
+            <div class="round-info" id="secondRoundInfo">Quartina: 1/4</div>
+            
+            <div class="quartina-points" id="quartinaPoints">
+                Punti possibili: 20 (se indovinata dopo la prima affermazione: 40)
+            </div>
+            
+            <div class="message" id="secondMessage">Premi "Inizia" per iniziare il gioco!</div>
+            
+            <div class="player-buzzers">
+                <div class="team-buzzers">
+                    <button class="player-buzzer" id="playerA1Buzzer" data-player="A1">Giocatore A1</button>
+                    <button class="player-buzzer" id="playerA2Buzzer" data-player="A2">Giocatore A2</button>
+                    <button class="player-buzzer" id="playerA3Buzzer" data-player="A3">Giocatore A3</button>
+                </div>
+                <div class="team-buzzers">
+                    <button class="player-buzzer" id="playerB1Buzzer" data-player="B1">Giocatore B1</button>
+                    <button class="player-buzzer" id="playerB2Buzzer" data-player="B2">Giocatore B2</button>
+                    <button class="player-buzzer" id="playerB3Buzzer" data-player="B3">Giocatore B3</button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="start-btn" id="secondStartBtn">Inizia Quartina</button>
+                <button class="next-btn" id="secondNextBtn">Prossima Affermazione</button>
+                <button class="next-btn" id="secondNextQuartinaBtn">Prossima Quartina</button>
+            </div>
+            
+            <div class="answer-controls hidden" id="secondAnswerControls">
+                <div class="player-name" id="secondAnsweringPlayer"></div>
+                <input type="text" id="answerInput" placeholder="Inserisci la risposta">
+                <button class="correct-btn" id="secondCorrectBtn">Risposta Esatta</button>
+                <button class="wrong-btn" id="secondWrongBtn">Risposta Errata</button>
+            </div>
+            
+            <div class="game-completed hidden" id="secondGameCompleted">
+                <h2>Gioco Completato!</h2>
+                <p>Hai completato tutte le 4 quartine del gioco "Quando, Dove, Come, Perché"</p>
+                <button class="next-game-btn" id="secondNextGameBtn">Torna al Menu Principale</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Variabili di gioco
+        // Variabili di gioco per Caccia alla Parola
         let currentWord = '';
         let revealedLetters = [];
         let currentLetterIndex = 0;
@@ -379,7 +563,48 @@
             'RISTORANTE', 'OSPEDALE'
         ];
         
-        // Elementi DOM
+        // Variabili di gioco per Quando, Dove, Come, Perché
+        let secondGameStarted = false;
+        let secondCurrentRound = 1;
+        let secondTotalRounds = 4;
+        let currentQuartinaStep = 0;
+        let currentAnsweringPlayer = '';
+        let currentAnsweringTeam = '';
+        let quartinaPoints = 20;
+        
+        // Lista di quartine (Quando, Dove, Come, Perché, Risposta)
+        const quartineList = [
+            {
+                quando: "La notte di Natale...",
+                dove: "... attorno a un tavolo...",
+                come: "... con dei fagioli in mano...",
+                perche: "... per fare cinquina!",
+                risposta: "TOMBOLA"
+            },
+            {
+                quando: "Nel 1969...",
+                dove: "... sulla Luna...",
+                come: "... con un piccolo passo...",
+                perche: "... per l'umanità!",
+                risposta: "ALLUNAGGIO"
+            },
+            {
+                quando: "Nel Rinascimento...",
+                dove: "... a Firenze...",
+                come: "... con genio e creatività...",
+                perche: "... per dare vita a capolavori!",
+                risposta: "LEONARDO DA VINCI"
+            },
+            {
+                quando: "Ogni quattro anni...",
+                dove: "... in tutto il mondo...",
+                come: "... con atleti e bandiere...",
+                perche: "... per l'onore della propria nazione!",
+                risposta: "OLIMPIADI"
+            }
+        ];
+        
+        // Elementi DOM per Caccia alla Parola
         const setupScreen = document.getElementById('setupScreen');
         const gameScreen = document.getElementById('gameScreen');
         const wordGrid = document.getElementById('wordGrid');
@@ -389,7 +614,7 @@
         const nextBtn = document.getElementById('nextBtn');
         const scoreAElement = document.getElementById('scoreA');
         const scoreBElement = document.getElementById('scoreB');
-        const timerElement = document.getElementById('timer');
+        const roundInfoElement = document.getElementById('roundInfo');
         const gameModeElement = document.getElementById('gameMode');
         const startGameBtn = document.getElementById('startGameBtn');
         const answerControls = document.getElementById('answerControls');
@@ -398,6 +623,8 @@
         const answeringPlayerElement = document.getElementById('answeringPlayer');
         const gameCompleted = document.getElementById('gameCompleted');
         const nextGameBtn = document.getElementById('nextGameBtn');
+        const teamAElement = document.getElementById('teamAElement');
+        const teamBElement = document.getElementById('teamBElement');
         
         // Elementi per i nomi delle squadre
         const teamANameInput = document.getElementById('teamAName');
@@ -418,27 +645,83 @@
         const displayPlayerB2 = document.getElementById('displayPlayerB2');
         const displayPlayerB3 = document.getElementById('displayPlayerB3');
         
-        // Inizializzazione del gioco
+        // Elementi DOM per Quando, Dove, Come, Perché
+        const secondGameScreen = document.getElementById('secondGameScreen');
+        const secondDisplayTeamA = document.getElementById('secondDisplayTeamA');
+        const secondDisplayPlayerA1 = document.getElementById('secondDisplayPlayerA1');
+        const secondDisplayPlayerA2 = document.getElementById('secondDisplayPlayerA2');
+        const secondDisplayPlayerA3 = document.getElementById('secondDisplayPlayerA3');
+        const secondDisplayTeamB = document.getElementById('secondDisplayTeamB');
+        const secondDisplayPlayerB1 = document.getElementById('secondDisplayPlayerB1');
+        const secondDisplayPlayerB2 = document.getElementById('secondDisplayPlayerB2');
+        const secondDisplayPlayerB3 = document.getElementById('secondDisplayPlayerB3');
+        const secondScoreA = document.getElementById('secondScoreA');
+        const secondScoreB = document.getElementById('secondScoreB');
+        const secondTeamAElement = document.getElementById('secondTeamAElement');
+        const secondTeamBElement = document.getElementById('secondTeamBElement');
+        const quandoLine = document.getElementById('quandoLine');
+        const doveLine = document.getElementById('doveLine');
+        const comeLine = document.getElementById('comeLine');
+        const percheLine = document.getElementById('percheLine');
+        const quandoText = document.getElementById('quandoText');
+        const doveText = document.getElementById('doveText');
+        const comeText = document.getElementById('comeText');
+        const percheText = document.getElementById('percheText');
+        const secondRoundInfo = document.getElementById('secondRoundInfo');
+        const secondMessage = document.getElementById('secondMessage');
+        const secondStartBtn = document.getElementById('secondStartBtn');
+        const secondNextBtn = document.getElementById('secondNextBtn');
+        const secondNextQuartinaBtn = document.getElementById('secondNextQuartinaBtn');
+        const secondAnswerControls = document.getElementById('secondAnswerControls');
+        const secondAnsweringPlayer = document.getElementById('secondAnsweringPlayer');
+        const answerInput = document.getElementById('answerInput');
+        const secondCorrectBtn = document.getElementById('secondCorrectBtn');
+        const secondWrongBtn = document.getElementById('secondWrongBtn');
+        const secondGameCompleted = document.getElementById('secondGameCompleted');
+        const secondNextGameBtn = document.getElementById('secondNextGameBtn');
+        const quartinaPointsElement = document.getElementById('quartinaPoints');
+        
+        // Buzzers per i giocatori
+        const playerA1Buzzer = document.getElementById('playerA1Buzzer');
+        const playerA2Buzzer = document.getElementById('playerA2Buzzer');
+        const playerA3Buzzer = document.getElementById('playerA3Buzzer');
+        const playerB1Buzzer = document.getElementById('playerB1Buzzer');
+        const playerB2Buzzer = document.getElementById('playerB2Buzzer');
+        const playerB3Buzzer = document.getElementById('playerB3Buzzer');
+        
+        // Aggiorna la visualizzazione delle squadre attive
+        function updateActiveTeam() {
+            if (currentTeam === 'A') {
+                teamAElement.classList.add('active-team');
+                teamBElement.classList.remove('active-team');
+            } else {
+                teamBElement.classList.add('active-team');
+                teamAElement.classList.remove('active-team');
+            }
+        }
+        
+        // Inizializzazione del gioco Caccia alla Parola
         function initGame() {
             resetGame();
             updateScores();
-            timerElement.textContent = `Parola: ${currentRound}/${totalRounds}`;
+            updateActiveTeam();
+            roundInfoElement.textContent = `Parola: ${currentRound}/${totalRounds}`;
+            message.textContent = `Inizia la ${displayTeamA.textContent}!`;
         }
         
-        // Reset del gioco
+        // Reset del gioco Caccia alla Parola
         function resetGame() {
             clearInterval(letterInterval);
             gameStarted = false;
             revealedLetters = [];
             currentLetterIndex = 0;
             wordGrid.innerHTML = '';
-            message.textContent = 'Premi "Inizia" per iniziare il gioco!';
             buzzer.disabled = true;
             nextBtn.disabled = true;
             answerControls.classList.add('hidden');
         }
         
-        // Avvia il gioco
+        // Avvia il gioco Caccia alla Parola
         function startGame() {
             if (gameStarted) return;
             
@@ -447,7 +730,7 @@
             currentWord = wordList[currentRound - 1];
             createWordGrid();
             startRevealingLetters();
-            message.textContent = 'Indovina la parola!';
+            message.textContent = `Indovina la parola! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             buzzer.disabled = false;
             startBtn.disabled = true;
             nextBtn.disabled = true;
@@ -471,10 +754,8 @@
             
             letterInterval = setInterval(() => {
                 if (currentLetterIndex >= currentWord.length) {
-                    clearInterval(letterInterval);
-                    message.textContent = 'Tempo scaduto! Nessuno ha indovinato.';
-                    buzzer.disabled = true;
-                    nextBtn.disabled = false;
+                    // Tutte le lettere sono state rivelate, ma il gioco continua
+                    // finché qualcuno non preme il buzzer
                     return;
                 }
                 
@@ -489,12 +770,11 @@
             const letterBox = document.getElementById(`letter-${position}`);
             letterBox.textContent = currentWord[position];
             letterBox.classList.add('revealed');
+            letterBox.classList.add('pulse');
             revealedLetters.push(currentWord[position]);
             
-            // Effetto sonoro (simulato con una classe CSS)
-            letterBox.style.animation = 'pulse 0.5s';
             setTimeout(() => {
-                letterBox.style.animation = '';
+                letterBox.classList.remove('pulse');
             }, 500);
         }
         
@@ -512,9 +792,7 @@
             answeringPlayer = players[Math.floor(Math.random() * players.length)];
             answeringPlayerElement.textContent = `Risponde: ${answeringPlayer}`;
             
-            const teamName = currentTeam === 'A' 
-                ? (displayTeamA.textContent === 'Squadra A' ? teamANameInput.value : displayTeamA.textContent)
-                : (displayTeamB.textContent === 'Squadra B' ? teamBNameInput.value : displayTeamB.textContent);
+            const teamName = currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
             
             message.textContent = `${teamName}, qual è la parola?`;
             buzzer.disabled = true;
@@ -523,16 +801,25 @@
         
         // Gestisce una risposta corretta
         function handleCorrectAnswer() {
-            message.textContent = `Esatto! La parola è "${currentWord}"`;
+            message.textContent = `Esatto! La parola è "${currentWord}". Punto per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
             revealAllLetters();
             updateScore(currentTeam, 10);
             nextBtn.disabled = false;
             answerControls.classList.add('hidden');
+            
+            // Cambia squadra per la prossima parola
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
+            message.textContent += ` Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
         }
         
         // Gestisce una risposta errata
         function handleWrongAnswer() {
-            message.textContent = 'Risposta errata! La parola continua...';
+            // Cambia squadra
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
+            
+            message.textContent = `Risposta errata! Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             answerControls.classList.add('hidden');
             startRevealingLetters();
             buzzer.disabled = false;
@@ -557,13 +844,14 @@
                 return;
             }
             
-            timerElement.textContent = `Parola: ${currentRound}/${totalRounds}`;
+            roundInfoElement.textContent = `Parola: ${currentRound}/${totalRounds}`;
             resetGame();
             startBtn.disabled = false;
-            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
+            message.textContent = `Prossima parola! Inizia la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
         }
         
-        // Completa il gioco
+        // Completa il gioco Caccia alla Parola
         function completeGame() {
             message.textContent = 'Hai completato tutte le parole!';
             startBtn.disabled = true;
@@ -577,9 +865,11 @@
             if (team === 'A') {
                 scoreA += points;
                 scoreAElement.textContent = scoreA;
+                secondScoreA.textContent = scoreA;
             } else {
                 scoreB += points;
                 scoreBElement.textContent = scoreB;
+                secondScoreB.textContent = scoreB;
             }
         }
         
@@ -605,6 +895,17 @@
             displayPlayerB2.textContent = playerB2Input.value;
             displayPlayerB3.textContent = playerB3Input.value;
             
+            // Aggiorna anche per il secondo gioco
+            secondDisplayTeamA.textContent = teamANameInput.value;
+            secondDisplayPlayerA1.textContent = playerA1Input.value;
+            secondDisplayPlayerA2.textContent = playerA2Input.value;
+            secondDisplayPlayerA3.textContent = playerA3Input.value;
+            
+            secondDisplayTeamB.textContent = teamBNameInput.value;
+            secondDisplayPlayerB1.textContent = playerB1Input.value;
+            secondDisplayPlayerB2.textContent = playerB2Input.value;
+            secondDisplayPlayerB3.textContent = playerB3Input.value;
+            
             // Nasconde la schermata di setup e mostra il gioco
             setupScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
@@ -613,17 +914,289 @@
             initGame();
         }
         
-        // Aggiungi event listeners
+        // Passa al secondo gioco
+        function startSecondGame() {
+            // Nasconde il primo gioco e mostra il secondo
+            gameScreen.classList.add('hidden');
+            secondGameScreen.classList.remove('hidden');
+            
+            // Inizializza il secondo gioco
+            initSecondGame();
+        }
+        
+        // Inizializzazione del secondo gioco
+        function initSecondGame() {
+            resetSecondGame();
+            updateSecondScores();
+            secondRoundInfo.textContent = `Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
+            secondMessage.textContent = `Premi "Inizia Quartina" per iniziare!`;
+            quartinaPoints = 20;
+            quartinaPointsElement.textContent = `Punti possibili: ${quartinaPoints} (se indovinata dopo la prima affermazione: 40)`;
+        }
+        
+        // Reset del secondo gioco
+        function resetSecondGame() {
+            secondGameStarted = false;
+            currentQuartinaStep = 0;
+            resetQuartinaDisplay();
+            enableAllBuzzers(false);
+            secondStartBtn.disabled = false;
+            secondNextBtn.disabled = true;
+            secondNextQuartinaBtn.disabled = true;
+            secondAnswerControls.classList.add('hidden');
+        }
+        
+        // Reset della visualizzazione della quartina
+        function resetQuartinaDisplay() {
+            quandoLine.classList.remove('revealed');
+            doveLine.classList.remove('revealed');
+            comeLine.classList.remove('revealed');
+            percheLine.classList.remove('revealed');
+            
+            quandoText.textContent = "(Quando)";
+            doveText.textContent = "(Dove)";
+            comeText.textContent = "(Come)";
+            percheText.textContent = "(Perché)";
+        }
+        
+        // Abilita/disabilita tutti i buzzers
+        function enableAllBuzzers(enable) {
+            playerA1Buzzer.disabled = !enable;
+            playerA2Buzzer.disabled = !enable;
+            playerA3Buzzer.disabled = !enable;
+            playerB1Buzzer.disabled = !enable;
+            playerB2Buzzer.disabled = !enable;
+            playerB3Buzzer.disabled = !enable;
+            
+            // Rimuove la classe active da tutti i buzzers
+            playerA1Buzzer.classList.remove('active');
+            playerA2Buzzer.classList.remove('active');
+            playerA3Buzzer.classList.remove('active');
+            playerB1Buzzer.classList.remove('active');
+            playerB2Buzzer.classList.remove('active');
+            playerB3Buzzer.classList.remove('active');
+        }
+        
+        // Avvia il secondo gioco
+        function startSecondGameRound() {
+            if (secondGameStarted) return;
+            
+            secondGameStarted = true;
+            currentQuartinaStep = 0;
+            secondStartBtn.disabled = true;
+            secondNextBtn.disabled = false;
+            secondNextQuartinaBtn.disabled = true;
+            enableAllBuzzers(true);
+            
+            // Mostra la prima affermazione (Quando)
+            revealQuartinaStep();
+            secondMessage.textContent = "Indovina a cosa si riferisce la quartina!";
+            quartinaPoints = 40; // Doppio punteggio se indovinato dopo la prima affermazione
+            quartinaPointsElement.textContent = `Punti possibili: ${quartinaPoints}`;
+        }
+        
+        // Rivela il passo successivo della quartina
+        function revealNextQuartinaStep() {
+            if (currentQuartinaStep >= 3) return;
+            
+            currentQuartinaStep++;
+            revealQuartinaStep();
+            
+            // Aggiorna i punti possibili
+            if (currentQuartinaStep === 1) {
+                quartinaPoints = 30;
+            } else if (currentQuartinaStep === 2) {
+                quartinaPoints = 20;
+            } else if (currentQuartinaStep === 3) {
+                quartinaPoints = 10;
+            }
+            quartinaPointsElement.textContent = `Punti possibili: ${quartinaPoints}`;
+            
+            // Se tutte le affermazioni sono state rivelate
+            if (currentQuartinaStep === 3) {
+                secondNextBtn.disabled = true;
+                secondNextQuartinaBtn.disabled = false;
+                secondMessage.textContent = "Quartina completata! Nessuno ha indovinato. Premi 'Prossima Quartina' per continuare.";
+            }
+        }
+        
+        // Rivela il passo corrente della quartina
+        function revealQuartinaStep() {
+            const currentQuartina = quartineList[secondCurrentRound - 1];
+            
+            if (currentQuartinaStep >= 0) {
+                quandoLine.classList.add('revealed');
+                quandoText.textContent = currentQuartina.quando;
+            }
+            
+            if (currentQuartinaStep >= 1) {
+                doveLine.classList.add('revealed');
+                doveText.textContent = currentQuartina.dove;
+            }
+            
+            if (currentQuartinaStep >= 2) {
+                comeLine.classList.add('revealed');
+                comeText.textContent = currentQuartina.come;
+            }
+            
+            if (currentQuartinaStep >= 3) {
+                percheLine.classList.add('revealed');
+                percheText.textContent = currentQuartina.perche;
+            }
+        }
+        
+        // Gestisce la pressione di un buzzer da parte di un giocatore
+        function handlePlayerBuzzer(event) {
+            if (!secondGameStarted) return;
+            
+            const playerBuzzer = event.target;
+            const playerId = playerBuzzer.getAttribute('data-player');
+            
+            // Disabilita tutti i buzzers
+            enableAllBuzzers(false);
+            
+            // Attiva il buzzer premuto
+            playerBuzzer.classList.add('active');
+            
+            // Determina il giocatore e la squadra
+            let playerName = '';
+            let team = '';
+            
+            if (playerId.startsWith('A')) {
+                team = 'A';
+                if (playerId === 'A1') playerName = playerA1Input.value;
+                else if (playerId === 'A2') playerName = playerA2Input.value;
+                else if (playerId === 'A3') playerName = playerA3Input.value;
+            } else {
+                team = 'B';
+                if (playerId === 'B1') playerName = playerB1Input.value;
+                else if (playerId === 'B2') playerName = playerB2Input.value;
+                else if (playerId === 'B3') playerName = playerB3Input.value;
+            }
+            
+            currentAnsweringPlayer = playerName;
+            currentAnsweringTeam = team;
+            
+            secondAnsweringPlayer.textContent = `Risponde: ${playerName} (${team === 'A' ? displayTeamA.textContent : displayTeamB.textContent})`;
+            secondMessage.textContent = `${playerName}, qual è la risposta?`;
+            secondAnswerControls.classList.remove('hidden');
+            answerInput.focus();
+        }
+        
+        // Gestisce una risposta corretta nel secondo gioco
+        function handleSecondCorrectAnswer() {
+            const answer = answerInput.value.trim().toUpperCase();
+            const correctAnswer = quartineList[secondCurrentRound - 1].risposta.toUpperCase();
+            
+            if (answer === correctAnswer) {
+                secondMessage.textContent = `Esatto! La risposta è "${quartineList[secondCurrentRound - 1].risposta}". ${quartinaPoints} punti per la ${currentAnsweringTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+                updateScore(currentAnsweringTeam, quartinaPoints);
+                
+                // Rivela tutta la quartina
+                revealAllQuartinaSteps();
+                
+                secondNextQuartinaBtn.disabled = false;
+                secondAnswerControls.classList.add('hidden');
+                answerInput.value = '';
+            } else {
+                secondMessage.textContent = `Risposta errata! La risposta corretta era "${quartineList[secondCurrentRound - 1].risposta}". Riprova!`;
+                // Abilita di nuovo i buzzers per un altro tentativo
+                enableAllBuzzers(true);
+                secondAnswerControls.classList.add('hidden');
+                answerInput.value = '';
+            }
+        }
+        
+        // Gestisce una risposta errata nel secondo gioco
+        function handleSecondWrongAnswer() {
+            secondMessage.textContent = "Risposta errata! La quartina continua...";
+            // Abilita di nuovo i buzzers
+            enableAllBuzzers(true);
+            secondAnswerControls.classList.add('hidden');
+            answerInput.value = '';
+        }
+        
+        // Rivela tutti i passi della quartina
+        function revealAllQuartinaSteps() {
+            currentQuartinaStep = 3;
+            revealQuartinaStep();
+        }
+        
+        // Passa alla quartina successiva
+        function nextQuartina() {
+            secondCurrentRound++;
+            if (secondCurrentRound > secondTotalRounds) {
+                completeSecondGame();
+                return;
+            }
+            
+            secondRoundInfo.textContent = `Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
+            resetSecondGame();
+            secondMessage.textContent = `Prossima quartina! Premi "Inizia Quartina" per iniziare.`;
+        }
+        
+        // Completa il secondo gioco
+        function completeSecondGame() {
+            secondMessage.textContent = 'Hai completato tutte le quartine!';
+            secondStartBtn.disabled = true;
+            secondNextBtn.disabled = true;
+            secondNextQuartinaBtn.disabled = true;
+            enableAllBuzzers(false);
+            secondGameCompleted.classList.remove('hidden');
+        }
+        
+        // Torna al menu principale
+        function backToMainMenu() {
+            secondGameScreen.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
+            
+            // Resetta i giochi
+            currentRound = 1;
+            secondCurrentRound = 1;
+            scoreA = 0;
+            scoreB = 0;
+            updateScores();
+            initGame();
+        }
+        
+        // Aggiorna i punteggi per entrambi i giochi
+        function updateScores() {
+            scoreAElement.textContent = scoreA;
+            scoreBElement.textContent = scoreB;
+            secondScoreA.textContent = scoreA;
+            secondScoreB.textContent = scoreB;
+        }
+        
+        // Aggiorna i punteggi per il secondo gioco
+        function updateSecondScores() {
+            secondScoreA.textContent = scoreA;
+            secondScoreB.textContent = scoreB;
+        }
+        
+        // Aggiungi event listeners per il primo gioco
         startBtn.addEventListener('click', startGame);
         buzzer.addEventListener('click', handleBuzzer);
         nextBtn.addEventListener('click', nextWord);
         startGameBtn.addEventListener('click', startMainGame);
         correctBtn.addEventListener('click', handleCorrectAnswer);
         wrongBtn.addEventListener('click', handleWrongAnswer);
-        nextGameBtn.addEventListener('click', () => {
-            alert('Qui passerà al prossimo gioco: "Quando, dove, come, perché"');
-            // Qui andrà il codice per passare al prossimo gioco
-        });
+        nextGameBtn.addEventListener('click', startSecondGame);
+        
+        // Aggiungi event listeners per il secondo gioco
+        secondStartBtn.addEventListener('click', startSecondGameRound);
+        secondNextBtn.addEventListener('click', revealNextQuartinaStep);
+        secondNextQuartinaBtn.addEventListener('click', nextQuartina);
+        secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
+        secondWrongBtn.addEventListener('click', handleSecondWrongAnswer);
+        secondNextGameBtn.addEventListener('click', backToMainMenu);
+        
+        // Aggiungi event listeners per i buzzers dei giocatori
+        playerA1Buzzer.addEventListener('click', handlePlayerBuzzer);
+        playerA2Buzzer.addEventListener('click', handlePlayerBuzzer);
+        playerA3Buzzer.addEventListener('click', handlePlayerBuzzer);
+        playerB1Buzzer.addEventListener('click', handlePlayerBuzzer);
+        playerB2Buzzer.addEventListener('click', handlePlayerBuzzer);
+        playerB3Buzzer.addEventListener('click', handlePlayerBuzzer);
         
         // Inizializza il gioco
         initGame();
