@@ -283,33 +283,6 @@
             animation: pulse 0.5s ease-in-out;
         }
         
-        /* Stili per il video introduttivo */
-        .intro-video-container {
-            text-align: center;
-            margin: 30px 0;
-        }
-        
-        .intro-video {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        .skip-video-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .skip-video-btn:hover {
-            background-color: #2980b9;
-        }
-        
         /* Stili per il secondo gioco */
         .quartina-container {
             width: 100%;
@@ -401,6 +374,30 @@
             border-radius: 8px;
             border: 1px solid #2ecc71;
         }
+        
+        /* Stili per la musica introduttiva */
+        .music-intro {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .skip-music-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .skip-music-btn:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
@@ -432,24 +429,6 @@
             </div>
             
             <button class="start-btn" id="startGameBtn">Inizia il Gioco</button>
-        </div>
-    </div>
-    
-    <!-- Schermata del video introduttivo -->
-    <div class="container hidden" id="introVideoScreen">
-        <header>
-            <h1>Caccia alla Parola</h1>
-        </header>
-        
-        <div class="intro-video-container">
-            <video class="intro-video" id="introVideo" controls>
-                <!-- Sostituisci con il tuo video -->
-                <source src="intro-video.mp4" type="video/mp4">
-                Il tuo browser non supporta il tag video.
-            </video>
-            <div>
-                <button class="skip-video-btn" id="skipVideoBtn">Salta Video</button>
-            </div>
         </div>
     </div>
     
@@ -516,6 +495,12 @@
             <h1>Quando, Dove, Come, Perché</h1>
             <div class="game-mode" id="secondGameMode">Modalità: Quando, Dove, Come, Perché</div>
         </header>
+        
+        <div class="music-intro">
+            <h2>Musica Introduttiva</h2>
+            <p>La canzone introduttiva sta suonando...</p>
+            <button class="skip-music-btn" id="skipMusicBtn">Salta Musica</button>
+        </div>
         
         <div class="game-info">
             <div class="team team-a" id="secondTeamAElement">
@@ -599,6 +584,13 @@
         </div>
     </div>
 
+    <!-- Elemento audio nascosto per la canzone -->
+    <audio id="introMusic" preload="auto">
+        <!-- Sostituisci con il tuo file audio -->
+        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mp3">
+        Il tuo browser non supporta l'elemento audio.
+    </audio>
+
     <script>
         // Variabili di gioco per Caccia alla Parola
         let currentWord = '';
@@ -628,6 +620,7 @@
         let currentAnsweringPlayer = '';
         let currentAnsweringTeam = '';
         let quartinaPoints = 20;
+        let musicTimeout;
         
         // Lista di quartine (Quando, Dove, Come, Perché, Risposta)
         const quartineList = [
@@ -663,9 +656,6 @@
         
         // Elementi DOM per Caccia alla Parola
         const setupScreen = document.getElementById('setupScreen');
-        const introVideoScreen = document.getElementById('introVideoScreen');
-        const introVideo = document.getElementById('introVideo');
-        const skipVideoBtn = document.getElementById('skipVideoBtn');
         const gameScreen = document.getElementById('gameScreen');
         const wordGrid = document.getElementById('wordGrid');
         const message = document.getElementById('message');
@@ -741,6 +731,8 @@
         const quartinaPointsElement = document.getElementById('quartinaPoints');
         const correctAnswerDisplay = document.getElementById('correctAnswerDisplay');
         const correctAnswerText = document.getElementById('correctAnswerText');
+        const introMusic = document.getElementById('introMusic');
+        const skipMusicBtn = document.getElementById('skipMusicBtn');
         
         // Buzzers per i giocatori
         const playerA1Buzzer = document.getElementById('playerA1Buzzer');
@@ -975,17 +967,8 @@
             playerB2Buzzer.textContent = playerB2Input.value;
             playerB3Buzzer.textContent = playerB3Input.value;
             
-            // Nasconde la schermata di setup e mostra il video introduttivo
+            // Nasconde la schermata di setup e mostra il gioco principale
             setupScreen.classList.add('hidden');
-            introVideoScreen.classList.remove('hidden');
-            
-            // Riproduce automaticamente il video
-            introVideo.play();
-        }
-        
-        // Salta il video e passa direttamente al gioco
-        function skipVideo() {
-            introVideoScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
             initGame();
         }
@@ -998,6 +981,43 @@
             
             // Inizializza il secondo gioco
             initSecondGame();
+            
+            // Avvia la musica introduttiva
+            playIntroMusic();
+        }
+        
+        // Riproduce la musica introduttiva
+        function playIntroMusic() {
+            // Imposta il volume
+            introMusic.volume = 0.7;
+            
+            // Riproduce la musica
+            introMusic.play().catch(e => {
+                console.log("Errore nella riproduzione automatica:", e);
+                // Se la riproduzione automatica fallisce, procedi comunque
+                skipMusic();
+            });
+            
+            // Imposta un timeout per fermare automaticamente la musica dopo 10 secondi
+            musicTimeout = setTimeout(() => {
+                skipMusic();
+            }, 10000); // 10 secondi
+        }
+        
+        // Salta la musica e passa direttamente al gioco
+        function skipMusic() {
+            // Ferma la musica
+            introMusic.pause();
+            introMusic.currentTime = 0;
+            
+            // Cancella il timeout
+            clearTimeout(musicTimeout);
+            
+            // Nasconde la sezione della musica
+            document.querySelector('.music-intro').style.display = 'none';
+            
+            // Abilita i controlli del gioco
+            secondStartBtn.disabled = false;
         }
         
         // Inizializzazione del secondo gioco
@@ -1008,6 +1028,12 @@
             secondMessage.textContent = `Premi "Inizia Quartina" per iniziare!`;
             quartinaPoints = 20;
             quartinaPointsElement.textContent = `Punti possibili: ${quartinaPoints} (se indovinata dopo la prima affermazione: 40)`;
+            
+            // Disabilita i controlli del gioco fino alla fine della musica
+            secondStartBtn.disabled = true;
+            secondNextBtn.disabled = true;
+            secondNextQuartinaBtn.disabled = true;
+            enableAllBuzzers(false);
         }
         
         // Reset del secondo gioco
@@ -1016,9 +1042,6 @@
             currentQuartinaStep = 0;
             resetQuartinaDisplay();
             enableAllBuzzers(false);
-            secondStartBtn.disabled = false;
-            secondNextBtn.disabled = true;
-            secondNextQuartinaBtn.disabled = true;
             secondAnswerControls.classList.add('hidden');
             correctAnswerDisplay.classList.add('hidden');
         }
@@ -1256,10 +1279,6 @@
         wrongBtn.addEventListener('click', handleWrongAnswer);
         nextGameBtn.addEventListener('click', startSecondGame);
         
-        // Aggiungi event listeners per il video introduttivo
-        skipVideoBtn.addEventListener('click', skipVideo);
-        introVideo.addEventListener('ended', skipVideo);
-        
         // Aggiungi event listeners per il secondo gioco
         secondStartBtn.addEventListener('click', startSecondGameRound);
         secondNextBtn.addEventListener('click', revealNextQuartinaStep);
@@ -1267,6 +1286,7 @@
         secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
         secondWrongBtn.addEventListener('click', handleSecondWrongAnswer);
         secondNextGameBtn.addEventListener('click', backToMainMenu);
+        skipMusicBtn.addEventListener('click', skipMusic);
         
         // Aggiungi event listeners per i buzzers dei giocatori
         playerA1Buzzer.addEventListener('click', handlePlayerBuzzer);
