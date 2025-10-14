@@ -1059,6 +1059,7 @@
             resetQuartinaDisplay();
             secondAnswerControls.classList.add('hidden');
             correctAnswerDisplay.classList.add('hidden');
+            secondNextQuartinaBtn.disabled = true; // Aggiunto per sicurezza
         }
         
         // Reset della visualizzazione della quartina
@@ -1108,15 +1109,12 @@
                 quartinaPoints = 20;
             } else if (currentQuartinaStep === 3) {
                 quartinaPoints = 10;
-            }
-            updateQuartinaPointsDisplay();
-            
-            if (currentQuartinaStep === 3) {
                 secondNextBtn.disabled = true;
-                secondNextQuartinaBtn.disabled = false;
+                secondNextQuartinaBtn.disabled = false; // ABILITATO QUI
                 secondMessage.textContent = "⏰ Quartina completata! Nessuno ha indovinato.";
                 showCorrectAnswer();
             }
+            updateQuartinaPointsDisplay();
         }
         
         // Rivela il passo corrente della quartina
@@ -1159,7 +1157,7 @@
             updateScore(currentAnsweringTeam, quartinaPoints);
             
             revealAllQuartinaSteps();
-            secondNextQuartinaBtn.disabled = false;
+            secondNextQuartinaBtn.disabled = false; // ABILITATO QUI
             secondAnswerControls.classList.add('hidden');
             correctAnswerDisplay.classList.add('hidden');
         }
@@ -1186,6 +1184,7 @@
             
             secondRoundInfo.textContent = `📋 Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
             resetSecondGame();
+            secondStartBtn.disabled = false; // ABILITATO QUI
             secondMessage.textContent = `🔄 Prossima quartina! Premi "INIZIA QUARTINA" per iniziare.`;
         }
         
