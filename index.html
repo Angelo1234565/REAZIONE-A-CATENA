@@ -452,6 +452,127 @@
             font-size: clamp(0.9rem, 2vw, 1.1rem);
         }
         
+        /* Stili per il terzo gioco (Una tira l'altra) */
+        .chain-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 10px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+        }
+        
+        .chain-word {
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            transition: all 0.3s ease;
+            border-left: 5px solid transparent;
+            font-weight: bold;
+        }
+        
+        .chain-word.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
+            border-left: 5px solid #fdbb2d;
+            transform: translateX(5px);
+        }
+        
+        .chain-word.hidden-word {
+            background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
+            border-left: 5px solid #b21f1f;
+        }
+        
+        .chain-word.hidden-word.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
+            border-left: 5px solid #fdbb2d;
+        }
+        
+        .chain-direction {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .direction-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .direction-btn:hover {
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .direction-btn.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
+        }
+        
+        .zip-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 10px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+        }
+        
+        .zip-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .zip-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .zip-btn:hover {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .zip-prize {
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 12px;
+            border: 2px solid #2ecc71;
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
+            font-weight: bold;
+        }
+        
         /* Musica nascosta */
         #introMusic {
             display: none;
@@ -504,6 +625,16 @@
             
             .player-buzzers {
                 flex-direction: column;
+            }
+            
+            .chain-direction {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .zip-options {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -648,12 +779,117 @@
             <div class="game-completed hidden" id="secondGameCompleted">
                 <h2>🎉 Gioco Completato!</h2>
                 <p style="font-size: clamp(1rem, 2.2vw, 1.2rem); margin: 10px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
-                <button class="next-game-btn" id="secondNextGameBtn">🏠 Torna al Menu Principale</button>
+                <button class="next-game-btn" id="secondNextGameBtn">🎮 Prossimo Gioco: Una tira l'altra →</button>
             </div>
         </div>
     </div>
 
-    <!-- Elemento audio nascosto per la canzone - CAMBIATO PER USARE IL TUO FILE -->
+    <!-- Schermata del terzo gioco (Una tira l'altra) -->
+    <div class="container hidden" id="thirdGameScreen">
+        <header>
+            <h1>🔗 Reazione a Catena</h1>
+            <div class="game-mode" id="thirdGameMode">🎯 Una tira l'altra</div>
+        </header>
+        
+        <div class="game-info">
+            <div class="team team-a" id="thirdTeamAElement">
+                <div class="team-name" id="thirdDisplayTeamA">Squadra A</div>
+                <div class="score" id="thirdScoreA">0</div>
+            </div>
+            <div class="team" id="thirdTeamBElement">
+                <div class="team-name" id="thirdDisplayTeamB">Squadra B</div>
+                <div class="score" id="thirdScoreB">0</div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="chain-container" id="chainContainer">
+                <!-- Le parole della catena verranno aggiunte qui dinamicamente -->
+            </div>
+            
+            <div class="round-info" id="thirdRoundInfo">🔗 Catena: 1/2</div>
+            
+            <div class="message" id="thirdMessage">🎯 Scegli da che direzione iniziare la catena!</div>
+            
+            <div class="chain-direction" id="chainDirection">
+                <button class="direction-btn" id="topDirectionBtn">⬇️ Dall'alto</button>
+                <button class="direction-btn" id="bottomDirectionBtn">⬆️ Dal basso</button>
+            </div>
+            
+            <div class="controls">
+                <button class="start-btn" id="thirdStartBtn">🚀 INIZIA CATENA</button>
+                <button class="buzzer" id="thirdBuzzer">🔥 BUZZER</button>
+                <button class="next-btn" id="thirdNextBtn">⏭️ PROSSIMA PAROLA</button>
+            </div>
+            
+            <div class="answer-controls hidden" id="thirdAnswerControls">
+                <div class="player-name" id="thirdAnsweringPlayer"></div>
+                <div style="display: flex; gap: 15px;">
+                    <button class="correct-btn" id="thirdCorrectBtn">✅ ESATTA</button>
+                    <button class="wrong-btn" id="thirdWrongBtn">❌ ERRATA</button>
+                </div>
+            </div>
+            
+            <!-- Opzioni per cambiare direzione -->
+            <div class="chain-direction hidden" id="directionOptions">
+                <button class="direction-btn" id="continueDirectionBtn">🔄 Continua</button>
+                <button class="direction-btn" id="changeDirectionBtn">🔄 Cambia direzione</button>
+            </div>
+            
+            <!-- ZIP Game -->
+            <div class="zip-container hidden" id="zipContainer">
+                <h2 style="text-align: center; margin-bottom: 15px;">🎯 GIOCO DELLA ZIP</h2>
+                
+                <div class="chain-container">
+                    <div class="chain-word revealed" id="zipFirstWord">
+                        <!-- Prima parola della ZIP -->
+                    </div>
+                    <div class="chain-word hidden-word" id="zipSecondWord">
+                        <!-- Seconda parola della ZIP (iniziale) -->
+                    </div>
+                    <div class="chain-word hidden-word" id="zipThirdWord">
+                        <!-- Terza parola della ZIP (iniziale) -->
+                    </div>
+                    <div class="chain-word revealed" id="zipFourthWord">
+                        <!-- Quarta parola della ZIP -->
+                    </div>
+                </div>
+                
+                <div class="zip-prize" id="zipPrize">
+                    🏆 Premio in palio: <span id="prizeValue">50</span> punti!
+                </div>
+                
+                <div class="message" id="zipMessage">
+                    🎯 Hai completato la catena! Vuoi giocare la ZIP o passare la mano?
+                </div>
+                
+                <div class="zip-options" id="zipOptions">
+                    <button class="zip-btn" id="playZipBtn">🎮 GIOCA LA ZIP</button>
+                    <button class="zip-btn" id="passZipBtn">🔄 PASSA LA MANO</button>
+                </div>
+                
+                <div class="answer-controls hidden" id="zipAnswerControls">
+                    <div class="player-name" id="zipAnsweringPlayer"></div>
+                    <div style="display: flex; gap: 15px;">
+                        <button class="correct-btn" id="zipCorrectBtn">✅ ESATTA</button>
+                        <button class="wrong-btn" id="zipWrongBtn">❌ ERRATA</button>
+                    </div>
+                </div>
+                
+                <div class="correct-answer hidden" id="zipCorrectAnswer">
+                    <strong>🎯 Risposta corretta:</strong> <span id="zipAnswerText"></span>
+                </div>
+            </div>
+            
+            <div class="game-completed hidden" id="thirdGameCompleted">
+                <h2>🎉 Gioco Completato!</h2>
+                <p style="font-size: clamp(1rem, 2.2vw, 1.2rem); margin: 10px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
+                <button class="next-game-btn" id="thirdNextGameBtn">🏠 Torna al Menu Principale</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elemento audio nascosto per la canzone -->
     <audio id="introMusic" preload="auto">
         <source src="intro-music.mp3" type="audio/mp3">
         Il tuo browser non supporta l'elemento audio.
@@ -723,10 +959,47 @@
             }
         ];
         
+        // Variabili di gioco per Una tira l'altra
+        let thirdGameStarted = false;
+        let thirdCurrentRound = 1;
+        let thirdTotalRounds = 2;
+        let currentChainDirection = ''; // 'top' o 'bottom'
+        let currentChainPosition = 0;
+        let currentHiddenWordIndex = 0;
+        let zipGameActive = false;
+        let zipPlayingTeam = '';
+        let revealedLettersPerWord = []; // Tiene traccia delle lettere rivelate per ogni parola
+        let currentRevealedLetters = []; // Lettere rivelate per la parola corrente
+        
+        // Lista di catene per Una tira l'altra (7 parole per catena) - MODIFICATA
+        const chainList = [
+            {
+                words: ["CARNEVALE", "SAMBA", "COPACABANA", "CAIPIRINHA", "AMAZZONIA", "PALME", "OCEANO"],
+                zip: {
+                    first: "RIO",
+                    second: "D", // Iniziale seconda parola
+                    third: "J",  // Iniziale terza parola
+                    fourth: "JANEIRO",
+                    answer: "RIO DE JANEIRO"
+                }
+            },
+            {
+                words: ["CAFFÈ", "ZUCCHERO", "PIANTAGIONE", "COLONIALISMO", "NAVI", "EUROPA", "MERCATO"],
+                zip: {
+                    first: "PORTOGALLO",
+                    second: "S", // Iniziale seconda parola
+                    third: "P",  // Iniziale terza parola
+                    fourth: "PORTO",
+                    answer: "PORTOGALLO SP PORTO"
+                }
+            }
+        ];
+        
         // Elementi DOM
         const setupScreen = document.getElementById('setupScreen');
         const gameScreen = document.getElementById('gameScreen');
         const secondGameScreen = document.getElementById('secondGameScreen');
+        const thirdGameScreen = document.getElementById('thirdGameScreen');
         const wordGrid = document.getElementById('wordGrid');
         const message = document.getElementById('message');
         const startBtn = document.getElementById('startBtn');
@@ -784,6 +1057,52 @@
         const correctAnswerText = document.getElementById('correctAnswerText');
         const introMusic = document.getElementById('introMusic');
         const musicTimer = document.getElementById('musicTimer');
+        
+        // Elementi DOM per Una tira l'altra
+        const thirdDisplayTeamA = document.getElementById('thirdDisplayTeamA');
+        const thirdDisplayTeamB = document.getElementById('thirdDisplayTeamB');
+        const thirdScoreA = document.getElementById('thirdScoreA');
+        const thirdScoreB = document.getElementById('thirdScoreB');
+        const thirdTeamAElement = document.getElementById('thirdTeamAElement');
+        const thirdTeamBElement = document.getElementById('thirdTeamBElement');
+        const chainContainer = document.getElementById('chainContainer');
+        const thirdRoundInfo = document.getElementById('thirdRoundInfo');
+        const thirdMessage = document.getElementById('thirdMessage');
+        const topDirectionBtn = document.getElementById('topDirectionBtn');
+        const bottomDirectionBtn = document.getElementById('bottomDirectionBtn');
+        const thirdStartBtn = document.getElementById('thirdStartBtn');
+        const thirdBuzzer = document.getElementById('thirdBuzzer');
+        const thirdNextBtn = document.getElementById('thirdNextBtn');
+        const thirdAnswerControls = document.getElementById('thirdAnswerControls');
+        const thirdAnsweringPlayer = document.getElementById('thirdAnsweringPlayer');
+        const thirdCorrectBtn = document.getElementById('thirdCorrectBtn');
+        const thirdWrongBtn = document.getElementById('thirdWrongBtn');
+        const thirdGameCompleted = document.getElementById('thirdGameCompleted');
+        const thirdNextGameBtn = document.getElementById('thirdNextGameBtn');
+        
+        // Elementi DOM per ZIP
+        const zipContainer = document.getElementById('zipContainer');
+        const zipFirstWord = document.getElementById('zipFirstWord');
+        const zipSecondWord = document.getElementById('zipSecondWord');
+        const zipThirdWord = document.getElementById('zipThirdWord');
+        const zipFourthWord = document.getElementById('zipFourthWord');
+        const zipPrize = document.getElementById('zipPrize');
+        const zipMessage = document.getElementById('zipMessage');
+        const zipOptions = document.getElementById('zipOptions');
+        const playZipBtn = document.getElementById('playZipBtn');
+        const passZipBtn = document.getElementById('passZipBtn');
+        const zipAnswerControls = document.getElementById('zipAnswerControls');
+        const zipAnsweringPlayer = document.getElementById('zipAnsweringPlayer');
+        const zipCorrectBtn = document.getElementById('zipCorrectBtn');
+        const zipWrongBtn = document.getElementById('zipWrongBtn');
+        const zipCorrectAnswer = document.getElementById('zipCorrectAnswer');
+        const zipAnswerText = document.getElementById('zipAnswerText');
+        const prizeValueElement = document.getElementById('prizeValue');
+        
+        // Elementi DOM per le opzioni di direzione
+        const directionOptions = document.getElementById('directionOptions');
+        const continueDirectionBtn = document.getElementById('continueDirectionBtn');
+        const changeDirectionBtn = document.getElementById('changeDirectionBtn');
         
         // Aggiorna la visualizzazione delle squadre attive
         function updateActiveTeam() {
@@ -952,10 +1271,12 @@
                 scoreA += points;
                 scoreAElement.textContent = scoreA;
                 secondScoreA.textContent = scoreA;
+                thirdScoreA.textContent = scoreA;
             } else {
                 scoreB += points;
                 scoreBElement.textContent = scoreB;
                 secondScoreB.textContent = scoreB;
+                thirdScoreB.textContent = scoreB;
             }
         }
         
@@ -975,6 +1296,9 @@
             
             secondDisplayTeamA.textContent = teamANameInput.value;
             secondDisplayTeamB.textContent = teamBNameInput.value;
+            
+            thirdDisplayTeamA.textContent = teamANameInput.value;
+            thirdDisplayTeamB.textContent = teamBNameInput.value;
             
             setupScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
@@ -1197,13 +1521,428 @@
             secondGameCompleted.classList.remove('hidden');
         }
         
+        // Passa al terzo gioco
+        function startThirdGame() {
+            secondGameScreen.classList.add('hidden');
+            thirdGameScreen.classList.remove('hidden');
+            
+            initThirdGame();
+        }
+        
+        // Inizializzazione del terzo gioco
+        function initThirdGame() {
+            resetThirdGame();
+            updateThirdScores();
+            thirdRoundInfo.textContent = `🔗 Catena: ${thirdCurrentRound}/${thirdTotalRounds}`;
+            thirdMessage.textContent = `🎯 Scegli da che direzione iniziare la catena!`;
+            
+            createChainDisplay();
+            
+            thirdStartBtn.disabled = false;
+            thirdBuzzer.disabled = true;
+            thirdNextBtn.disabled = true;
+            directionOptions.classList.add('hidden');
+        }
+        
+        // Reset del terzo gioco
+        function resetThirdGame() {
+            thirdGameStarted = false;
+            currentChainDirection = '';
+            currentChainPosition = 0;
+            currentHiddenWordIndex = 0;
+            zipGameActive = false;
+            revealedLettersPerWord = [];
+            currentRevealedLetters = [];
+            
+            chainDirection.classList.remove('hidden');
+            zipContainer.classList.add('hidden');
+            thirdAnswerControls.classList.add('hidden');
+            zipAnswerControls.classList.add('hidden');
+            zipCorrectAnswer.classList.add('hidden');
+            directionOptions.classList.add('hidden');
+        }
+        
+        // Crea la visualizzazione della catena
+        function createChainDisplay() {
+            chainContainer.innerHTML = '';
+            const currentChain = chainList[thirdCurrentRound - 1];
+            
+            // Inizializza l'array per tenere traccia delle lettere rivelate
+            revealedLettersPerWord = [];
+            for (let i = 0; i < currentChain.words.length; i++) {
+                revealedLettersPerWord[i] = [];
+            }
+            
+            for (let i = 0; i < currentChain.words.length; i++) {
+                const chainWord = document.createElement('div');
+                chainWord.className = 'chain-word';
+                
+                if (i === 0 || i === currentChain.words.length - 1) {
+                    // Prima e ultima parola sono sempre visibili
+                    chainWord.textContent = currentChain.words[i];
+                    chainWord.classList.add('revealed');
+                } else {
+                    // Parole nascoste - mostra prima e ultima lettera
+                    const word = currentChain.words[i];
+                    let displayText = word.charAt(0) + '_'.repeat(word.length - 2) + word.charAt(word.length - 1);
+                    chainWord.textContent = displayText;
+                    chainWord.classList.add('hidden-word');
+                    chainWord.id = `chain-word-${i}`;
+                    
+                    // Salva le lettere iniziali rivelate
+                    revealedLettersPerWord[i].push(0); // Prima lettera
+                    revealedLettersPerWord[i].push(word.length - 1); // Ultima lettera
+                }
+                
+                chainContainer.appendChild(chainWord);
+            }
+        }
+        
+        // Gestisce la scelta della direzione
+        function handleDirectionChoice(direction) {
+            currentChainDirection = direction;
+            
+            // Evidenzia il pulsante selezionato
+            if (direction === 'top') {
+                topDirectionBtn.classList.add('active');
+                bottomDirectionBtn.classList.remove('active');
+            } else {
+                bottomDirectionBtn.classList.add('active');
+                topDirectionBtn.classList.remove('active');
+            }
+            
+            thirdMessage.textContent = `🎯 Hai scelto di iniziare ${direction === 'top' ? "dall'alto" : "dal basso"}! Premi "INIZIA CATENA" per cominciare.`;
+            thirdStartBtn.disabled = false;
+        }
+        
+        // Avvia il terzo gioco
+        function startThirdGameRound() {
+            if (thirdGameStarted) return;
+            
+            thirdGameStarted = true;
+            chainDirection.classList.add('hidden');
+            thirdStartBtn.disabled = true;
+            thirdBuzzer.disabled = false;
+            thirdNextBtn.disabled = true;
+            
+            // Determina la posizione iniziale in base alla direzione scelta
+            if (currentChainDirection === 'top') {
+                currentChainPosition = 0;
+                currentHiddenWordIndex = 1;
+            } else {
+                currentChainPosition = chainList[thirdCurrentRound - 1].words.length - 1;
+                currentHiddenWordIndex = chainList[thirdCurrentRound - 1].words.length - 2;
+            }
+            
+            highlightCurrentWord();
+            thirdMessage.textContent = `🔍 Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+        }
+        
+        // Evidenzia la parola corrente
+        function highlightCurrentWord() {
+            // Rimuovi evidenziazione da tutte le parole
+            const allWords = document.querySelectorAll('.chain-word');
+            allWords.forEach(word => {
+                word.classList.remove('glow');
+            });
+            
+            // Evidenzia la parola corrente
+            if (currentChainDirection === 'top') {
+                if (currentHiddenWordIndex < chainList[thirdCurrentRound - 1].words.length - 1) {
+                    document.getElementById(`chain-word-${currentHiddenWordIndex}`).classList.add('glow');
+                }
+            } else {
+                if (currentHiddenWordIndex > 0) {
+                    document.getElementById(`chain-word-${currentHiddenWordIndex}`).classList.add('glow');
+                }
+            }
+        }
+        
+        // Gestisce il buzzer nel terzo gioco
+        function handleThirdBuzzer() {
+            if (!thirdGameStarted) return;
+            
+            thirdAnsweringPlayer.textContent = `🎤 Risponde: ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola nascosta?`;
+            thirdBuzzer.disabled = true;
+            thirdAnswerControls.classList.remove('hidden');
+        }
+        
+        // Gestisce una risposta corretta nel terzo gioco
+        function handleThirdCorrectAnswer() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const correctWord = currentChain.words[currentHiddenWordIndex];
+            
+            // Rivela completamente la parola
+            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+            wordElement.textContent = correctWord;
+            wordElement.classList.remove('hidden-word');
+            wordElement.classList.add('revealed');
+            wordElement.classList.remove('glow');
+            
+            thirdMessage.textContent = `✅ Esatto! La parola è "${correctWord}". +15 punti per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 15);
+            
+            // La squadra mantiene il turno
+            thirdAnswerControls.classList.add('hidden');
+            thirdBuzzer.disabled = false;
+            
+            // Aggiorna la posizione
+            if (currentChainDirection === 'top') {
+                currentHiddenWordIndex++;
+                if (currentHiddenWordIndex >= currentChain.words.length - 1) {
+                    // Catena completata dall'alto
+                    completeChain();
+                    return;
+                }
+            } else {
+                currentHiddenWordIndex--;
+                if (currentHiddenWordIndex <= 0) {
+                    // Catena completata dal basso
+                    completeChain();
+                    return;
+                }
+            }
+            
+            // Mostra opzioni per cambiare direzione
+            showDirectionOptions();
+        }
+        
+        // Mostra le opzioni per cambiare direzione
+        function showDirectionOptions() {
+            thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, vuoi continuare nella stessa direzione o cambiare?`;
+            directionOptions.classList.remove('hidden');
+        }
+        
+        // Continua nella stessa direzione
+        function continueDirection() {
+            directionOptions.classList.add('hidden');
+            highlightCurrentWord();
+            thirdMessage.textContent = `🔍 Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+        }
+        
+        // Cambia direzione
+        function changeDirection() {
+            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
+            directionOptions.classList.add('hidden');
+            
+            // Aggiorna la posizione in base alla nuova direzione
+            const currentChain = chainList[thirdCurrentRound - 1];
+            if (currentChainDirection === 'top') {
+                currentHiddenWordIndex = 1;
+            } else {
+                currentHiddenWordIndex = currentChain.words.length - 2;
+            }
+            
+            highlightCurrentWord();
+            thirdMessage.textContent = `🔄 Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+        }
+        
+        // Gestisce una risposta errata nel terzo gioco
+        function handleThirdWrongAnswer() {
+            // Aggiungi una lettera alla parola
+            revealAdditionalLetter();
+            
+            // Cambia squadra
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            
+            thirdMessage.textContent = `❌ Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            thirdAnswerControls.classList.add('hidden');
+            thirdBuzzer.disabled = false;
+        }
+        
+        // Rivela una lettera aggiuntiva quando si sbaglia
+        function revealAdditionalLetter() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const word = currentChain.words[currentHiddenWordIndex];
+            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+            
+            // Trova una lettera non ancora rivelata
+            const unrevealedPositions = [];
+            for (let i = 0; i < word.length; i++) {
+                if (!revealedLettersPerWord[currentHiddenWordIndex].includes(i)) {
+                    unrevealedPositions.push(i);
+                }
+            }
+            
+            if (unrevealedPositions.length > 0) {
+                // Scegli una posizione casuale
+                const randomIndex = Math.floor(Math.random() * unrevealedPositions.length);
+                const position = unrevealedPositions[randomIndex];
+                
+                // Aggiungi alla lista delle lettere rivelate
+                revealedLettersPerWord[currentHiddenWordIndex].push(position);
+                
+                // Aggiorna la visualizzazione
+                updateWordDisplay(currentHiddenWordIndex);
+            }
+        }
+        
+        // Aggiorna la visualizzazione di una parola
+        function updateWordDisplay(wordIndex) {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const word = currentChain.words[wordIndex];
+            const wordElement = document.getElementById(`chain-word-${wordIndex}`);
+            
+            let displayText = '';
+            for (let i = 0; i < word.length; i++) {
+                if (revealedLettersPerWord[wordIndex].includes(i)) {
+                    displayText += word.charAt(i);
+                } else {
+                    displayText += '_';
+                }
+            }
+            
+            wordElement.textContent = displayText;
+        }
+        
+        // Completa una catena
+        function completeChain() {
+            thirdMessage.textContent = `🎉 Catena completata! +25 punti bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 25);
+            
+            thirdBuzzer.disabled = true;
+            thirdNextBtn.disabled = false;
+            thirdAnswerControls.classList.add('hidden');
+            directionOptions.classList.add('hidden');
+            
+            // Controlla se entrambe le catene sono state completate
+            if (thirdCurrentRound >= thirdTotalRounds) {
+                // Attiva il gioco della ZIP
+                setTimeout(() => {
+                    startZipGame();
+                }, 2000);
+            }
+        }
+        
+        // Avvia il gioco della ZIP
+        function startZipGame() {
+            zipGameActive = true;
+            chainContainer.classList.add('hidden'); // Nasconde la catena
+            zipContainer.classList.remove('hidden'); // Mostra la ZIP
+            
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const zipData = currentChain.zip;
+            
+            // Imposta le parole della ZIP
+            zipFirstWord.textContent = zipData.first;
+            zipSecondWord.textContent = `${zipData.second}______`;
+            zipThirdWord.textContent = `${zipData.third}______`;
+            zipFourthWord.textContent = zipData.fourth;
+            
+            zipMessage.textContent = `🎯 Hai completato la catena! Vuoi giocare la ZIP o passare la mano?`;
+            zipOptions.classList.remove('hidden');
+            zipAnswerControls.classList.add('hidden');
+            zipCorrectAnswer.classList.add('hidden');
+            
+            // Determina quale squadra può giocare la ZIP
+            zipPlayingTeam = currentTeam;
+        }
+        
+        // Gestisce la scelta di giocare la ZIP
+        function handlePlayZip() {
+            zipOptions.classList.add('hidden');
+            zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti!`;
+            
+            zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            zipAnswerControls.classList.remove('hidden');
+        }
+        
+        // Gestisce la scelta di passare la ZIP
+        function handlePassZip() {
+            zipPlayingTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
+            zipOptions.classList.add('hidden');
+            zipMessage.textContent = `🔄 Hai passato la mano! Adesso tocca a ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} giocare la ZIP.`;
+            
+            setTimeout(() => {
+                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti!`;
+                zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+                zipAnswerControls.classList.remove('hidden');
+            }, 2000);
+        }
+        
+        // Gestisce una risposta corretta alla ZIP
+        function handleZipCorrect() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const zipData = currentChain.zip;
+            
+            zipMessage.textContent = `✅ Esatto! La risposta è "${zipData.answer}". +50 punti per la ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(zipPlayingTeam, 50);
+            
+            // Rivela le parole nascoste
+            zipSecondWord.textContent = zipData.answer.split(' ')[1];
+            zipThirdWord.textContent = zipData.answer.split(' ')[2];
+            zipSecondWord.classList.remove('hidden-word');
+            zipThirdWord.classList.remove('hidden-word');
+            zipSecondWord.classList.add('revealed');
+            zipThirdWord.classList.add('revealed');
+            
+            zipAnswerControls.classList.add('hidden');
+            thirdNextBtn.disabled = false;
+        }
+        
+        // Gestisce una risposta errata alla ZIP
+        function handleZipWrong() {
+            // L'altra squadra vince i punti
+            const winningTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
+            zipMessage.textContent = `❌ Risposta errata! +50 punti per la ${winningTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(winningTeam, 50);
+            
+            // Mostra la risposta corretta
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const zipData = currentChain.zip;
+            zipAnswerText.textContent = zipData.answer;
+            zipCorrectAnswer.classList.remove('hidden');
+            
+            // Rivela le parole nascoste
+            zipSecondWord.textContent = zipData.answer.split(' ')[1];
+            zipThirdWord.textContent = zipData.answer.split(' ')[2];
+            zipSecondWord.classList.remove('hidden-word');
+            zipThirdWord.classList.remove('hidden-word');
+            zipSecondWord.classList.add('revealed');
+            zipThirdWord.classList.add('revealed');
+            
+            zipAnswerControls.classList.add('hidden');
+            thirdNextBtn.disabled = false;
+        }
+        
+        // Passa alla catena successiva
+        function nextChain() {
+            thirdCurrentRound++;
+            if (thirdCurrentRound > thirdTotalRounds) {
+                completeThirdGame();
+                return;
+            }
+            
+            // Cambia squadra (la squadra con il punteggio più basso inizia)
+            if (scoreA <= scoreB) {
+                currentTeam = 'A';
+            } else {
+                currentTeam = 'B';
+            }
+            
+            thirdRoundInfo.textContent = `🔗 Catena: ${thirdCurrentRound}/${thirdTotalRounds}`;
+            resetThirdGame();
+            initThirdGame();
+        }
+        
+        // Completa il terzo gioco
+        function completeThirdGame() {
+            thirdMessage.textContent = '🎉 Hai completato tutte le catene!';
+            thirdStartBtn.disabled = true;
+            thirdBuzzer.disabled = true;
+            thirdNextBtn.disabled = true;
+            thirdGameCompleted.classList.remove('hidden');
+        }
+        
         // Torna al menu principale
         function backToMainMenu() {
-            secondGameScreen.classList.add('hidden');
+            thirdGameScreen.classList.add('hidden');
             setupScreen.classList.remove('hidden');
             
             currentRound = 1;
             secondCurrentRound = 1;
+            thirdCurrentRound = 1;
             scoreA = 0;
             scoreB = 0;
             updateScores();
@@ -1216,12 +1955,20 @@
             scoreBElement.textContent = scoreB;
             secondScoreA.textContent = scoreA;
             secondScoreB.textContent = scoreB;
+            thirdScoreA.textContent = scoreA;
+            thirdScoreB.textContent = scoreB;
         }
         
         // Aggiorna i punteggi per il secondo gioco
         function updateSecondScores() {
             secondScoreA.textContent = scoreA;
             secondScoreB.textContent = scoreB;
+        }
+        
+        // Aggiorna i punteggi per il terzo gioco
+        function updateThirdScores() {
+            thirdScoreA.textContent = scoreA;
+            thirdScoreB.textContent = scoreB;
         }
         
         // Aggiungi event listeners
@@ -1238,7 +1985,27 @@
         secondNextQuartinaBtn.addEventListener('click', nextQuartina);
         secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
         secondWrongBtn.addEventListener('click', handleSecondWrongAnswer);
-        secondNextGameBtn.addEventListener('click', backToMainMenu);
+        secondNextGameBtn.addEventListener('click', startThirdGame);
+        
+        // Event listeners per il terzo gioco
+        topDirectionBtn.addEventListener('click', () => handleDirectionChoice('top'));
+        bottomDirectionBtn.addEventListener('click', () => handleDirectionChoice('bottom'));
+        thirdStartBtn.addEventListener('click', startThirdGameRound);
+        thirdBuzzer.addEventListener('click', handleThirdBuzzer);
+        thirdNextBtn.addEventListener('click', nextChain);
+        thirdCorrectBtn.addEventListener('click', handleThirdCorrectAnswer);
+        thirdWrongBtn.addEventListener('click', handleThirdWrongAnswer);
+        thirdNextGameBtn.addEventListener('click', backToMainMenu);
+        
+        // Event listeners per le opzioni di direzione
+        continueDirectionBtn.addEventListener('click', continueDirection);
+        changeDirectionBtn.addEventListener('click', changeDirection);
+        
+        // Event listeners per la ZIP
+        playZipBtn.addEventListener('click', handlePlayZip);
+        passZipBtn.addEventListener('click', handlePassZip);
+        zipCorrectBtn.addEventListener('click', handleZipCorrect);
+        zipWrongBtn.addEventListener('click', handleZipWrong);
         
         // Inizializza il gioco
         initGame();
