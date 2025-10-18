@@ -1886,12 +1886,27 @@
             currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
             directionOptions.classList.add('hidden');
             
-            // Aggiorna la posizione in base alla nuova direzione
+            // CORREZIONE: Trova la prima parola nascosta disponibile nella nuova direzione
             const currentChain = chainList[thirdCurrentRound - 1];
+            
             if (currentChainDirection === 'top') {
-                currentHiddenWordIndex = 1;
+                // Dall'alto: cerca la prima parola nascosta dall'inizio
+                for (let i = 1; i < currentChain.words.length - 1; i++) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
             } else {
-                currentHiddenWordIndex = currentChain.words.length - 2;
+                // Dal basso: cerca la prima parola nascosta dalla fine
+                for (let i = currentChain.words.length - 2; i > 0; i--) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
             }
             
             highlightCurrentWord();
