@@ -614,6 +614,19 @@
             font-size: clamp(1rem, 2vw, 1.2rem);
             font-weight: bold;
         }
+
+        /* Timer per la ZIP */
+        .zip-timer {
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--danger);
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: bold;
+            color: var(--accent);
+        }
         
         /* STILI PER LA SIGLA */
         .intro-overlay {
@@ -986,6 +999,10 @@
                 <div class="zip-prize" id="zipPrize">
                     🏆 Premio in palio: <span id="prizeValue">50</span> punti!
                 </div>
+
+                <div class="zip-timer hidden" id="zipTimer">
+                    ⏰ Tempo rimanente: <span id="zipTimeLeft">10</span> secondi
+                </div>
                 
                 <div class="message" id="zipMessage">
                     🎯 Hai completato la catena! Vuoi giocare la ZIP o passare la mano?
@@ -1138,27 +1155,29 @@
         let zipPlayingTeam = '';
         let revealedLettersPerWord = []; // Tiene traccia delle lettere rivelate per ogni parola
         let currentRevealedLetters = []; // Lettere rivelate per la parola corrente
+        let zipTimerInterval;
+        let zipTimeLeft = 10;
         
-        // Lista di catene per Una tira l'altra (7 parole per catena)
+        // Lista di catene per Una tira l'altra (7 parole per catena) - MODIFICATA con ZIP più sensate
         const chainList = [
             {
                 words: ["CARNEVALE", "SAMBA", "COPACABANA", "CAIPIRINHA", "AMAZZONIA", "PALME", "OCEANO"],
                 zip: {
                     first: "RIO",
-                    second: "D", // Iniziale seconda parola
-                    third: "J",  // Iniziale terza parola
-                    fourth: "JANEIRO",
-                    answer: "RIO DE JANEIRO"
+                    second: "DE", // Seconda parola
+                    third: "JANEIRO",  // Terza parola
+                    fourth: "BRASILE",
+                    answer: "RIO DE JANEIRO BRASILE"
                 }
             },
             {
                 words: ["CAFFÈ", "ZUCCHERO", "PIANTAGIONE", "COLONIALISMO", "NAVI", "EUROPA", "MERCATO"],
                 zip: {
-                    first: "PORTOGALLO",
-                    second: "S", // Iniziale seconda parola
-                    third: "P",  // Iniziale terza parola
-                    fourth: "PORTO",
-                    answer: "PORTOGALLO SP PORTO"
+                    first: "CANNE",
+                    second: "DA", // Seconda parola
+                    third: "ZUCCHERO",  // Terza parola
+                    fourth: "COLONIE",
+                    answer: "CANNE DA ZUCCHERO COLONIE"
                 }
             }
         ];
@@ -1255,6 +1274,8 @@
         const zipThirdWord = document.getElementById('zipThirdWord');
         const zipFourthWord = document.getElementById('zipFourthWord');
         const zipPrize = document.getElementById('zipPrize');
+        const zipTimer = document.getElementById('zipTimer');
+        const zipTimeLeftElement = document.getElementById('zipTimeLeft');
         const zipMessage = document.getElementById('zipMessage');
         const zipOptions = document.getElementById('zipOptions');
         const playZipBtn = document.getElementById('playZipBtn');
@@ -2086,6 +2107,7 @@
             zipOptions.classList.remove('hidden');
             zipAnswerControls.classList.add('hidden');
             zipCorrectAnswer.classList.add('hidden');
+            zipTimer.classList.add('hidden');
             
             // Determina quale squadra può giocare la ZIP
             zipPlayingTeam = currentTeam;
@@ -2097,10 +2119,47 @@
         // Gestisce la scelta di giocare la ZIP
         function handlePlayZip() {
             zipOptions.classList.add('hidden');
-            zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti!`;
+            zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
             
             zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             zipAnswerControls.classList.remove('hidden');
+            
+            // Avvia il timer di 10 secondi
+            startZipTimer();
+        }
+        
+        // Avvia il timer per la ZIP
+        function startZipTimer() {
+            zipTimer.classList.remove('hidden');
+            zipTimeLeft = 10;
+            zipTimeLeftElement.textContent = zipTimeLeft;
+            
+            zipTimerInterval = setInterval(() => {
+                zipTimeLeft--;
+                zipTimeLeftElement.textContent = zipTimeLeft;
+                
+                if (zipTimeLeft <= 0) {
+                    clearInterval(zipTimerInterval);
+                    // Tempo scaduto - passa alla squadra avversaria
+                    handleZipTimeExpired();
+                }
+            }, 1000);
+        }
+        
+        // Gestisce il tempo scaduto per la ZIP
+        function handleZipTimeExpired() {
+            zipTimer.classList.add('hidden');
+            zipMessage.textContent = `⏰ Tempo scaduto! Adesso tocca a ${zipPlayingTeam === 'A' ? displayTeamB.textContent : displayTeamA.textContent} rispondere immediatamente!`;
+            zipAnswerControls.classList.add('hidden');
+            
+            // Cambia squadra
+            zipPlayingTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
+            zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            setTimeout(() => {
+                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, rispondi subito!`;
+                zipAnswerControls.classList.remove('hidden');
+            }, 2000);
         }
         
         // Gestisce la scelta di passare la ZIP
@@ -2110,14 +2169,20 @@
             zipMessage.textContent = `🔄 Hai passato la mano! Adesso tocca a ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} giocare la ZIP.`;
             
             setTimeout(() => {
-                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti!`;
+                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
                 zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
                 zipAnswerControls.classList.remove('hidden');
+                
+                // Avvia il timer di 10 secondi
+                startZipTimer();
             }, 2000);
         }
         
         // Gestisce una risposta corretta alla ZIP
         function handleZipCorrect() {
+            clearInterval(zipTimerInterval);
+            zipTimer.classList.add('hidden');
+            
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
@@ -2125,8 +2190,8 @@
             updateScore(zipPlayingTeam, 50);
             
             // Rivela le parole nascoste
-            zipSecondWord.textContent = zipData.answer.split(' ')[1];
-            zipThirdWord.textContent = zipData.answer.split(' ')[2];
+            zipSecondWord.textContent = zipData.second;
+            zipThirdWord.textContent = zipData.third;
             zipSecondWord.classList.remove('hidden-word');
             zipThirdWord.classList.remove('hidden-word');
             zipSecondWord.classList.add('revealed');
@@ -2138,6 +2203,9 @@
         
         // Gestisce una risposta errata alla ZIP
         function handleZipWrong() {
+            clearInterval(zipTimerInterval);
+            zipTimer.classList.add('hidden');
+            
             // L'altra squadra vince i punti
             const winningTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
             zipMessage.textContent = `❌ Risposta errata! +50 punti per la ${winningTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
@@ -2150,8 +2218,8 @@
             zipCorrectAnswer.classList.remove('hidden');
             
             // Rivela le parole nascoste
-            zipSecondWord.textContent = zipData.answer.split(' ')[1];
-            zipThirdWord.textContent = zipData.answer.split(' ')[2];
+            zipSecondWord.textContent = zipData.second;
+            zipThirdWord.textContent = zipData.third;
             zipSecondWord.classList.remove('hidden-word');
             zipThirdWord.classList.remove('hidden-word');
             zipSecondWord.classList.add('revealed');
