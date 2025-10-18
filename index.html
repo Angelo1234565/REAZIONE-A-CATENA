@@ -718,7 +718,7 @@
     
     <!-- Sigla del gioco -->
     <div class="intro-overlay hidden" id="introOverlay">
-        <video class="intro-video" id="introVideo" preload="auto" autoplay muted>
+        <video class="intro-video" id="introVideo" preload="auto" controls autoplay>
             <source src="Sigla _Reazione a Catena_ 2024 (03-06-2024).mp4" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
@@ -998,11 +998,18 @@
             // Mostra la sigla
             introOverlay.classList.remove('hidden');
             
+            // Imposta il volume del video
+            introVideo.volume = 0.7;
+            
             // Riproduci il video
             introVideo.play().catch(error => {
                 console.log("Errore nella riproduzione del video:", error);
-                // Se c'è un errore, salta direttamente al setup
-                skipIntro();
+                // Se c'è un errore, mostra un messaggio e permette la riproduzione manuale
+                introVideo.controls = true;
+                const errorMessage = document.createElement('div');
+                errorMessage.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); padding: 20px; border-radius: 10px; text-align: center;';
+                errorMessage.innerHTML = '<p>Errore nella riproduzione automatica</p><p>Clicca sul video per riprodurlo manualmente</p>';
+                introOverlay.appendChild(errorMessage);
             });
             
             // Quando il video finisce, passa al setup
@@ -1939,7 +1946,7 @@
             thirdAnswerControls.classList.add('hidden');
             directionOptions.classList.add('hidden');
             
-            // Controlla se entrambe le catene sono state completate
+            // Controlla se entrambe le catene sono state completated
             if (thirdCurrentRound >= thirdTotalRounds) {
                 // Attiva il gioco della ZIP
                 setTimeout(() => {
