@@ -635,27 +635,6 @@
             object-fit: contain;
         }
         
-        .skip-intro {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: var(--accent);
-            border: 2px solid var(--accent);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10000;
-            transition: var(--transition);
-        }
-        
-        .skip-intro:hover {
-            background: rgba(253, 187, 45, 0.3);
-            transform: scale(1.05);
-        }
-        
         .loading-screen {
             position: fixed;
             top: 0;
@@ -760,11 +739,10 @@
     
     <!-- Sigla del gioco -->
     <div class="intro-overlay hidden" id="introOverlay">
-        <video class="intro-video" id="introVideo" preload="auto" controls autoplay>
+        <video class="intro-video" id="introVideo" preload="auto" muted autoplay>
             <source src="Sigla _Reazione a Catena_ 2024 (03-06-2024).mp4" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
-        <button class="skip-intro" id="skipIntroBtn">Salta Intro</button>
     </div>
     
     <!-- Timer musica (nascosto inizialmente) -->
@@ -1027,7 +1005,6 @@
         const loadingScreen = document.getElementById('loadingScreen');
         const introOverlay = document.getElementById('introOverlay');
         const introVideo = document.getElementById('introVideo');
-        const skipIntroBtn = document.getElementById('skipIntroBtn');
         
         // Variabili di stato
         let introPlayed = false;
@@ -1046,12 +1023,8 @@
             // Riproduci il video
             introVideo.play().catch(error => {
                 console.log("Errore nella riproduzione del video:", error);
-                // Se c'è un errore, mostra un messaggio e permette la riproduzione manuale
-                introVideo.controls = true;
-                const errorMessage = document.createElement('div');
-                errorMessage.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); padding: 20px; border-radius: 10px; text-align: center;';
-                errorMessage.innerHTML = '<p>Errore nella riproduzione automatica</p><p>Clicca sul video per riprodurlo manualmente</p>';
-                introOverlay.appendChild(errorMessage);
+                // Se c'è un errore, passa direttamente al setup
+                skipIntro();
             });
             
             // Quando il video finisce, passa al setup
@@ -1066,9 +1039,6 @@
             setupScreen.classList.remove('hidden');
             introPlayed = true;
         }
-        
-        // Event listener per il pulsante "Salta intro"
-        skipIntroBtn.addEventListener('click', skipIntro);
         
         // Inizializzazione del gioco
         window.addEventListener('load', () => {
