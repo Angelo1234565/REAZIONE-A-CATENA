@@ -1139,7 +1139,7 @@
         let revealedLettersPerWord = []; // Tiene traccia delle lettere rivelate per ogni parola
         let currentRevealedLetters = []; // Lettere rivelate per la parola corrente
         
-        // Lista di catene per Una tira l'altra (7 parole per catena) - MODIFICATA
+        // Lista di catene per Una tira l'altra (7 parole per catena)
         const chainList = [
             {
                 words: ["CARNEVALE", "SAMBA", "COPACABANA", "CAIPIRINHA", "AMAZZONIA", "PALME", "OCEANO"],
@@ -1829,11 +1829,13 @@
             // Evidenzia la parola corrente
             if (currentChainDirection === 'top') {
                 if (currentHiddenWordIndex < chainList[thirdCurrentRound - 1].words.length - 1) {
-                    document.getElementById(`chain-word-${currentHiddenWordIndex}`).classList.add('glow');
+                    const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+                    if (wordElement) wordElement.classList.add('glow');
                 }
             } else {
                 if (currentHiddenWordIndex > 0) {
-                    document.getElementById(`chain-word-${currentHiddenWordIndex}`).classList.add('glow');
+                    const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+                    if (wordElement) wordElement.classList.add('glow');
                 }
             }
         }
@@ -1846,6 +1848,44 @@
             thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola nascosta?`;
             thirdBuzzer.disabled = true;
             thirdAnswerControls.classList.remove('hidden');
+        }
+        
+        // Verifica se tutte le parole sono state rivelate
+        function checkAllWordsRevealed() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            for (let i = 1; i < currentChain.words.length - 1; i++) {
+                const wordElement = document.getElementById(`chain-word-${i}`);
+                if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    return false; // Trovata una parola ancora nascosta
+                }
+            }
+            return true; // Tutte le parole sono rivelate
+        }
+        
+        // Completa una catena
+        function completeChain() {
+            thirdMessage.textContent = `🎉 Catena completata! +25 punti bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 25);
+            
+            thirdBuzzer.disabled = true;
+            thirdAnswerControls.classList.add('hidden');
+            directionOptions.classList.add('hidden');
+            
+            // Controlla se entrambe le catene sono state completate
+            const allWordsRevealed = checkAllWordsRevealed();
+            
+            if (allWordsRevealed) {
+                if (thirdCurrentRound >= thirdTotalRounds) {
+                    // Attiva il gioco della ZIP
+                    setTimeout(() => {
+                        startZipGame();
+                    }, 2000);
+                } else {
+                    // Abilita il pulsante per passare alla prossima catena
+                    thirdNextBtn.disabled = false;
+                    thirdMessage.textContent += ` Premi "PROSSIMA CATENA" per continuare.`;
+                }
+            }
         }
         
         // Gestisce una risposta corretta nel terzo gioco
@@ -1865,6 +1905,15 @@
             
             // La squadra mantiene il turno
             thirdAnswerControls.classList.add('hidden');
+            
+            // Verifica se la catena è completata
+            const allWordsRevealed = checkAllWordsRevealed();
+            
+            if (allWordsRevealed) {
+                completeChain();
+                return;
+            }
+            
             thirdBuzzer.disabled = false;
             
             // Aggiorna la posizione
@@ -1941,9 +1990,30 @@
             // Cambia squadra
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
             
+            // Verifica se la parola è stata completamente rivelata
+            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+            if (wordElement && !wordElement.classList.contains('hidden-word')) {
+                // Se la parola è stata completamente rivelata, passa alla prossima
+                if (currentChainDirection === 'top') {
+                    currentHiddenWordIndex++;
+                } else {
+                    currentHiddenWordIndex--;
+                }
+                
+                // Verifica se la catena è completata
+                const allWordsRevealed = checkAllWordsRevealed();
+                if (allWordsRevealed) {
+                    completeChain();
+                    return;
+                }
+            }
+            
             thirdMessage.textContent = `❌ Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             thirdAnswerControls.classList.add('hidden');
             thirdBuzzer.disabled = false;
+            
+            // Evidenzia la parola corrente
+            highlightCurrentWord();
         }
         
         // Rivela una lettera aggiuntiva quando si sbaglia
@@ -1989,26 +2059,11 @@
             }
             
             wordElement.textContent = displayText;
-        }
-        
-        // Completa una catena
-        function completeChain() {
-            thirdMessage.textContent = `🎉 Catena completata! +25 punti bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(currentTeam, 25);
             
-            thirdBuzzer.disabled = true;
-            thirdAnswerControls.classList.add('hidden');
-            directionOptions.classList.add('hidden');
-            
-            // Controlla se entrambe le catene sono state completate
-            if (thirdCurrentRound >= thirdTotalRounds) {
-                // Attiva il gioco della ZIP
-                setTimeout(() => {
-                    startZipGame();
-                }, 2000);
-            } else {
-                // Abilita il pulsante per passare alla prossima catena
-                thirdNextBtn.disabled = false;
+            // Se tutte le lettere sono rivelate, rimuovi la classe hidden-word
+            if (displayText.indexOf('_') === -1) {
+                wordElement.classList.remove('hidden-word');
+                wordElement.classList.add('revealed');
             }
         }
         
@@ -2027,13 +2082,16 @@
             zipThirdWord.textContent = `${zipData.third}______`;
             zipFourthWord.textContent = zipData.fourth;
             
-            zipMessage.textContent = `🎯 Hai completato la catena! Vuoi giocare la ZIP o passare la mano?`;
+            zipMessage.textContent = `🎯 Hai completato la catena! La ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} ha 5 secondi extra per la ZIP!`;
             zipOptions.classList.remove('hidden');
             zipAnswerControls.classList.add('hidden');
             zipCorrectAnswer.classList.add('hidden');
             
             // Determina quale squadra può giocare la ZIP
             zipPlayingTeam = currentTeam;
+            
+            // Aggiungi 5 secondi extra per la squadra che ha completato l'ultima catena
+            prizeValueElement.textContent = "50 (5 secondi extra)";
         }
         
         // Gestisce la scelta di giocare la ZIP
@@ -2111,12 +2169,8 @@
                 return;
             }
             
-            // Cambia squadra (la squadra con il punteggio più basso inizia)
-            if (scoreA <= scoreB) {
-                currentTeam = 'A';
-            } else {
-                currentTeam = 'B';
-            }
+            // La squadra che ha indovinato l'ultimo collegamento mantiene il turno per la ZIP
+            // (currentTeam rimane la stessa)
             
             thirdRoundInfo.textContent = `🔗 Catena: ${thirdCurrentRound}/${thirdTotalRounds}`;
             resetThirdGame();
