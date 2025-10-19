@@ -904,6 +904,15 @@
             
             <div class="message" id="secondMessage">Premi "INIZIA QUARTINA" per iniziare il gioco!</div>
             
+            <div class="player-buzzers" id="secondPlayerBuzzers">
+                <div class="team-buzzers">
+                    <button class="player-buzzer" id="secondBuzzerA">🔵 BUZZER</button>
+                </div>
+                <div class="team-buzzers">
+                    <button class="player-buzzer" id="secondBuzzerB">🔴 BUZZER</button>
+                </div>
+            </div>
+            
             <div class="controls">
                 <button class="start-btn" id="secondStartBtn">🚀 INIZIA QUARTINA</button>
                 <button class="next-btn" id="secondNextBtn">⏭️ PROSSIMA AFFERMAZIONE</button>
@@ -991,10 +1000,10 @@
                         BANCO
                     </div>
                     <div class="chain-word hidden-word" id="zipSecondWord">
-                        DATI______
+                        D__I
                     </div>
                     <div class="chain-word hidden-word" id="zipThirdWord">
-                        CAMPO______
+                        C___O
                     </div>
                     <div class="chain-word revealed" id="zipFourthWord">
                         BATTAGLIA
@@ -1098,6 +1107,7 @@
         let scoreB = 0;
         let currentTeam = 'A';
         let answeringPlayer = '';
+        let musicPlayed = false; // Variabile per controllare se la musica è già stata riprodotta
         
         // Lista di parole LUNGHE e complesse (sempre nello stesso ordine)
         const wordList = [
@@ -1243,6 +1253,9 @@
         const correctAnswerText = document.getElementById('correctAnswerText');
         const introMusic = document.getElementById('introMusic');
         const musicTimer = document.getElementById('musicTimer');
+        const secondPlayerBuzzers = document.getElementById('secondPlayerBuzzers');
+        const secondBuzzerA = document.getElementById('secondBuzzerA');
+        const secondBuzzerB = document.getElementById('secondBuzzerB');
         
         // Elementi DOM per Una tira l'altra
         const thirdDisplayTeamA = document.getElementById('thirdDisplayTeamA');
@@ -1347,8 +1360,11 @@
             startBtn.disabled = true;
             nextBtn.disabled = true;
             
-            // RIPRODUCI LA MUSICA SOLO QUI, quando inizia effettivamente il primo gioco
-            playIntroMusic();
+            // RIPRODUCI LA MUSICA SOLO QUI, quando inizia effettivamente il primo gioco E SOLO UNA VOLTA
+            if (!musicPlayed) {
+                playIntroMusic();
+                musicPlayed = true;
+            }
         }
         
         // Crea la griglia per la parola
@@ -1578,6 +1594,8 @@
             secondStartBtn.disabled = false;
             secondNextBtn.disabled = true;
             secondNextQuartinaBtn.disabled = true;
+            secondPlayerBuzzers.classList.add('hidden');
+            secondAnswerControls.classList.add('hidden');
         }
         
         // Reset del secondo gioco
@@ -1588,6 +1606,9 @@
             secondAnswerControls.classList.add('hidden');
             correctAnswerDisplay.classList.add('hidden');
             secondNextQuartinaBtn.disabled = true;
+            secondPlayerBuzzers.classList.add('hidden');
+            secondBuzzerA.disabled = false;
+            secondBuzzerB.disabled = false;
         }
         
         // Reset della visualizzazione della quartina
@@ -1619,9 +1640,12 @@
             secondNextQuartinaBtn.disabled = true;
             
             revealQuartinaStep();
-            secondMessage.textContent = "🔍 Indovina a cosa si riferisce la quartina!";
+            secondMessage.textContent = `🔍 Indovina a cosa si riferisce la quartina! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             quartinaPoints = 40;
             updateQuartinaPointsDisplay();
+            
+            // Mostra i buzzer delle squadre
+            secondPlayerBuzzers.classList.remove('hidden');
         }
         
         // Rivela il passo successivo della quartina
@@ -1677,6 +1701,29 @@
             correctAnswerDisplay.classList.remove('hidden');
         }
         
+        // Gestisce il buzzer della squadra A nel secondo gioco
+        function handleSecondBuzzerA() {
+            handleSecondBuzzer('A');
+        }
+        
+        // Gestisce il buzzer della squadra B nel secondo gioco
+        function handleSecondBuzzerB() {
+            handleSecondBuzzer('B');
+        }
+        
+        // Gestisce il buzzer nel secondo gioco
+        function handleSecondBuzzer(team) {
+            currentAnsweringTeam = team;
+            currentAnsweringPlayer = team === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
+            
+            secondAnsweringPlayer.textContent = `🎤 Risponde: ${currentAnsweringPlayer}`;
+            secondMessage.textContent = `🎯 ${currentAnsweringPlayer}, qual è la risposta?`;
+            
+            secondBuzzerA.disabled = true;
+            secondBuzzerB.disabled = true;
+            secondAnswerControls.classList.remove('hidden');
+        }
+        
         // Gestisce una risposta corretta nel secondo gioco
         function handleSecondCorrectAnswer() {
             const currentQuartina = quartineList[secondCurrentRound - 1];
@@ -1688,12 +1735,15 @@
             secondNextQuartinaBtn.disabled = false;
             secondAnswerControls.classList.add('hidden');
             correctAnswerDisplay.classList.add('hidden');
+            secondPlayerBuzzers.classList.add('hidden');
         }
         
         // Gestisce una risposta errata nel secondo gioco
         function handleSecondWrongAnswer() {
             secondMessage.textContent = "❌ Risposta errata! La quartina continua...";
             secondAnswerControls.classList.add('hidden');
+            secondBuzzerA.disabled = false;
+            secondBuzzerB.disabled = false;
         }
         
         // Rivela tutti i passi della quartina
@@ -2107,10 +2157,10 @@
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
-            // Imposta le parole della ZIP
+            // Imposta le parole della ZIP con lettere nascoste
             zipFirstWord.textContent = zipData.first;
-            zipSecondWord.textContent = `${zipData.second}______`;
-            zipThirdWord.textContent = `${zipData.third}______`;
+            zipSecondWord.textContent = "D__I"; // DATI con lettere nascoste
+            zipThirdWord.textContent = "C___O"; // CAMPO con lettere nascoste
             zipFourthWord.textContent = zipData.fourth;
             
             zipMessage.textContent = `🎯 Hai completato la catena! La ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} ha 5 secondi extra per la ZIP!`;
@@ -2315,6 +2365,8 @@
         secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
         secondWrongBtn.addEventListener('click', handleSecondWrongAnswer);
         secondNextGameBtn.addEventListener('click', startThirdGame);
+        secondBuzzerA.addEventListener('click', handleSecondBuzzerA);
+        secondBuzzerB.addEventListener('click', handleSecondBuzzerB);
         
         // Event listeners per il terzo gioco
         topDirectionBtn.addEventListener('click', () => handleDirectionChoice('top'));
