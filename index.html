@@ -628,7 +628,7 @@
             color: var(--accent);
         }
         
-        /* STILI PER LA SIGLA */
+        /* STILI PER LA SIGLA - MODIFICATI PER AVERLA A TUTTO SCHERMO */
         .intro-overlay {
             position: fixed;
             top: 0;
@@ -644,30 +644,35 @@
         }
         
         .intro-video {
-            width: 90%;
-            max-width: 800px;
-            max-height: 80%;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(253, 187, 45, 0.5);
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fa sì che il video copra tutto lo schermo */
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
         .play-intro-btn {
-            margin-top: 20px;
-            padding: 12px 25px;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
             background: linear-gradient(135deg, var(--accent), #f39c12);
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            z-index: 10;
         }
         
         .play-intro-btn:hover {
             background: linear-gradient(135deg, #f39c12, #e67e22);
-            transform: translateY(-3px);
+            transform: translateX(-50%) translateY(-3px);
         }
         
         .loading-screen {
@@ -772,9 +777,9 @@
         <h2>Caricamento in corso...</h2>
     </div>
     
-    <!-- Sigla del gioco -->
+    <!-- Sigla del gioco - MODIFICATA PER ESSERE A TUTTO SCHERMO -->
     <div class="intro-overlay hidden" id="introOverlay">
-        <video class="intro-video" id="introVideo" preload="auto" controls>
+        <video class="intro-video" id="introVideo" preload="auto">
             <source src="Sigla _Reazione a Catena_ 2024 (03-06-2024).mp4" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
@@ -983,16 +988,16 @@
                 
                 <div class="chain-container">
                     <div class="chain-word revealed" id="zipFirstWord">
-                        <!-- Prima parola della ZIP -->
+                        BANCO
                     </div>
                     <div class="chain-word hidden-word" id="zipSecondWord">
-                        <!-- Seconda parola della ZIP (iniziale) -->
+                        DATI______
                     </div>
                     <div class="chain-word hidden-word" id="zipThirdWord">
-                        <!-- Terza parola della ZIP (iniziale) -->
+                        CAMPO______
                     </div>
                     <div class="chain-word revealed" id="zipFourthWord">
-                        <!-- Quarta parola della ZIP -->
+                        BATTAGLIA
                     </div>
                 </div>
                 
@@ -1022,7 +1027,7 @@
                 </div>
                 
                 <div class="correct-answer hidden" id="zipCorrectAnswer">
-                    <strong>🎯 Risposta corretta:</strong> <span id="zipAnswerText"></span>
+                    <strong>🎯 Risposta corretta:</strong> <span id="zipAnswerText">BANCO DATI CAMPO BATTAGLIA</span>
                 </div>
             </div>
             
@@ -1158,26 +1163,20 @@
         let zipTimerInterval;
         let zipTimeLeft = 10;
         
-        // Lista di catene per Una tira l'altra (7 parole per catena) - SOLO ZIP MODIFICATE
+        // Lista di catene per Una tira l'altra (7 parole per catena) - SOLO LA SECONDA CATENA HA LA ZIP
         const chainList = [
             {
                 words: ["CARNEVALE", "SAMBA", "COPACABANA", "CAIPIRINHA", "AMAZZONIA", "PALME", "OCEANO"],
-                zip: {
-                    first: "RIO",
-                    second: "DE", // Seconda parola
-                    third: "JANEIRO",  // Terza parola
-                    fourth: "BRASILE",
-                    answer: "RIO DE JANEIRO BRASILE"
-                }
+                zip: null // Prima catena senza ZIP
             },
             {
                 words: ["CAFFÈ", "ZUCCHERO", "PIANTAGIONE", "COLONIALISMO", "NAVI", "EUROPA", "MERCATO"],
                 zip: {
-                    first: "CANNE",
-                    second: "DA", // Seconda parola
-                    third: "ZUCCHERO",  // Terza parola
-                    fourth: "COLONIE",
-                    answer: "CANNE DA ZUCCHERO COLONIE"
+                    first: "BANCO",
+                    second: "DATI", // Seconda parola
+                    third: "CAMPO",  // Terza parola
+                    fourth: "BATTAGLIA",
+                    answer: "BANCO DATI CAMPO BATTAGLIA"
                 }
             }
         ];
@@ -1320,8 +1319,7 @@
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
             message.textContent = `🎯 Inizia la ${displayTeamA.textContent}!`;
             
-            // Riproduce la musica nel primo gioco
-            playIntroMusic();
+            // NON riprodurre la musica qui - verrà riprodotta solo quando inizia il primo gioco
         }
         
         // Reset del gioco Caccia alla Parola
@@ -1348,6 +1346,9 @@
             buzzer.disabled = false;
             startBtn.disabled = true;
             nextBtn.disabled = true;
+            
+            // RIPRODUCI LA MUSICA SOLO QUI, quando inizia effettivamente il primo gioco
+            playIntroMusic();
         }
         
         // Crea la griglia per la parola
@@ -1516,8 +1517,11 @@
             initSecondGame();
         }
         
-        // Riproduce la musica introduttiva nel PRIMO gioco
+        // Riproduce la musica introduttiva nel PRIMO gioco - MODIFICATA PER NON PARTIRE DURANTE LA SIGLA
         function playIntroMusic() {
+            // Assicurati che la musica sia ferma prima di iniziare
+            skipMusic();
+            
             introMusic.volume = 0.5;
             
             // Mostra il timer
@@ -1897,10 +1901,16 @@
             
             if (allWordsRevealed) {
                 if (thirdCurrentRound >= thirdTotalRounds) {
-                    // Attiva il gioco della ZIP
-                    setTimeout(() => {
-                        startZipGame();
-                    }, 2000);
+                    // Attiva il gioco della ZIP solo per la seconda catena
+                    const currentChain = chainList[thirdCurrentRound - 1];
+                    if (currentChain.zip) {
+                        setTimeout(() => {
+                            startZipGame();
+                        }, 2000);
+                    } else {
+                        thirdNextBtn.disabled = false;
+                        thirdMessage.textContent += ` Premi "PROSSIMA CATENA" per continuare.`;
+                    }
                 } else {
                     // Abilita il pulsante per passare alla prossima catena
                     thirdNextBtn.disabled = false;
