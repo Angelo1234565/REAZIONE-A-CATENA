@@ -780,14 +780,12 @@
     <!-- Sigla del gioco - MODIFICATA PER ESSERE A TUTTO SCHERMO -->
     <div class="intro-overlay hidden" id="introOverlay">
         <video class="intro-video" id="introVideo" preload="auto">
-            <source src="Sigla _Reazione a Catena_ 2024 (03-06-2024).mp4" type="video/mp4">
+            <!-- Video placeholder - sostituire con il video reale -->
+            <source src="#" type="video/mp4">
             Il tuo browser non supporta il video.
         </video>
         <button class="play-intro-btn" id="playIntroBtn">RIPRODUCI SIGLA</button>
     </div>
-    
-    <!-- Timer musica (nascosto inizialmente) -->
-    <div class="music-timer hidden" id="musicTimer">Musica: 20s</div>
 
     <!-- Schermata di setup -->
     <div class="container hidden" id="setupScreen">
@@ -817,7 +815,7 @@
     <div class="container hidden" id="gameScreen">
         <header>
             <h1>Laureata a Catena</h1>
-            <div class="game-mode" id="gameMode">🔍 Indovina la Parola</div>
+            <div class="game-mode" id="gameMode">🔍 Caccia alla Parola</div>
         </header>
         
         <div class="game-info">
@@ -1050,7 +1048,8 @@
 
     <!-- Elemento audio nascosto per la canzone -->
     <audio id="introMusic" preload="auto">
-        <source src="intro-music.mp3" type="audio/mp3">
+        <!-- Audio placeholder - sostituire con l'audio reale -->
+        <source src="#" type="audio/mp3">
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
@@ -1080,11 +1079,11 @@
         playIntroBtn.addEventListener('click', () => {
             introVideo.play();
             playIntroBtn.style.display = 'none';
-        });
-        
-        // Quando il video finisce, passa al setup
-        introVideo.addEventListener('ended', () => {
-            skipIntro();
+            
+            // Quando il video finisce, passa al setup
+            introVideo.addEventListener('ended', () => {
+                skipIntro();
+            });
         });
         
         // Inizializzazione del gioco
