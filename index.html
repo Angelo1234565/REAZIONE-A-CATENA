@@ -2658,7 +2658,13 @@
         startGameBtn.addEventListener('click', startMainGame);
         correctBtn.addEventListener('click', handleCorrectAnswer);
         wrongBtn.addEventListener('click', handleWrongAnswer);
-        nextGameBtn.addEventListener('click', startSecondGame);
+        
+        // CORREZIONE: Aggiungi l'event listener per il pulsante nextGameBtn
+        nextGameBtn.addEventListener('click', function() {
+            gameScreen.classList.add('hidden');
+            secondGameScreen.classList.remove('hidden');
+            initSecondGame();
+        });
         
         secondStartBtn.addEventListener('click', startSecondGameRound);
         secondNextBtn.addEventListener('click', revealNextQuartinaStep);
