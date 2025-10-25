@@ -5,33 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laureata a Catena</title>
     <style>
-        /* RESET E STILI BASE */
+        /* RESET E STILI BASE MIGLIORATI */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         :root {
             --primary: #1a2a6c;
             --secondary: #b21f1f;
             --accent: #fdbb2d;
+            --accent-light: #ffd166;
             --success: #2ecc71;
             --danger: #e74c3c;
             --info: #3498db;
             --dark: #0d1426;
+            --darker: #070b16;
             --light: #f8f9fa;
-            --card-bg: rgba(13, 20, 38, 0.85);
+            --card-bg: rgba(13, 20, 38, 0.92);
             --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            --glow: 0 0 20px rgba(253, 187, 45, 0.6);
         }
         
         body {
             background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             color: var(--light);
             min-height: 100vh;
             padding: 10px;
             overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTAgMGgxMDB2MTAwSDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTAgMGgxMHYxMEgweiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==');
+            z-index: -1;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .container {
@@ -39,57 +63,109 @@
             margin: 0 auto;
             background-color: var(--card-bg);
             border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            box-shadow: var(--shadow);
             border: 2px solid var(--accent);
             min-height: 95vh;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.05), rgba(26, 42, 108, 0.05));
+            z-index: -1;
         }
         
         header {
             text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 2px solid var(--accent);
             flex-shrink: 0;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
         
         h1 {
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            margin-bottom: 8px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 10px;
             color: var(--accent);
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
         }
         
         h2 {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-            margin: 8px 0;
-            color: var(--accent);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            margin: 10px 0;
+            color: var(--accent-light);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 600;
         }
         
-        /* STILI PER IL GIOCO PRINCIPALE */
+        /* STILI PER IL GIOCO PRINCIPALE MIGLIORATI */
         .game-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, rgba(253, 187, 45, 0.1), rgba(26, 42, 108, 0.2));
-            padding: 12px;
-            border-radius: 12px;
-            border: 2px solid rgba(253, 187, 45, 0.3);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.15), rgba(26, 42, 108, 0.25));
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.4);
             flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .team {
             text-align: center;
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             transition: var(--transition);
-            border-radius: 10px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+            z-index: -1;
         }
         
         .team-a {
@@ -97,82 +173,121 @@
         }
         
         .team-name {
-            font-size: clamp(1.2rem, 3vw, 1.4rem);
+            font-size: clamp(1.3rem, 3vw, 1.6rem);
             font-weight: bold;
-            margin-bottom: 8px;
-            color: var(--accent);
+            margin-bottom: 10px;
+            color: var(--accent-light);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .team-name::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
         }
         
         .score {
-            font-size: clamp(2.2rem, 5vw, 3rem);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: bold;
             color: var(--accent);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 8px 0;
+            margin: 10px 0;
+            position: relative;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
         .active-team {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.3), rgba(178, 31, 31, 0.2));
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(253, 187, 45, 0.4);
+            box-shadow: var(--glow);
+            border: 2px solid var(--accent);
         }
         
         .game-area {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             flex-grow: 1;
             overflow: hidden;
-            padding: 8px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(253, 187, 45, 0.2);
         }
         
         .word-grid {
             display: flex;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             max-width: 100%;
             overflow: hidden;
-            padding: 12px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
         .letter-box {
-            width: clamp(55px, 8vw, 70px);
-            height: clamp(55px, 8vw, 70px);
+            width: clamp(60px, 8vw, 75px);
+            height: clamp(60px, 8vw, 75px);
             border: 3px solid var(--accent);
             margin: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             font-weight: bold;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 10px;
+            border-radius: 12px;
             transition: var(--transition);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .letter-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            z-index: -1;
         }
         
         .letter-box.revealed {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(253, 187, 45, 0.2));
             transform: scale(1.1);
             box-shadow: 0 0 15px rgba(253, 187, 45, 0.6);
+            border-color: var(--accent-light);
         }
         
         .controls {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin-bottom: 20px;
             flex-shrink: 0;
             flex-wrap: wrap;
         }
         
         button {
-            padding: 10px 16px;
-            font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+            padding: 12px 20px;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
             font-weight: bold;
             border: none;
             border-radius: 50px;
@@ -183,6 +298,19 @@
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
+            z-index: 1;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            z-index: -1;
+            transition: var(--transition);
         }
         
         button::after {
@@ -194,28 +322,33 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: var(--transition);
+            z-index: -1;
         }
         
         button:hover::after {
             left: 100%;
         }
         
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(2px);
+        }
+        
         .buzzer {
             background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
-            font-size: clamp(1rem, 2.8vw, 1.3rem);
-            padding: 12px 25px;
+            font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+            padding: 15px 30px;
             box-shadow: 0 8px 15px rgba(231, 76, 60, 0.4);
         }
         
         .buzzer:hover {
             background: linear-gradient(135deg, #c0392b, #a93226);
-            transform: translateY(-3px);
             box-shadow: 0 12px 20px rgba(231, 76, 60, 0.6);
-        }
-        
-        .buzzer:active {
-            transform: translateY(2px);
         }
         
         .start-btn {
@@ -225,7 +358,6 @@
         
         .start-btn:hover {
             background: linear-gradient(135deg, #27ae60, #219a52);
-            transform: translateY(-3px);
         }
         
         .next-btn {
@@ -235,55 +367,58 @@
         
         .next-btn:hover {
             background: linear-gradient(135deg, #2980b9, #21618c);
-            transform: translateY(-3px);
         }
         
         .correct-btn {
             background: linear-gradient(135deg, var(--success), #27ae60);
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
         }
         
         .wrong-btn {
             background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
         }
         
         .next-game-btn {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
-            padding: 12px 20px;
+            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            padding: 15px 25px;
         }
         
         .next-game-btn:hover {
             background: linear-gradient(135deg, #8e44ad, #7d3c98);
-            transform: translateY(-3px);
         }
         
         .round-info {
-            font-size: clamp(1.1rem, 2.8vw, 1.4rem);
-            margin: 12px 0;
+            font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+            margin: 15px 0;
             text-align: center;
             color: var(--accent);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             font-weight: bold;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(253, 187, 45, 0.3);
         }
         
         .message {
             text-align: center;
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
-            margin: 12px 0;
-            min-height: 45px;
-            padding: 12px;
-            border-radius: 10px;
+            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            margin: 15px 0;
+            min-height: 50px;
+            padding: 15px;
+            border-radius: 12px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border: 2px solid rgba(253, 187, 45, 0.3);
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
         .setup-screen {
@@ -298,39 +433,42 @@
         .team-setup {
             display: flex;
             justify-content: space-between;
-            margin: 15px 0;
-            gap: 15px;
+            margin: 20px 0;
+            gap: 20px;
         }
         
         .team-input {
             flex: 1;
-            padding: 15px;
+            padding: 20px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 12px;
+            border-radius: 15px;
             border: 2px solid rgba(253, 187, 45, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .team-input h3 {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             color: var(--accent);
-            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            font-size: clamp(1.2rem, 2.2vw, 1.4rem);
         }
         
         input {
-            padding: 10px;
-            margin: 8px 0;
+            padding: 12px;
+            margin: 10px 0;
             width: 100%;
             border: none;
-            border-radius: 8px;
-            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            border-radius: 10px;
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
             background: rgba(255, 255, 255, 0.9);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
+            border: 2px solid transparent;
         }
         
         input:focus {
             outline: none;
             box-shadow: 0 0 0 3px rgba(253, 187, 45, 0.5);
+            border-color: var(--accent);
         }
         
         .hidden {
@@ -339,40 +477,49 @@
         
         .game-mode {
             text-align: center;
-            margin-bottom: 12px;
-            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            margin-bottom: 15px;
+            font-size: clamp(1.2rem, 2.2vw, 1.4rem);
             color: var(--accent);
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(253, 187, 45, 0.3);
         }
         
         .answer-controls {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            margin-top: 12px;
+            gap: 15px;
+            margin-top: 15px;
         }
         
         .player-name {
-            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
             color: var(--accent);
-            margin-top: 8px;
+            margin-top: 10px;
             font-weight: bold;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(253, 187, 45, 0.3);
         }
         
         .game-completed {
             text-align: center;
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 20px;
+            padding: 20px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 12px;
+            border-radius: 15px;
             border: 3px solid var(--success);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
         
@@ -390,30 +537,32 @@
             animation: glow 1s infinite;
         }
         
-        /* STILI PER IL SECONDO GIOCO */
+        /* STILI PER IL SECONDO GIOCO MIGLIORATI */
         .quartina-container {
             width: 100%;
             max-width: 800px;
-            margin: 12px auto;
+            margin: 15px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 20px;
             border: 2px solid rgba(253, 187, 45, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .quartina-line {
-            margin: 10px 0;
-            padding: 12px;
+            margin: 12px 0;
+            padding: 15px;
             background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            min-height: 50px;
+            border-radius: 12px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
             transition: var(--transition);
             border-left: 5px solid transparent;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
         
         .quartina-line.revealed {
@@ -425,27 +574,27 @@
         .player-buzzers {
             display: flex;
             justify-content: space-between;
-            margin: 15px 0;
-            gap: 12px;
+            margin: 20px 0;
+            gap: 15px;
         }
         
         .team-buzzers {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
         
         .player-buzzer {
-            padding: 10px;
+            padding: 12px;
             background: linear-gradient(135deg, var(--info), #2980b9);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
@@ -471,54 +620,61 @@
         .quartina-controls {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-top: 15px;
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .quartina-points {
             text-align: center;
-            margin: 12px 0;
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin: 15px 0;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
             color: var(--accent);
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(253, 187, 45, 0.3);
         }
         
         .correct-answer {
             text-align: center;
-            margin: 12px 0;
-            padding: 12px;
+            margin: 15px 0;
+            padding: 15px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 10px;
+            border-radius: 12px;
             border: 2px solid var(--success);
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
         
-        /* STILI PER IL TERZO GIOCO (Una tira l'altra) */
+        /* STILI PER IL TERZO GIOCO MIGLIORATI */
         .chain-container {
             width: 100%;
             max-width: 800px;
-            margin: 12px auto;
+            margin: 15px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 20px;
             border: 2px solid rgba(253, 187, 45, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .chain-word {
-            margin: 10px 0;
-            padding: 15px;
+            margin: 12px 0;
+            padding: 18px;
             background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            min-height: 55px;
+            border-radius: 12px;
+            min-height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            font-size: clamp(1.2rem, 2.2vw, 1.4rem);
             transition: var(--transition);
             border-left: 5px solid transparent;
             font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
         
         .chain-word.revealed {
@@ -540,20 +696,20 @@
         .chain-direction {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 20px;
+            margin: 20px 0;
         }
         
         .direction-btn {
-            padding: 10px 20px;
+            padding: 12px 25px;
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
@@ -571,30 +727,31 @@
         .zip-container {
             width: 100%;
             max-width: 800px;
-            margin: 15px auto;
+            margin: 20px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 20px;
             border: 2px solid rgba(253, 187, 45, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .zip-options {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 20px;
+            margin: 20px 0;
         }
         
         .zip-btn {
-            padding: 12px 25px;
+            padding: 15px 30px;
             background: linear-gradient(135deg, #f1c40f, #f39c12);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
@@ -606,29 +763,31 @@
         
         .zip-prize {
             text-align: center;
-            margin: 15px 0;
-            padding: 15px;
+            margin: 20px 0;
+            padding: 18px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 10px;
+            border-radius: 12px;
             border: 2px solid var(--success);
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
             font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
 
         /* Timer per la ZIP */
         .zip-timer {
             text-align: center;
-            margin: 15px 0;
-            padding: 12px;
+            margin: 20px 0;
+            padding: 15px;
             background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
-            border-radius: 10px;
+            border-radius: 12px;
             border: 2px solid var(--danger);
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
             font-weight: bold;
             color: var(--accent);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
         
-        /* STILI PER LA SIGLA - MODIFICATI PER AVERLA A TUTTO SCHERMO */
+        /* STILI PER LA SIGLA MIGLIORATI */
         .intro-overlay {
             position: fixed;
             top: 0;
@@ -646,7 +805,7 @@
         .intro-video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Fa sì che il video copra tutto lo schermo */
+            object-fit: cover;
             position: absolute;
             top: 0;
             left: 0;
@@ -654,25 +813,28 @@
         
         .play-intro-btn {
             position: absolute;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 15px 30px;
+            padding: 18px 35px;
             background: linear-gradient(135deg, var(--accent), #f39c12);
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
             z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .play-intro-btn:hover {
             background: linear-gradient(135deg, #f39c12, #e67e22);
             transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.6);
         }
         
         .loading-screen {
@@ -691,13 +853,13 @@
         }
         
         .loading-spinner {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border: 5px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: var(--accent);
             animation: spin 1s ease-in-out infinite;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         @keyframes spin {
@@ -712,16 +874,17 @@
         /* TIMER PER LA MUSICA */
         .music-timer {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: rgba(0, 0, 0, 0.8);
             color: var(--accent);
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
             font-weight: bold;
             z-index: 1000;
             border: 2px solid var(--accent);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
         }
         
         /* MIGLIORAMENTI PER SCHERMI MOLTO PICCOLI */
@@ -731,27 +894,27 @@
             }
             
             .container {
-                padding: 10px;
+                padding: 15px;
                 border-radius: 15px;
             }
             
             .letter-box {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
             }
             
             .team-input {
-                padding: 10px;
+                padding: 15px;
             }
             
             .quartina-container {
-                padding: 10px;
+                padding: 15px;
             }
             
             .quartina-line {
-                padding: 8px;
-                min-height: 40px;
+                padding: 12px;
+                min-height: 50px;
             }
             
             .player-buzzers {
@@ -760,13 +923,47 @@
             
             .chain-direction {
                 flex-direction: column;
-                gap: 8px;
+                gap: 10px;
             }
             
             .zip-options {
                 flex-direction: column;
-                gap: 8px;
+                gap: 10px;
             }
+        }
+        
+        /* EFFETTI AGGIUNTIVI */
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px white;
+            animation: sparkle 2s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes sparkle {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            animation: confetti 5s ease-in-out forwards;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        @keyframes confetti {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
@@ -777,7 +974,7 @@
         <h2>Caricamento in corso...</h2>
     </div>
     
-    <!-- Sigla del gioco - MODIFICATA PER ESSERE A TUTTO SCHERMO -->
+    <!-- Sigla del gioco -->
     <div class="intro-overlay hidden" id="introOverlay">
         <video class="intro-video" id="introVideo" preload="auto">
             <source src="Sigla _Reazione a Catena_ 2024 (03-06-2024).mp4" type="video/mp4">
@@ -809,7 +1006,7 @@
                 </div>
             </div>
             
-            <button class="start-btn" id="startGameBtn" style="font-size: clamp(1.1rem, 2.2vw, 1.3rem); padding: 12px 25px;">INIZIA IL GIOCO</button>
+            <button class="start-btn" id="startGameBtn" style="font-size: clamp(1.2rem, 2.2vw, 1.4rem); padding: 15px 30px;">INIZIA IL GIOCO</button>
         </div>
     </div>
     
@@ -848,7 +1045,7 @@
             
             <div class="answer-controls hidden" id="answerControls">
                 <div class="player-name" id="answeringPlayer"></div>
-                <div style="display: flex; gap: 12px;">
+                <div style="display: flex; gap: 15px;">
                     <button class="correct-btn" id="correctBtn">✅ ESATTA</button>
                     <button class="wrong-btn" id="wrongBtn">❌ ERRATA</button>
                 </div>
@@ -856,7 +1053,7 @@
             
             <div class="game-completed hidden" id="gameCompleted">
                 <h2>🎉 Gioco Completato!</h2>
-                <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">Hai completato tutte le 12 parole di Reazione a Catena</p>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 15px 0;">Hai completato tutte le 12 parole di Reazione a Catena</p>
                 <button class="next-game-btn" id="nextGameBtn">🎮 Prossimo Gioco: Quando, Dove, Come, Perché →</button>
             </div>
         </div>
@@ -921,7 +1118,7 @@
             
             <div class="answer-controls hidden" id="secondAnswerControls">
                 <div class="player-name" id="secondAnsweringPlayer"></div>
-                <div style="display: flex; gap: 12px;">
+                <div style="display: flex; gap: 15px;">
                     <button class="correct-btn" id="secondCorrectBtn">✅ ESATTA</button>
                     <button class="wrong-btn" id="secondWrongBtn">❌ ERRATA</button>
                 </div>
@@ -933,7 +1130,7 @@
             
             <div class="game-completed hidden" id="secondGameCompleted">
                 <h2>🎉 Gioco Completato!</h2>
-                <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 15px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
                 <button class="next-game-btn" id="secondNextGameBtn">Prossimo Gioco: Una tira l'altra →</button>
             </div>
         </div>
@@ -979,7 +1176,7 @@
             
             <div class="answer-controls hidden" id="thirdAnswerControls">
                 <div class="player-name" id="thirdAnsweringPlayer"></div>
-                <div style="display: flex; gap: 12px;">
+                <div style="display: flex; gap: 15px;">
                     <button class="correct-btn" id="thirdCorrectBtn">✅ ESATTA</button>
                     <button class="wrong-btn" id="thirdWrongBtn">❌ ERRATA</button>
                 </div>
@@ -993,7 +1190,7 @@
             
             <!-- ZIP Game -->
             <div class="zip-container hidden" id="zipContainer">
-                <h2 style="text-align: center; margin-bottom: 15px;">🎯 GIOCO DELLA ZIP</h2>
+                <h2 style="text-align: center; margin-bottom: 20px;">🎯 GIOCO DELLA ZIP</h2>
                 
                 <div class="chain-container">
                     <div class="chain-word revealed" id="zipFirstWord">
@@ -1029,7 +1226,7 @@
                 
                 <div class="answer-controls hidden" id="zipAnswerControls">
                     <div class="player-name" id="zipAnsweringPlayer"></div>
-                    <div style="display: flex; gap: 12px;">
+                    <div style="display: flex; gap: 15px;">
                         <button class="correct-btn" id="zipCorrectBtn">✅ ESATTA</button>
                         <button class="wrong-btn" id="zipWrongBtn">❌ ERRATA</button>
                     </div>
@@ -1042,7 +1239,7 @@
             
             <div class="game-completed hidden" id="thirdGameCompleted">
                 <h2>🎉 Gioco Completato!</h2>
-                <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 15px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
                 <button class="next-game-btn" id="thirdNextGameBtn">🏠 Torna al Menu Principale</button>
             </div>
         </div>
@@ -1053,7 +1250,8 @@
         <source src="intro-music.mp3" type="audio/mp3">
         Il tuo browser non supporta l'elemento audio.
     </audio>
-
+</body>
+</html>
     <script>
         // Elementi DOM per la sigla
         const loadingScreen = document.getElementById('loadingScreen');
