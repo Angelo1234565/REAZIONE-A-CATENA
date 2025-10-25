@@ -965,6 +965,61 @@
             0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
             100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
+
+        /* NUOVI STILI PER I PUNTEGGI COME NELL'IMMAGINE */
+        .score-display {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 30px;
+        }
+        
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(26, 42, 108, 0.3));
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            min-width: 120px;
+            transition: var(--transition);
+        }
+        
+        .score-item.active {
+            transform: scale(1.1);
+            box-shadow: var(--glow);
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.3), rgba(178, 31, 31, 0.2));
+        }
+        
+        .score-label {
+            font-size: 1rem;
+            color: var(--accent-light);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .score-add {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success);
+            animation: scoreAdd 1s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes scoreAdd {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -1017,14 +1072,15 @@
             <div class="game-mode" id="gameMode">🔍 Indovina la Parola</div>
         </header>
         
-        <div class="game-info">
-            <div class="team team-a" id="teamAElement">
-                <div class="team-name" id="displayTeamA">Squadra A</div>
-                <div class="score" id="scoreA">0</div>
+        <!-- Nuovo display punteggi -->
+        <div class="score-display">
+            <div class="score-item" id="scoreItemA">
+                <div class="score-label" id="displayTeamA">Squadra A</div>
+                <div class="score-value" id="scoreA">0</div>
             </div>
-            <div class="team" id="teamBElement">
-                <div class="team-name" id="displayTeamB">Squadra B</div>
-                <div class="score" id="scoreB">0</div>
+            <div class="score-item" id="scoreItemB">
+                <div class="score-label" id="displayTeamB">Squadra B</div>
+                <div class="score-value" id="scoreB">0</div>
             </div>
         </div>
         
@@ -1066,14 +1122,15 @@
             <div class="game-mode" id="secondGameMode">Quando, Dove, Come eeeee Perché</div>
         </header>
         
-        <div class="game-info">
-            <div class="team team-a" id="secondTeamAElement">
-                <div class="team-name" id="secondDisplayTeamA">Squadra A</div>
-                <div class="score" id="secondScoreA">0</div>
+        <!-- Nuovo display punteggi -->
+        <div class="score-display">
+            <div class="score-item" id="secondScoreItemA">
+                <div class="score-label" id="secondDisplayTeamA">Squadra A</div>
+                <div class="score-value" id="secondScoreA">0</div>
             </div>
-            <div class="team" id="secondTeamBElement">
-                <div class="team-name" id="secondDisplayTeamB">Squadra B</div>
-                <div class="score" id="secondScoreB">0</div>
+            <div class="score-item" id="secondScoreItemB">
+                <div class="score-label" id="secondDisplayTeamB">Squadra B</div>
+                <div class="score-value" id="secondScoreB">0</div>
             </div>
         </div>
         
@@ -1143,14 +1200,15 @@
             <div class="game-mode" id="thirdGameMode">🎯 Una tira l'altra</div>
         </header>
         
-        <div class="game-info">
-            <div class="team team-a" id="thirdTeamAElement">
-                <div class="team-name" id="thirdDisplayTeamA">Squadra A</div>
-                <div class="score" id="thirdScoreA">0</div>
+        <!-- Nuovo display punteggi -->
+        <div class="score-display">
+            <div class="score-item" id="thirdScoreItemA">
+                <div class="score-label" id="thirdDisplayTeamA">Squadra A</div>
+                <div class="score-value" id="thirdScoreA">0</div>
             </div>
-            <div class="team" id="thirdTeamBElement">
-                <div class="team-name" id="thirdDisplayTeamB">Squadra B</div>
-                <div class="score" id="thirdScoreB">0</div>
+            <div class="score-item" id="thirdScoreItemB">
+                <div class="score-label" id="thirdDisplayTeamB">Squadra B</div>
+                <div class="score-value" id="thirdScoreB">0</div>
             </div>
         </div>
         
@@ -1250,8 +1308,7 @@
         <source src="intro-music.mp3" type="audio/mp3">
         Il tuo browser non supporta l'elemento audio.
     </audio>
-</body>
-</html>
+
     <script>
         // Elementi DOM per la sigla
         const loadingScreen = document.getElementById('loadingScreen');
@@ -1409,8 +1466,14 @@
         const answeringPlayerElement = document.getElementById('answeringPlayer');
         const gameCompleted = document.getElementById('gameCompleted');
         const nextGameBtn = document.getElementById('nextGameBtn');
-        const teamAElement = document.getElementById('teamAElement');
-        const teamBElement = document.getElementById('teamBElement');
+        
+        // Nuovi elementi per i punteggi
+        const scoreItemA = document.getElementById('scoreItemA');
+        const scoreItemB = document.getElementById('scoreItemB');
+        const secondScoreItemA = document.getElementById('secondScoreItemA');
+        const secondScoreItemB = document.getElementById('secondScoreItemB');
+        const thirdScoreItemA = document.getElementById('thirdScoreItemA');
+        const thirdScoreItemB = document.getElementById('thirdScoreItemB');
         
         // Elementi per i nomi delle squadre
         const teamANameInput = document.getElementById('teamAName');
@@ -1424,8 +1487,6 @@
         const secondDisplayTeamB = document.getElementById('secondDisplayTeamB');
         const secondScoreA = document.getElementById('secondScoreA');
         const secondScoreB = document.getElementById('secondScoreB');
-        const secondTeamAElement = document.getElementById('secondTeamAElement');
-        const secondTeamBElement = document.getElementById('secondTeamBElement');
         const quandoLine = document.getElementById('quandoLine');
         const doveLine = document.getElementById('doveLine');
         const comeLine = document.getElementById('comeLine');
@@ -1460,8 +1521,6 @@
         const thirdDisplayTeamB = document.getElementById('thirdDisplayTeamB');
         const thirdScoreA = document.getElementById('thirdScoreA');
         const thirdScoreB = document.getElementById('thirdScoreB');
-        const thirdTeamAElement = document.getElementById('thirdTeamAElement');
-        const thirdTeamBElement = document.getElementById('thirdTeamBElement');
         const chainContainer = document.getElementById('chainContainer');
         const thirdRoundInfo = document.getElementById('thirdRoundInfo');
         const thirdMessage = document.getElementById('thirdMessage');
@@ -1506,19 +1565,19 @@
         // Aggiorna la visualizzazione delle squadre attive
         function updateActiveTeam() {
             if (currentTeam === 'A') {
-                teamAElement.classList.add('active-team');
-                teamBElement.classList.remove('active-team');
-                secondTeamAElement.classList.add('active-team');
-                secondTeamBElement.classList.remove('active-team');
-                thirdTeamAElement.classList.add('active-team');
-                thirdTeamBElement.classList.remove('active-team');
+                scoreItemA.classList.add('active');
+                scoreItemB.classList.remove('active');
+                secondScoreItemA.classList.add('active');
+                secondScoreItemB.classList.remove('active');
+                thirdScoreItemA.classList.add('active');
+                thirdScoreItemB.classList.remove('active');
             } else {
-                teamBElement.classList.add('active-team');
-                teamAElement.classList.remove('active-team');
-                secondTeamBElement.classList.add('active-team');
-                secondTeamAElement.classList.remove('active-team');
-                thirdTeamBElement.classList.add('active-team');
-                thirdTeamAElement.classList.remove('active-team');
+                scoreItemB.classList.add('active');
+                scoreItemA.classList.remove('active');
+                secondScoreItemB.classList.add('active');
+                secondScoreItemA.classList.remove('active');
+                thirdScoreItemB.classList.add('active');
+                thirdScoreItemA.classList.remove('active');
             }
         }
         
@@ -1529,8 +1588,6 @@
             updateActiveTeam();
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
             message.textContent = `🎯 Inizia la ${displayTeamA.textContent}!`;
-            
-            // NON riprodurre la musica qui - verrà riprodotta solo quando inizia il primo gioco
         }
         
         // Reset del gioco Caccia alla Parola
@@ -1557,12 +1614,6 @@
             buzzer.disabled = false;
             startBtn.disabled = true;
             nextBtn.disabled = true;
-            
-            // RIPRODUCI LA MUSICA SOLO QUI, quando inizia effettivamente il primo gioco E SOLO UNA VOLTA
-            if (!musicPlayed) {
-                playIntroMusic();
-                musicPlayed = true;
-            }
         }
         
         // Crea la griglia per la parola
@@ -1683,19 +1734,42 @@
             skipMusic();
         }
         
-        // Aggiorna il punteggio
+        // Aggiorna il punteggio con effetto visivo
         function updateScore(team, points) {
             if (team === 'A') {
                 scoreA += points;
                 scoreAElement.textContent = scoreA;
                 secondScoreA.textContent = scoreA;
                 thirdScoreA.textContent = scoreA;
+                
+                // Effetto visivo di aggiunta punti
+                showScoreAddEffect(scoreItemA, points);
             } else {
                 scoreB += points;
                 scoreBElement.textContent = scoreB;
                 secondScoreB.textContent = scoreB;
                 thirdScoreB.textContent = scoreB;
+                
+                // Effetto visivo di aggiunta punti
+                showScoreAddEffect(scoreItemB, points);
             }
+        }
+        
+        // Mostra l'effetto di aggiunta punti
+        function showScoreAddEffect(scoreItem, points) {
+            const addElement = document.createElement('div');
+            addElement.className = 'score-add';
+            addElement.textContent = `+${points}`;
+            
+            const rect = scoreItem.getBoundingClientRect();
+            addElement.style.left = `${rect.left + rect.width / 2}px`;
+            addElement.style.top = `${rect.top + rect.height / 2}px`;
+            
+            document.body.appendChild(addElement);
+            
+            setTimeout(() => {
+                document.body.removeChild(addElement);
+            }, 1000);
         }
         
         // Funzione per mescolare un array (algoritmo Fisher-Yates)
@@ -1707,31 +1781,7 @@
             return array;
         }
         
-        // Inizia il gioco principale dopo il setup
-        function startMainGame() {
-            displayTeamA.textContent = teamANameInput.value;
-            displayTeamB.textContent = teamBNameInput.value;
-            
-            secondDisplayTeamA.textContent = teamANameInput.value;
-            secondDisplayTeamB.textContent = teamBNameInput.value;
-            
-            thirdDisplayTeamA.textContent = teamANameInput.value;
-            thirdDisplayTeamB.textContent = teamBNameInput.value;
-            
-            setupScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
-            initGame();
-        }
-        
-        // Passa al secondo gioco
-        function startSecondGame() {
-            gameScreen.classList.add('hidden');
-            secondGameScreen.classList.remove('hidden');
-            
-            initSecondGame();
-        }
-        
-        // Riproduce la musica introduttiva nel PRIMO gioco - MODIFICATA PER NON PARTIRE DURANTE LA SIGLA
+        // RIPRODUCI LA MUSICA QUANDO SI CLICCA "INIZIA IL GIOCO"
         function playIntroMusic() {
             // Assicurati che la musica sia ferma prima di iniziare
             skipMusic();
@@ -1740,7 +1790,7 @@
             
             // Mostra il timer
             musicTimer.classList.remove('hidden');
-            let timeLeft = 10;
+            let timeLeft = 20;
             musicTimer.textContent = `🎵 Musica: ${timeLeft}s`;
             
             // Aggiorna il timer ogni secondo
@@ -1768,7 +1818,7 @@
             
             musicTimeout = setTimeout(() => {
                 skipMusic();
-            }, 10000);
+            }, 20000);
         }
         
         // Salta la musica
@@ -1778,6 +1828,25 @@
             clearTimeout(musicTimeout);
             clearInterval(musicTimerInterval);
             musicTimer.classList.add('hidden');
+        }
+        
+        // Inizia il gioco principale dopo il setup
+        function startMainGame() {
+            displayTeamA.textContent = teamANameInput.value;
+            displayTeamB.textContent = teamBNameInput.value;
+            
+            secondDisplayTeamA.textContent = teamANameInput.value;
+            secondDisplayTeamB.textContent = teamBNameInput.value;
+            
+            thirdDisplayTeamA.textContent = teamANameInput.value;
+            thirdDisplayTeamB.textContent = teamBNameInput.value;
+            
+            setupScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            initGame();
+            
+            // RIPRODUCI LA MUSICA QUI, quando si clicca "INIZIA IL GIOCO"
+            playIntroMusic();
         }
         
         // Inizializzazione del secondo gioco
@@ -2557,7 +2626,7 @@
         wrongBtn.addEventListener('click', handleWrongAnswer);
         nextGameBtn.addEventListener('click', startSecondGame);
         
-        secondStartBtn.addEventListener('click', startSecondGameRound);
+        secondStartBtn.addEventListener('click', startSecondGameRound');
         secondNextBtn.addEventListener('click', revealNextQuartinaStep);
         secondNextQuartinaBtn.addEventListener('click', nextQuartina);
         secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
