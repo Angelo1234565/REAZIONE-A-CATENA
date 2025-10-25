@@ -224,6 +224,22 @@
             background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             border: 1px solid rgba(253, 187, 45, 0.2);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .game-area::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .game-area::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .game-area::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
         }
         
         .word-grid {
@@ -1020,6 +1036,41 @@
             0% { transform: translateY(0); opacity: 1; }
             100% { transform: translateY(-50px); opacity: 0; }
         }
+        
+        /* NUOVI STILI PER IL TIMER */
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .timer {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: bold;
+            color: var(--accent);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 20px rgba(253, 187, 45, 0.6);
+            text-align: center;
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+        
+        .timer.warning {
+            color: var(--danger);
+            border-color: var(--danger);
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
+            animation: pulse 0.5s infinite;
+        }
+        
+        .timer.expired {
+            color: var(--danger);
+            border-color: var(--danger);
+            background: rgba(231, 76, 60, 0.2);
+            box-shadow: 0 0 25px rgba(231, 76, 60, 0.8);
+        }
     </style>
 </head>
 <body>
@@ -1212,6 +1263,11 @@
             </div>
         </div>
         
+        <!-- NUOVO TIMER -->
+        <div class="timer-container">
+            <div class="timer" id="wordTimer">10s</div>
+        </div>
+        
         <div class="game-area">
             <div class="chain-container" id="chainContainer">
                 <!-- Le parole della catena verranno aggiunte qui dinamicamente -->
@@ -1309,7 +1365,48 @@
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
+    <!-- Elementi audio per i suoni del timer -->
+    <audio id="tickSound" preload="auto">
+        <!-- Suono di ticchettio generato con JavaScript -->
+    </audio>
+    <audio id="timeUpSound" preload="auto">
+        <!-- Suono di fine tempo generato con JavaScript -->
+    </audio>
+
     <script>
+        // Genera suoni per il timer
+        function generateTimerSounds() {
+            // Genera suono di ticchettio
+            const tickContext = new (window.AudioContext || window.webkitAudioContext)();
+            const tickOscillator = tickContext.createOscillator();
+            const tickGain = tickContext.createGain();
+            
+            tickOscillator.connect(tickGain);
+            tickGain.connect(tickContext.destination);
+            
+            tickOscillator.type = 'sine';
+            tickOscillator.frequency.value = 800;
+            tickGain.gain.value = 0.1;
+            
+            tickOscillator.start();
+            tickOscillator.stop(tickContext.currentTime + 0.1);
+            
+            // Genera suono di fine tempo
+            const timeUpContext = new (window.AudioContext || window.webkitAudioContext)();
+            const timeUpOscillator = timeUpContext.createOscillator();
+            const timeUpGain = timeUpContext.createGain();
+            
+            timeUpOscillator.connect(timeUpGain);
+            timeUpGain.connect(timeUpContext.destination);
+            
+            timeUpOscillator.type = 'sawtooth';
+            timeUpOscillator.frequency.value = 300;
+            timeUpGain.gain.value = 0.2;
+            
+            timeUpOscillator.start();
+            timeUpOscillator.stop(timeUpContext.currentTime + 0.5);
+        }
+
         // Elementi DOM per la sigla
         const loadingScreen = document.getElementById('loadingScreen');
         const introOverlay = document.getElementById('introOverlay');
@@ -1317,9 +1414,18 @@
         const playIntroBtn = document.getElementById('playIntroBtn');
         const setupScreen = document.getElementById('setupScreen');
         
+        // Elementi DOM per il timer
+        const wordTimer = document.getElementById('wordTimer');
+        const tickSound = document.getElementById('tickSound');
+        const timeUpSound = document.getElementById('timeUpSound');
+        
         // Variabile per controllare se il video è stato caricato
         let videoLoaded = false;
         let videoError = false;
+        
+        // Variabili per il timer
+        let timerInterval;
+        let timeLeft = 10;
         
         // Funzione per mostrare la sigla
         function showIntro() {
@@ -1371,6 +1477,9 @@
         
         // Inizializzazione del gioco
         window.addEventListener('load', () => {
+            // Genera i suoni del timer
+            generateTimerSounds();
+            
             // Simula un tempo di caricamento
             setTimeout(() => {
                 showIntro();
@@ -1595,6 +1704,92 @@
         const directionOptions = document.getElementById('directionOptions');
         const continueDirectionBtn = document.getElementById('continueDirectionBtn');
         const changeDirectionBtn = document.getElementById('changeDirectionBtn');
+        
+        // Funzione per avviare il timer
+        function startWordTimer() {
+            // Reset del timer
+            clearInterval(timerInterval);
+            timeLeft = 10;
+            updateTimerDisplay();
+            wordTimer.classList.remove('warning', 'expired');
+            
+            // Avvia il countdown
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                // Riproduci il suono del ticchettio
+                if (timeLeft > 0) {
+                    playTickSound();
+                }
+                
+                // Cambia colore quando mancano pochi secondi
+                if (timeLeft <= 5) {
+                    wordTimer.classList.add('warning');
+                }
+                
+                // Timer scaduto
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    wordTimer.classList.remove('warning');
+                    wordTimer.classList.add('expired');
+                    playTimeUpSound();
+                    handleTimerExpired();
+                }
+            }, 1000);
+        }
+        
+        // Funzione per fermare il timer
+        function stopWordTimer() {
+            clearInterval(timerInterval);
+            wordTimer.classList.remove('warning', 'expired');
+        }
+        
+        // Aggiorna la visualizzazione del timer
+        function updateTimerDisplay() {
+            wordTimer.textContent = `${timeLeft}s`;
+        }
+        
+        // Riproduci il suono del ticchettio
+        function playTickSound() {
+            generateTimerSounds();
+        }
+        
+        // Riproduci il suono di fine tempo
+        function playTimeUpSound() {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.value = 200;
+            gain.gain.value = 0.3;
+            
+            oscillator.start();
+            oscillator.stop(context.currentTime + 0.8);
+        }
+        
+        // Gestisce la scadenza del timer
+        function handleTimerExpired() {
+            if (!thirdGameStarted) return;
+            
+            thirdMessage.textContent = `⏰ Tempo scaduto! Adesso tocca alla ${currentTeam === 'A' ? displayTeamB.textContent : displayTeamA.textContent}`;
+            
+            // Cambia squadra
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
+            
+            // Riavvia il timer per la nuova squadra
+            setTimeout(() => {
+                if (thirdGameStarted) {
+                    startWordTimer();
+                    thirdBuzzer.disabled = false;
+                }
+            }, 2000);
+        }
         
         // Aggiorna la visualizzazione delle squadre attive
         function updateActiveTeam() {
@@ -2110,6 +2305,9 @@
             revealedLettersPerWord = [];
             currentRevealedLetters = [];
             
+            // FERMA IL TIMER
+            stopWordTimer();
+            
             chainDirection.classList.remove('hidden');
             zipContainer.classList.add('hidden');
             thirdAnswerControls.classList.add('hidden');
@@ -2192,6 +2390,9 @@
             
             highlightCurrentWord();
             thirdMessage.textContent = `🔍 Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            // AVVIA IL TIMER
+            startWordTimer();
         }
         
         // Evidenzia la parola corrente
@@ -2220,6 +2421,9 @@
         function handleThirdBuzzer() {
             if (!thirdGameStarted) return;
             
+            // FERMA IL TIMER
+            stopWordTimer();
+            
             thirdAnsweringPlayer.textContent = `🎤 Risponde: ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola nascosta?`;
             thirdBuzzer.disabled = true;
@@ -2240,6 +2444,9 @@
         
         // Completa una catena
         function completeChain() {
+            // FERMA IL TIMER
+            stopWordTimer();
+            
             thirdMessage.textContent = `🎉 Catena completata! +25 punti bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
             updateScore(currentTeam, 25);
             
@@ -2315,6 +2522,9 @@
                 }
             }
             
+            // RIAVVIA IL TIMER
+            startWordTimer();
+            
             // Mostra opzioni per cambiare direzione
             showDirectionOptions();
         }
@@ -2330,6 +2540,9 @@
             directionOptions.classList.add('hidden');
             highlightCurrentWord();
             thirdMessage.textContent = `🔍 Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            // RIAVVIA IL TIMER
+            startWordTimer();
         }
         
         // Cambia direzione
@@ -2362,6 +2575,9 @@
             
             highlightCurrentWord();
             thirdMessage.textContent = `🔄 Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            // RIAVVIA IL TIMER
+            startWordTimer();
         }
         
         // Gestisce una risposta errata nel terzo gioco
@@ -2393,6 +2609,9 @@
             thirdMessage.textContent = `❌ Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             thirdAnswerControls.classList.add('hidden');
             thirdBuzzer.disabled = false;
+            
+            // RIAVVIA IL TIMER
+            startWordTimer();
             
             // Evidenzia la parola corrente
             highlightCurrentWord();
