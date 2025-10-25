@@ -1315,11 +1315,22 @@
         const introOverlay = document.getElementById('introOverlay');
         const introVideo = document.getElementById('introVideo');
         const playIntroBtn = document.getElementById('playIntroBtn');
+        const setupScreen = document.getElementById('setupScreen');
+        
+        // Variabile per controllare se il video è stato caricato
+        let videoLoaded = false;
+        let videoError = false;
         
         // Funzione per mostrare la sigla
         function showIntro() {
             // Nascondi la schermata di caricamento
             loadingScreen.classList.add('hidden');
+            
+            // Se il video non è stato caricato, vai direttamente al setup
+            if (videoError || !videoLoaded) {
+                skipIntro();
+                return;
+            }
             
             // Mostra la sigla
             introOverlay.classList.remove('hidden');
@@ -1333,7 +1344,10 @@
         
         // Event listener per il pulsante "Riproduci sigla"
         playIntroBtn.addEventListener('click', () => {
-            introVideo.play();
+            introVideo.play().catch(error => {
+                console.log("Errore nella riproduzione del video:", error);
+                skipIntro();
+            });
             playIntroBtn.style.display = 'none';
         });
         
@@ -1342,12 +1356,33 @@
             skipIntro();
         });
         
+        // Gestione errori del video
+        introVideo.addEventListener('error', () => {
+            console.log("Errore nel caricamento del video");
+            videoError = true;
+            // Se c'è un errore, vai direttamente al setup
+            skipIntro();
+        });
+        
+        // Quando il video è pronto
+        introVideo.addEventListener('canplay', () => {
+            videoLoaded = true;
+        });
+        
         // Inizializzazione del gioco
         window.addEventListener('load', () => {
             // Simula un tempo di caricamento
             setTimeout(() => {
                 showIntro();
             }, 1500);
+            
+            // Fallback: se dopo 5 secondi il video non si carica, vai al setup
+            setTimeout(() => {
+                if (!videoLoaded && !videoError) {
+                    console.log("Timeout caricamento video, procedo al setup");
+                    skipIntro();
+                }
+            }, 5000);
         });
 
         // Variabili di gioco per Caccia alla Parola
@@ -1362,7 +1397,7 @@
         let scoreB = 0;
         let currentTeam = 'A';
         let answeringPlayer = '';
-        let musicPlayed = false; // Variabile per controllare se la musica è già stata riprodotta
+        let musicPlayed = false;
         
         // Lista di parole LUNGHE e complesse (sempre nello stesso ordine)
         const wordList = [
@@ -1418,28 +1453,28 @@
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         let thirdTotalRounds = 2;
-        let currentChainDirection = ''; // 'top' o 'bottom'
+        let currentChainDirection = '';
         let currentChainPosition = 0;
         let currentHiddenWordIndex = 0;
         let zipGameActive = false;
         let zipPlayingTeam = '';
-        let revealedLettersPerWord = []; // Tiene traccia delle lettere rivelate per ogni parola
-        let currentRevealedLetters = []; // Lettere rivelate per la parola corrente
+        let revealedLettersPerWord = [];
+        let currentRevealedLetters = [];
         let zipTimerInterval;
         let zipTimeLeft = 10;
         
-        // Lista di catene per Una tira l'altra (7 parole per catena) - SOLO LA SECONDA CATENA HA LA ZIP
+        // Lista di catene per Una tira l'altra
         const chainList = [
             {
                 words: ["CARNEVALE", "SAMBA", "COPACABANA", "CAIPIRINHA", "AMAZZONIA", "PALME", "OCEANO"],
-                zip: null // Prima catena senza ZIP
+                zip: null
             },
             {
                 words: ["CAFFÈ", "ZUCCHERO", "PIANTAGIONE", "COLONIALISMO", "NAVI", "EUROPA", "MERCATO"],
                 zip: {
                     first: "BANCO",
-                    second: "DATI", // Seconda parola
-                    third: "CAMPO",  // Terza parola
+                    second: "DATI",
+                    third: "CAMPO",
                     fourth: "BATTAGLIA",
                     answer: "BANCO DATI CAMPO BATTAGLIA"
                 }
@@ -1447,7 +1482,6 @@
         ];
         
         // Elementi DOM
-        const setupScreen = document.getElementById('setupScreen');
         const gameScreen = document.getElementById('gameScreen');
         const secondGameScreen = document.getElementById('secondGameScreen');
         const thirdGameScreen = document.getElementById('thirdGameScreen');
@@ -2574,7 +2608,7 @@
         
         // Completa il terzo gioco
         function completeThirdGame() {
-            thirdMessage.textContent = '🎉 Hai completato tutte le catene!';
+            thirdMessage.textContent = '🎉 Hai completato tutte le catena!';
             thirdStartBtn.disabled = true;
             thirdBuzzer.disabled = true;
             thirdNextBtn.disabled = true;
@@ -2626,7 +2660,7 @@
         wrongBtn.addEventListener('click', handleWrongAnswer);
         nextGameBtn.addEventListener('click', startSecondGame);
         
-        secondStartBtn.addEventListener('click', startSecondGameRound');
+        secondStartBtn.addEventListener('click', startSecondGameRound);
         secondNextBtn.addEventListener('click', revealNextQuartinaStep);
         secondNextQuartinaBtn.addEventListener('click', nextQuartina);
         secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
