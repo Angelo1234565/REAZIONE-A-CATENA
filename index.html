@@ -89,6 +89,7 @@
             backdrop-filter: blur(10px);
             min-width: 250px;
             max-width: 300px;
+            transition: var(--transition);
         }
         
         .team-panel.team-a {
@@ -97,6 +98,12 @@
         
         .team-panel.team-b {
             border-color: #e74c3c;
+        }
+        
+        .team-panel.active {
+            transform: scale(1.05);
+            box-shadow: var(--glow);
+            border-color: var(--accent-light);
         }
         
         .team-header {
@@ -131,6 +138,12 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             text-align: center;
+            transition: var(--transition);
+        }
+        
+        .player-item.active {
+            background: rgba(253, 187, 45, 0.3);
+            transform: scale(1.05);
         }
         
         /* AREA DI GIOCO CENTRALE */
@@ -506,6 +519,16 @@
             animation: pulse 0.5s ease-in-out;
         }
         
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(253, 187, 45, 0.6); }
+            50% { box-shadow: 0 0 20px rgba(253, 187, 45, 0.9); }
+            100% { box-shadow: 0 0 10px rgba(253, 187, 45, 0.6); }
+        }
+        
+        .glow {
+            animation: glow 1s infinite;
+        }
+        
         /* RESPONSIVE */
         @media (max-width: 1200px) {
             .game-layout {
@@ -549,6 +572,12 @@
             .chain-direction {
                 flex-direction: column;
             }
+            
+            .letter-box {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -561,10 +590,26 @@
                 <div class="team-input">
                     <h3>🔵 Squadra A</h3>
                     <input type="text" id="teamAName" placeholder="Nome Squadra A" value="Squadra A">
+                    <div class="player-list" id="teamAPlayers">
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 1" value="Giocatore A1">
+                        </div>
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 2" value="Giocatore A2">
+                        </div>
+                    </div>
                 </div>
                 <div class="team-input">
                     <h3>🔴 Squadra B</h3>
                     <input type="text" id="teamBName" placeholder="Nome Squadra B" value="Squadra B">
+                    <div class="player-list" id="teamBPlayers">
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 1" value="Giocatore B1">
+                        </div>
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 2" value="Giocatore B2">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="controls">
@@ -576,14 +621,13 @@
     <!-- LAYOUT PRINCIPALE DI GIOCO -->
     <div class="game-layout hidden" id="gameLayout">
         <!-- SQUADRA A - SINISTRA -->
-        <div class="team-panel team-a">
+        <div class="team-panel team-a" id="teamAPanel">
             <div class="team-header">
                 <div class="team-name" id="displayTeamA">Squadra A</div>
                 <div class="team-score" id="scoreA">0</div>
             </div>
-            <div class="team-players" id="teamAPlayers">
-                <div class="player-item">Giocatore A1</div>
-                <div class="player-item">Giocatore A2</div>
+            <div class="team-players" id="teamAPlayersDisplay">
+                <!-- Giocatori verranno aggiunti dinamicamente -->
             </div>
         </div>
 
@@ -686,14 +730,13 @@
         </div>
 
         <!-- SQUADRA B - DESTRA -->
-        <div class="team-panel team-b">
+        <div class="team-panel team-b" id="teamBPanel">
             <div class="team-header">
                 <div class="team-name" id="displayTeamB">Squadra B</div>
                 <div class="team-score" id="scoreB">0</div>
             </div>
-            <div class="team-players" id="teamBPlayers">
-                <div class="player-item">Giocatore B1</div>
-                <div class="player-item">Giocatore B2</div>
+            <div class="team-players" id="teamBPlayersDisplay">
+                <!-- Giocatori verranno aggiunti dinamicamente -->
             </div>
         </div>
     </div>
@@ -703,6 +746,8 @@
         let currentGame = 1; // 1 = Caccia alla Parola, 2 = Quartina, 3 = Catena
         let scoreA = 0;
         let scoreB = 0;
+        let currentTeam = 'A'; // Squadra attiva
+        let answeringPlayer = ''; // Giocatore che sta rispondendo
         
         // GIOCO 1: CACCIA ALLA PAROLA
         let currentWord = '';
@@ -793,6 +838,10 @@
         const scoreBElement = document.getElementById('scoreB');
         const teamANameInput = document.getElementById('teamAName');
         const teamBNameInput = document.getElementById('teamBName');
+        const teamAPanel = document.getElementById('teamAPanel');
+        const teamBPanel = document.getElementById('teamBPanel');
+        const teamAPlayersDisplay = document.getElementById('teamAPlayersDisplay');
+        const teamBPlayersDisplay = document.getElementById('teamBPlayersDisplay');
         
         // Gioco 1: Caccia alla Parola
         const wordGame = document.getElementById('wordGame');
@@ -845,6 +894,7 @@
         // INIZIALIZZAZIONE
         function initGame() {
             updateScores();
+            updateActiveTeam();
             showGame(1);
         }
         
@@ -887,11 +937,31 @@
             updateScores();
         }
         
+        function updateActiveTeam() {
+            // Rimuovi evidenziazione da entrambe le squadre
+            teamAPanel.classList.remove('active');
+            teamBPanel.classList.remove('active');
+            
+            // Evidenzia la squadra attiva
+            if (currentTeam === 'A') {
+                teamAPanel.classList.add('active');
+            } else {
+                teamBPanel.classList.add('active');
+            }
+        }
+        
+        function selectRandomPlayer(team) {
+            const teamPlayers = team === 'A' ? document.querySelectorAll('#teamAPlayers .player-item') : document.querySelectorAll('#teamBPlayers .player-item');
+            const randomIndex = Math.floor(Math.random() * teamPlayers.length);
+            const playerInput = teamPlayers[randomIndex].querySelector('input');
+            return playerInput.value;
+        }
+        
         // GIOCO 1: CACCIA ALLA PAROLA
         function initWordGame() {
             resetWordGame();
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
-            message.textContent = "Premi 'INIZIA' per cominciare il gioco!";
+            message.textContent = `🎯 Inizia la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}! Premi 'INIZIA' per cominciare il gioco!`;
         }
         
         function resetWordGame() {
@@ -912,7 +982,7 @@
             currentWord = wordList[currentRound - 1];
             createWordGrid();
             startRevealingLetters();
-            message.textContent = "🔍 Indovina la parola! Premi il BUZZER quando sei pronto!";
+            message.textContent = `🔍 Indovina la parola! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             buzzer.disabled = false;
             startBtn.disabled = true;
             nextBtn.disabled = true;
@@ -962,7 +1032,11 @@
             if (!gameStarted) return;
             
             clearInterval(letterInterval);
-            message.textContent = "🎯 Chi ha indovinato la parola?";
+            
+            // Seleziona un giocatore casuale dalla squadra corrente
+            answeringPlayer = selectRandomPlayer(currentTeam);
+            
+            message.textContent = `🎯 ${answeringPlayer} della ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola?`;
             assignPoints.classList.remove('hidden');
             buzzer.disabled = true;
         }
@@ -974,6 +1048,10 @@
             revealAllLetters();
             nextBtn.disabled = false;
             assignPoints.classList.add('hidden');
+            
+            // La squadra che ha indovinato mantiene il turno
+            currentTeam = team;
+            updateActiveTeam();
         }
         
         function revealAllLetters() {
@@ -996,14 +1074,15 @@
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
             resetWordGame();
             startBtn.disabled = false;
-            message.textContent = "🔄 Prossima parola! Premi 'INIZIA' per iniziare.";
+            updateActiveTeam();
+            message.textContent = `🔄 Prossima parola! Inizia la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
         }
         
         // GIOCO 2: QUANDO, DOVE, COME, PERCHÉ
         function initQuartinaGame() {
             resetQuartinaGame();
             secondRoundInfo.textContent = `📋 Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
-            secondMessage.textContent = "🎯 Premi 'INIZIA QUARTINA' per iniziare il gioco!";
+            secondMessage.textContent = `🎯 Premi 'INIZIA QUARTINA' per iniziare il gioco!`;
             quartinaPoints = 40;
             updateQuartinaPointsDisplay();
         }
@@ -1042,7 +1121,7 @@
             secondNextQuartinaBtn.disabled = true;
             
             revealQuartinaStep();
-            secondMessage.textContent = "🔍 Indovina a cosa si riferisce la quartina! Premi il BUZZER quando sai la risposta!";
+            secondMessage.textContent = `🔍 Indovina a cosa si riferisce la quartina! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             quartinaPoints = 40;
             updateQuartinaPointsDisplay();
         }
@@ -1097,6 +1176,10 @@
             revealAllQuartinaSteps();
             secondNextQuartinaBtn.disabled = false;
             secondAssignPoints.classList.add('hidden');
+            
+            // La squadra che ha indovinato mantiene il turno
+            currentTeam = team;
+            updateActiveTeam();
         }
         
         function revealAllQuartinaSteps() {
@@ -1114,7 +1197,7 @@
             secondRoundInfo.textContent = `📋 Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
             resetQuartinaGame();
             secondStartBtn.disabled = false;
-            secondMessage.textContent = "🔄 Prossima quartina! Premi 'INIZIA QUARTINA' per iniziare.";
+            secondMessage.textContent = `🔄 Prossima quartina! Premi "INIZIA QUARTINA" per iniziare.`;
         }
         
         // GIOCO 3: UNA TIRA L'ALTRA
@@ -1197,7 +1280,7 @@
             }
             
             highlightCurrentWord();
-            thirdMessage.textContent = "🔍 Indovina la parola nascosta! Premi il BUZZER quando sai la risposta!";
+            thirdMessage.textContent = `🔍 Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
         }
         
         function highlightCurrentWord() {
@@ -1215,7 +1298,10 @@
         function handleChainBuzzer() {
             if (!thirdGameStarted) return;
             
-            thirdMessage.textContent = "🎯 Chi ha indovinato la parola nascosta?";
+            // Seleziona un giocatore casuale dalla squadra corrente
+            answeringPlayer = selectRandomPlayer(currentTeam);
+            
+            thirdMessage.textContent = `🎯 ${answeringPlayer} della ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola nascosta?`;
             thirdBuzzer.disabled = true;
             thirdAssignPoints.classList.remove('hidden');
         }
@@ -1263,6 +1349,10 @@
                 }
             }
             
+            // La squadra che ha indovinato mantiene il turno
+            currentTeam = team;
+            updateActiveTeam();
+            
             highlightCurrentWord();
         }
         
@@ -1279,9 +1369,8 @@
         
         function completeChain() {
             const bonusPoints = 25;
-            addPoints('A', 0); // Questo è solo per aggiornare il display
-            addPoints('B', 0);
-            thirdMessage.textContent = `🎉 Catena completata! Bonus di ${bonusPoints} punti per la squadra che ha completato l'ultima parola!`;
+            addPoints(currentTeam, bonusPoints);
+            thirdMessage.textContent = `🎉 Catena completata! Bonus di ${bonusPoints} punti per la ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}!`;
             thirdBuzzer.disabled = true;
             thirdAssignPoints.classList.add('hidden');
             thirdNextBtn.disabled = false;
@@ -1309,10 +1398,36 @@
             return array;
         }
         
+        function updatePlayersDisplay() {
+            // Aggiorna i giocatori della squadra A
+            teamAPlayersDisplay.innerHTML = '';
+            const teamAPlayers = document.querySelectorAll('#teamAPlayers .player-item');
+            teamAPlayers.forEach(player => {
+                const playerName = player.querySelector('input').value;
+                const playerElement = document.createElement('div');
+                playerElement.className = 'player-item';
+                playerElement.textContent = playerName;
+                teamAPlayersDisplay.appendChild(playerElement);
+            });
+            
+            // Aggiorna i giocatori della squadra B
+            teamBPlayersDisplay.innerHTML = '';
+            const teamBPlayers = document.querySelectorAll('#teamBPlayers .player-item');
+            teamBPlayers.forEach(player => {
+                const playerName = player.querySelector('input').value;
+                const playerElement = document.createElement('div');
+                playerElement.className = 'player-item';
+                playerElement.textContent = playerName;
+                teamBPlayersDisplay.appendChild(playerElement);
+            });
+        }
+        
         // EVENT LISTENERS
         startGameBtn.addEventListener('click', () => {
             displayTeamA.textContent = teamANameInput.value;
             displayTeamB.textContent = teamBNameInput.value;
+            
+            updatePlayersDisplay();
             
             setupScreen.classList.add('hidden');
             gameLayout.classList.remove('hidden');
