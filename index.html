@@ -5,227 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laureata a Catena</title>
     <style>
-        /* RESET E STILI BASE MIGLIORATI */
+        /* RESET E STILI BASE */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         :root {
             --primary: #1a2a6c;
             --secondary: #b21f1f;
             --accent: #fdbb2d;
-            --accent-light: #ffd166;
             --success: #2ecc71;
             --danger: #e74c3c;
             --info: #3498db;
             --dark: #0d1426;
-            --darker: #070b16;
             --light: #f8f9fa;
-            --card-bg: rgba(13, 20, 38, 0.92);
+            --card-bg: rgba(13, 20, 38, 0.85);
             --transition: all 0.3s ease;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            --glow: 0 0 20px rgba(253, 187, 45, 0.6);
-        }
-        
-        html, body {
-            height: 100%;
-            overflow: hidden;
         }
         
         body {
             background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
             color: var(--light);
             min-height: 100vh;
+            padding: 10px;
             overflow-x: hidden;
-            position: relative;
-            display: flex;
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(253, 187, 45, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(26, 42, 108, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(178, 31, 31, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* LAYOUT PRINCIPALE A SCHERMO INTERO */
-        .game-layout {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-            padding: 10px;
-            gap: 10px;
-        }
-        
-        /* PANNELLI SQUADRE */
-        .team-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             background-color: var(--card-bg);
             border-radius: 20px;
             padding: 20px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             border: 2px solid var(--accent);
-            backdrop-filter: blur(10px);
-            min-width: 250px;
-            max-width: 300px;
-            transition: var(--transition);
-        }
-        
-        .team-panel.team-a {
-            border-color: #3498db;
-        }
-        
-        .team-panel.team-b {
-            border-color: #e74c3c;
-        }
-        
-        .team-panel.active {
-            transform: scale(1.05);
-            box-shadow: var(--glow);
-            border-color: var(--accent-light);
-        }
-        
-        .team-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--accent);
-        }
-        
-        .team-name {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--accent-light);
-        }
-        
-        .team-score {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-        
-        .team-players {
-            flex-grow: 1;
+            min-height: 95vh;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-        
-        .player-item {
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            text-align: center;
-            transition: var(--transition);
-        }
-        
-        .player-item.active {
-            background: rgba(253, 187, 45, 0.3);
-            transform: scale(1.05);
-        }
-        
-        /* AREA DI GIOCO CENTRALE */
-        .game-center {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            border: 2px solid var(--accent);
             backdrop-filter: blur(10px);
-            min-width: 600px;
         }
         
-        .game-header {
+        header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--accent);
+            flex-shrink: 0;
         }
         
-        .game-title {
-            font-size: 2.5rem;
-            margin-bottom: 5px;
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 8px;
             color: var(--accent);
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
             font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        .game-subtitle {
-            font-size: 1.3rem;
-            color: var(--accent-light);
-        }
-        
-        .game-mode {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
+        h2 {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin: 8px 0;
             color: var(--accent);
-            font-weight: bold;
-        }
-        
-        .game-area {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            border: 1px solid rgba(253, 187, 45, 0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
         /* STILI PER IL GIOCO PRINCIPALE */
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.1), rgba(26, 42, 108, 0.2));
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+            flex-shrink: 0;
+        }
+        
+        .team {
+            text-align: center;
+            flex: 1;
+            padding: 12px;
+            transition: var(--transition);
+            border-radius: 10px;
+        }
+        
+        .team-a {
+            border-right: 2px solid var(--accent);
+        }
+        
+        .team-name {
+            font-size: clamp(1.2rem, 3vw, 1.4rem);
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--accent);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .score {
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 8px 0;
+        }
+        
+        .active-team {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.3), rgba(178, 31, 31, 0.2));
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(253, 187, 45, 0.4);
+        }
+        
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            overflow: hidden;
+            padding: 8px;
+        }
+        
         .word-grid {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             max-width: 100%;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            border: 2px solid rgba(253, 187, 45, 0.3);
+            overflow: hidden;
+            padding: 12px;
         }
         
         .letter-box {
-            width: 60px;
-            height: 60px;
+            width: clamp(55px, 8vw, 70px);
+            height: clamp(55px, 8vw, 70px);
             border: 3px solid var(--accent);
+            margin: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2rem;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
             font-weight: bold;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 12px;
+            border-radius: 10px;
             transition: var(--transition);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
@@ -234,47 +159,20 @@
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(253, 187, 45, 0.2));
             transform: scale(1.1);
             box-shadow: 0 0 15px rgba(253, 187, 45, 0.6);
-            border-color: var(--accent-light);
-        }
-        
-        .round-info {
-            font-size: 1.3rem;
-            margin: 15px 0;
-            text-align: center;
-            color: var(--accent);
-            font-weight: bold;
-            padding: 10px 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            border: 1px solid rgba(253, 187, 45, 0.3);
-        }
-        
-        .message {
-            text-align: center;
-            font-size: 1.2rem;
-            margin: 15px 0;
-            min-height: 50px;
-            padding: 15px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border: 2px solid rgba(253, 187, 45, 0.3);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
             flex-wrap: wrap;
         }
         
         button {
-            padding: 12px 20px;
-            font-size: 1.1rem;
+            padding: 10px 16px;
+            font-size: clamp(0.9rem, 2.2vw, 1.1rem);
             font-weight: bold;
             border: none;
             border-radius: 50px;
@@ -287,9 +185,37 @@
             overflow: hidden;
         }
         
-        button:hover {
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        button:hover::after {
+            left: 100%;
+        }
+        
+        .buzzer {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            color: white;
+            font-size: clamp(1rem, 2.8vw, 1.3rem);
+            padding: 12px 25px;
+            box-shadow: 0 8px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .buzzer:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 12px 20px rgba(231, 76, 60, 0.6);
+        }
+        
+        .buzzer:active {
+            transform: translateY(2px);
         }
         
         .start-btn {
@@ -297,11 +223,9 @@
             color: white;
         }
         
-        .buzzer {
-            background: linear-gradient(135deg, var(--danger), #c0392b);
-            color: white;
-            font-size: 1.2rem;
-            padding: 15px 30px;
+        .start-btn:hover {
+            background: linear-gradient(135deg, #27ae60, #219a52);
+            transform: translateY(-3px);
         }
         
         .next-btn {
@@ -309,266 +233,146 @@
             color: white;
         }
         
-        .assign-points {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .points-btn {
-            padding: 10px 20px;
-            font-size: 1rem;
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .points-btn:hover {
+        .next-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
             transform: translateY(-3px);
         }
         
-        /* STILI PER QUANDO, DOVE, COME, PERCHÉ */
-        .quartina-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 15px auto;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid rgba(253, 187, 45, 0.3);
+        .correct-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            padding: 8px 16px;
         }
         
-        .quartina-line {
-            margin: 12px 0;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 12px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 1.2rem;
-            transition: var(--transition);
-            border-left: 5px solid transparent;
+        .wrong-btn {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            color: white;
+            padding: 8px 16px;
         }
         
-        .quartina-line.revealed {
-            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
-            border-left: 5px solid var(--accent);
-            transform: translateX(5px);
-        }
-        
-        .quartina-points {
-            text-align: center;
-            margin: 15px 0;
-            font-size: 1.3rem;
-            color: var(--accent);
-            font-weight: bold;
-            padding: 10px 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            border: 1px solid rgba(253, 187, 45, 0.3);
-        }
-        
-        /* STILI PER UNA TIRA L'ALTRA */
-        .chain-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 15px auto;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid rgba(253, 187, 45, 0.3);
-        }
-        
-        .chain-word {
-            margin: 12px 0;
-            padding: 18px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 12px;
-            min-height: 65px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 1.4rem;
-            transition: var(--transition);
-            border-left: 5px solid transparent;
-            font-weight: bold;
-        }
-        
-        .chain-word.revealed {
-            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
-            border-left: 5px solid var(--accent);
-            transform: translateX(5px);
-        }
-        
-        .chain-word.hidden-word {
-            background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
-            border-left: 5px solid var(--secondary);
-        }
-        
-        .chain-direction {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .direction-btn {
-            padding: 12px 25px;
+        .next-game-btn {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: var(--transition);
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            padding: 12px 20px;
         }
         
-        .direction-btn:hover {
+        .next-game-btn:hover {
             background: linear-gradient(135deg, #8e44ad, #7d3c98);
             transform: translateY(-3px);
         }
         
-        .direction-btn.active {
-            background: linear-gradient(135deg, var(--danger), #c0392b);
-            box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
-        }
-        
-        /* ZIP GAME */
-        .zip-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid rgba(253, 187, 45, 0.3);
-        }
-        
-        .zip-options {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .zip-btn {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #f1c40f, #f39c12);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: var(--transition);
-            font-size: 1.1rem;
-        }
-        
-        .zip-btn:hover {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            transform: translateY(-3px);
-        }
-        
-        .zip-prize {
+        .round-info {
+            font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+            margin: 12px 0;
             text-align: center;
-            margin: 20px 0;
-            padding: 18px;
-            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 12px;
-            border: 2px solid var(--success);
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-
-        .zip-timer {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
-            border-radius: 12px;
-            border: 2px solid var(--danger);
-            font-size: 1.4rem;
-            font-weight: bold;
             color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
         }
         
-        /* SCHERMATE NASCOSTE */
-        .hidden {
-            display: none !important;
+        .message {
+            text-align: center;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            margin: 12px 0;
+            min-height: 45px;
+            padding: 12px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 2px solid rgba(253, 187, 45, 0.3);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        /* SCHERMATA SETUP */
         .setup-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .setup-container {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            border: 2px solid var(--accent);
-            max-width: 800px;
-            width: 90%;
-        }
-        
-        .setup-title {
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--accent);
-            font-size: 2.5rem;
+            overflow: hidden;
         }
         
         .team-setup {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            margin: 15px 0;
+            gap: 15px;
         }
         
         .team-input {
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
+            border-radius: 12px;
             border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
         .team-input h3 {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: var(--accent);
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
         }
         
         input {
-            padding: 12px;
-            margin: 10px 0;
+            padding: 10px;
+            margin: 8px 0;
             width: 100%;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
             background: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
         }
         
-        /* ANIMAZIONI */
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(253, 187, 45, 0.5);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .game-mode {
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            color: var(--accent);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .answer-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .player-name {
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            color: var(--accent);
+            margin-top: 8px;
+            font-weight: bold;
+        }
+        
+        .game-completed {
+            text-align: center;
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 12px;
+            border: 3px solid var(--success);
+        }
+        
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
         
@@ -586,252 +390,712 @@
             animation: glow 1s infinite;
         }
         
-        /* RESPONSIVE */
-        @media (max-width: 1200px) {
-            .game-layout {
-                flex-direction: column;
-                height: auto;
-                min-height: 100vh;
-            }
-            
-            .team-panel {
-                max-width: none;
-                flex-direction: row;
-                justify-content: space-around;
-                align-items: center;
-            }
-            
-            .team-players {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .game-center {
-                min-width: auto;
-            }
+        /* STILI PER IL SECONDO GIOCO */
+        .quartina-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 12px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
-        @media (max-width: 768px) {
-            .team-setup {
-                flex-direction: column;
+        .quartina-line {
+            margin: 10px 0;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            transition: var(--transition);
+            border-left: 5px solid transparent;
+        }
+        
+        .quartina-line.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
+            border-left: 5px solid var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .player-buzzers {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            gap: 12px;
+        }
+        
+        .team-buzzers {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .player-buzzer {
+            padding: 10px;
+            background: linear-gradient(135deg, var(--info), #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .player-buzzer:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .player-buzzer:disabled {
+            background: linear-gradient(135deg, #7f8c8d, #6c7a7d);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .player-buzzer.active {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            animation: pulse 0.5s infinite;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
+        }
+        
+        .quartina-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .quartina-points {
+            text-align: center;
+            margin: 12px 0;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--accent);
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .correct-answer {
+            text-align: center;
+            margin: 12px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--success);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+        }
+        
+        /* STILI PER IL TERZO GIOCO (Una tira l'altra) */
+        .chain-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 12px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+        }
+        
+        .chain-word {
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            transition: var(--transition);
+            border-left: 5px solid transparent;
+            font-weight: bold;
+        }
+        
+        .chain-word.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
+            border-left: 5px solid var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .chain-word.hidden-word {
+            background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .chain-word.hidden-word.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
+            border-left: 5px solid var(--accent);
+        }
+        
+        .chain-direction {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .direction-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .direction-btn:hover {
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .direction-btn.active {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.6);
+        }
+        
+        .zip-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 15px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+        }
+        
+        .zip-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .zip-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .zip-btn:hover {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .zip-prize {
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--success);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: bold;
+        }
+
+        /* Timer per la ZIP */
+        .zip-timer {
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--danger);
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        /* STILI PER LA SIGLA - MODIFICATI PER AVERLA A TUTTO SCHERMO */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fa sì che il video copra tutto lo schermo */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .play-intro-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--accent), #f39c12);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        
+        .play-intro-btn:hover {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            transform: translateX(-50%) translateY(-3px);
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            color: white;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* MUSICA NASCOSTA */
+        #introMusic {
+            display: none;
+        }
+
+        /* TIMER PER LA MUSICA */
+        .music-timer {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            font-weight: bold;
+            z-index: 1000;
+            border: 2px solid var(--accent);
+        }
+        
+        /* MIGLIORAMENTI PER SCHERMI MOLTO PICCOLI */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
             }
             
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .assign-points {
-                flex-direction: column;
-            }
-            
-            .chain-direction {
-                flex-direction: column;
+            .container {
+                padding: 10px;
+                border-radius: 15px;
             }
             
             .letter-box {
                 width: 45px;
                 height: 45px;
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+            }
+            
+            .team-input {
+                padding: 10px;
+            }
+            
+            .quartina-container {
+                padding: 10px;
+            }
+            
+            .quartina-line {
+                padding: 8px;
+                min-height: 40px;
+            }
+            
+            .player-buzzers {
+                flex-direction: column;
+            }
+            
+            .chain-direction {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .zip-options {
+                flex-direction: column;
+                gap: 8px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- SCHERMATA DI SETUP -->
-    <div class="setup-screen" id="setupScreen">
-        <div class="setup-container">
-            <h1 class="setup-title">Laureata a Catena</h1>
+    <!-- Schermata di caricamento -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <h2>Caricamento in corso...</h2>
+    </div>
+    
+    <!-- Sigla del gioco - MODIFICATA PER ESSERE A TUTTO SCHERMO -->
+    <div class="intro-overlay hidden" id="introOverlay">
+        <video class="intro-video" id="introVideo" preload="auto">
+            <source src="Sigla _Reazione a Catena_ 2024 (03-06-2024).mp4" type="video/mp4">
+            Il tuo browser non supporta il video.
+        </video>
+        <button class="play-intro-btn" id="playIntroBtn">RIPRODUCI SIGLA</button>
+    </div>
+    
+    <!-- Timer musica (nascosto inizialmente) -->
+    <div class="music-timer hidden" id="musicTimer">Musica: 20s</div>
+
+    <!-- Schermata di setup -->
+    <div class="container hidden" id="setupScreen">
+        <header>
+            <h1>Laureata a Catena</h1>
+            <h2>Più difficile della tesi (ma più divertente)</h2>
+        </header>
+        
+        <div class="setup-screen">
             <div class="team-setup">
                 <div class="team-input">
                     <h3>🔵 Squadra A</h3>
                     <input type="text" id="teamAName" placeholder="Nome Squadra A" value="Squadra A">
                 </div>
+                
                 <div class="team-input">
                     <h3>🔴 Squadra B</h3>
                     <input type="text" id="teamBName" placeholder="Nome Squadra B" value="Squadra B">
                 </div>
             </div>
-            <div class="controls">
-                <button class="start-btn" id="startGameBtn" style="padding: 15px 30px; font-size: 1.3rem;">INIZIA IL GIOCO</button>
-            </div>
+            
+            <button class="start-btn" id="startGameBtn" style="font-size: clamp(1.1rem, 2.2vw, 1.3rem); padding: 12px 25px;">INIZIA IL GIOCO</button>
         </div>
     </div>
-
-    <!-- LAYOUT PRINCIPALE DI GIOCO -->
-    <div class="game-layout hidden" id="gameLayout">
-        <!-- SQUADRA A - SINISTRA -->
-        <div class="team-panel team-a" id="teamAPanel">
-            <div class="team-header">
-                <div class="team-name" id="displayTeamA">Squadra A</div>
-                <div class="team-score" id="scoreA">0</div>
-            </div>
-            <div class="team-players" id="teamAPlayersDisplay">
-                <!-- Giocatori verranno aggiunti dinamicamente -->
-            </div>
-        </div>
-
-        <!-- AREA DI GIOCO CENTRALE -->
-        <div class="game-center">
-            <div class="game-header">
-                <h1 class="game-title">Laureata a Catena</h1>
-                <div class="game-subtitle">Più difficile della tesi (ma più divertente)</div>
-            </div>
-            
+    
+    <!-- Schermata di gioco principale (Caccia alla Parola) -->
+    <div class="container hidden" id="gameScreen">
+        <header>
+            <h1>Laureata a Catena</h1>
             <div class="game-mode" id="gameMode">🔍 Indovina la Parola</div>
-            
-            <div class="game-area">
-                <!-- GIOCO 1: CACCIA ALLA PAROLA -->
-                <div id="wordGame">
-                    <div class="word-grid" id="wordGrid">
-                        <!-- Le lettere verranno aggiunte qui dinamicamente -->
-                    </div>
-                    
-                    <div class="round-info" id="roundInfo">📝 Parola: 1/12</div>
-                    
-                    <div class="message" id="message">Premi "INIZIA" per cominciare il gioco!</div>
-                    
-                    <div class="controls">
-                        <button class="start-btn" id="startBtn">🚀 INIZIA</button>
-                        <button class="buzzer" id="buzzer">🔥 BUZZER</button>
-                        <button class="next-btn" id="nextBtn">⏭️ PROSSIMA</button>
-                    </div>
-                    
-                    <div class="assign-points hidden" id="assignPoints">
-                        <button class="points-btn" id="assignTeamA">🔵 Assegna a Squadra A</button>
-                        <button class="points-btn" id="assignTeamB">🔴 Assegna a Squadra B</button>
-                    </div>
-                </div>
-                
-                <!-- GIOCO 2: QUANDO, DOVE, COME, PERCHÉ -->
-                <div id="quartinaGame" class="hidden">
-                    <div class="quartina-container">
-                        <div class="quartina-line" id="quandoLine">
-                            <span id="quandoText">⏰ (Quando)</span>
-                        </div>
-                        <div class="quartina-line" id="doveLine">
-                            <span id="doveText">📍 (Dove)</span>
-                        </div>
-                        <div class="quartina-line" id="comeLine">
-                            <span id="comeText">🎭 (Come)</span>
-                        </div>
-                        <div class="quartina-line" id="percheLine">
-                            <span id="percheText">❓ (Perché)</span>
-                        </div>
-                    </div>
-                    
-                    <div class="round-info" id="secondRoundInfo">📋 Quartina: 1/4</div>
-                    
-                    <div class="quartina-points" id="quartinaPoints">
-                        🏆 Punti possibili: <span id="pointsValue">40</span>
-                    </div>
-                    
-                    <div class="message" id="secondMessage">Premi "INIZIA QUARTINA" per iniziare il gioco!</div>
-                    
-                    <div class="controls">
-                        <button class="start-btn" id="secondStartBtn">🚀 INIZIA QUARTINA</button>
-                        <button class="next-btn" id="secondNextBtn">⏭️ PROSSIMA AFFERMAZIONE</button>
-                        <button class="next-btn" id="secondNextQuartinaBtn">📋 PROSSIMA QUARTINA</button>
-                    </div>
-                    
-                    <div class="assign-points hidden" id="secondAssignPoints">
-                        <button class="points-btn" id="secondAssignTeamA">🔵 Assegna a Squadra A</button>
-                        <button class="points-btn" id="secondAssignTeamB">🔴 Assegna a Squadra B</button>
-                    </div>
-                </div>
-                
-                <!-- GIOCO 3: UNA TIRA L'ALTRA -->
-                <div id="chainGame" class="hidden">
-                    <div class="chain-container" id="chainContainer">
-                        <!-- Le parole della catena verranno aggiunte qui dinamicamente -->
-                    </div>
-                    
-                    <div class="round-info" id="thirdRoundInfo">🔗 Catena: 1/2</div>
-                    
-                    <div class="message" id="thirdMessage">🎯 Scegli da che direzione iniziare la catena!</div>
-                    
-                    <div class="chain-direction" id="chainDirection">
-                        <button class="direction-btn" id="topDirectionBtn">⬇️ Dall'alto</button>
-                        <button class="direction-btn" id="bottomDirectionBtn">⬆️ Dal basso</button>
-                    </div>
-                    
-                    <div class="controls">
-                        <button class="start-btn" id="thirdStartBtn">🚀 INIZIA CATENA</button>
-                        <button class="buzzer" id="thirdBuzzer">🔥 BUZZER</button>
-                        <button class="next-btn" id="thirdNextBtn">⏭️ PROSSIMA CATENA</button>
-                    </div>
-                    
-                    <div class="assign-points hidden" id="thirdAssignPoints">
-                        <button class="points-btn" id="thirdAssignTeamA">🔵 Assegna a Squadra A</button>
-                        <button class="points-btn" id="thirdAssignTeamB">🔴 Assegna a Squadra B</button>
-                    </div>
-                    
-                    <!-- ZIP GAME -->
-                    <div class="zip-container hidden" id="zipContainer">
-                        <h2 style="text-align: center; margin-bottom: 20px;">🎯 GIOCO DELLA ZIP</h2>
-                        
-                        <div class="chain-container">
-                            <div class="chain-word revealed" id="zipFirstWord">
-                                BANCO
-                            </div>
-                            <div class="chain-word hidden-word" id="zipSecondWord">
-                                D__I
-                            </div>
-                            <div class="chain-word hidden-word" id="zipThirdWord">
-                                C___O
-                            </div>
-                            <div class="chain-word revealed" id="zipFourthWord">
-                                BATTAGLIA
-                            </div>
-                        </div>
-                        
-                        <div class="zip-prize" id="zipPrize">
-                            🏆 Premio in palio: <span id="prizeValue">50</span> punti!
-                        </div>
-
-                        <div class="zip-timer hidden" id="zipTimer">
-                            ⏰ Tempo rimanente: <span id="zipTimeLeft">10</span> secondi
-                        </div>
-                        
-                        <div class="message" id="zipMessage">
-                            🎯 Hai completato la catena! Vuoi giocare la ZIP o passare la mano?
-                        </div>
-                        
-                        <div class="zip-options" id="zipOptions">
-                            <button class="zip-btn" id="playZipBtn">🎮 GIOCA LA ZIP</button>
-                            <button class="zip-btn" id="passZipBtn">🔄 PASSA LA MANO</button>
-                        </div>
-                        
-                        <div class="assign-points hidden" id="zipAssignPoints">
-                            <button class="points-btn" id="zipAssignTeamA">🔵 Assegna a Squadra A</button>
-                            <button class="points-btn" id="zipAssignTeamB">🔴 Assegna a Squadra B</button>
-                        </div>
-                    </div>
-                </div>
+        </header>
+        
+        <div class="game-info">
+            <div class="team team-a" id="teamAElement">
+                <div class="team-name" id="displayTeamA">Squadra A</div>
+                <div class="score" id="scoreA">0</div>
+            </div>
+            <div class="team" id="teamBElement">
+                <div class="team-name" id="displayTeamB">Squadra B</div>
+                <div class="score" id="scoreB">0</div>
             </div>
         </div>
-
-        <!-- SQUADRA B - DESTRA -->
-        <div class="team-panel team-b" id="teamBPanel">
-            <div class="team-header">
-                <div class="team-name" id="displayTeamB">Squadra B</div>
-                <div class="team-score" id="scoreB">0</div>
+        
+        <div class="game-area">
+            <div class="word-grid" id="wordGrid">
+                <!-- Le lettere verranno aggiunte qui dinamicamente -->
             </div>
-            <div class="team-players" id="teamBPlayersDisplay">
-                <!-- Giocatori verranno aggiunti dinamicamente -->
+            
+            <div class="round-info" id="roundInfo">📝 Parola: 1/12</div>
+            
+            <div class="message" id="message">Premi "INIZIA" per cominciare il gioco!</div>
+            
+            <div class="controls">
+                <button class="start-btn" id="startBtn">🚀 INIZIA</button>
+                <button class="buzzer" id="buzzer">🔥 BUZZER</button>
+                <button class="next-btn" id="nextBtn">⏭️ PROSSIMA</button>
+            </div>
+            
+            <div class="answer-controls hidden" id="answerControls">
+                <div class="player-name" id="answeringPlayer"></div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="correct-btn" id="correctBtn">✅ ESATTA</button>
+                    <button class="wrong-btn" id="wrongBtn">❌ ERRATA</button>
+                </div>
+            </div>
+            
+            <div class="game-completed hidden" id="gameCompleted">
+                <h2>🎉 Gioco Completato!</h2>
+                <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">Hai completato tutte le 12 parole di Reazione a Catena</p>
+                <button class="next-game-btn" id="nextGameBtn">🎮 Prossimo Gioco: Quando, Dove, Come, Perché →</button>
             </div>
         </div>
     </div>
+
+    <!-- Schermata del secondo gioco (Quando, Dove, Come, Perché) -->
+    <div class="container hidden" id="secondGameScreen">
+        <header>
+            <h1>Laureata a Catena</h1>
+            <div class="game-mode" id="secondGameMode">Quando, Dove, Come eeeee Perché</div>
+        </header>
+        
+        <div class="game-info">
+            <div class="team team-a" id="secondTeamAElement">
+                <div class="team-name" id="secondDisplayTeamA">Squadra A</div>
+                <div class="score" id="secondScoreA">0</div>
+            </div>
+            <div class="team" id="secondTeamBElement">
+                <div class="team-name" id="secondDisplayTeamB">Squadra B</div>
+                <div class="score" id="secondScoreB">0</div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="quartina-container">
+                <div class="quartina-line" id="quandoLine">
+                    <span id="quandoText">⏰ (Quando)</span>
+                </div>
+                <div class="quartina-line" id="doveLine">
+                    <span id="doveText">📍 (Dove)</span>
+                </div>
+                <div class="quartina-line" id="comeLine">
+                    <span id="comeText">🎭 (Come)</span>
+                </div>
+                <div class="quartina-line" id="percheLine">
+                    <span id="percheText">❓ (Perché)</span>
+                </div>
+            </div>
+            
+            <div class="round-info" id="secondRoundInfo">📋 Quartina: 1/4</div>
+            
+            <div class="quartina-points" id="quartinaPoints">
+                🏆 Punti possibili: <span id="pointsValue">20</span>
+            </div>
+            
+            <div class="message" id="secondMessage">Premi "INIZIA QUARTINA" per iniziare il gioco!</div>
+            
+            <div class="player-buzzers" id="secondPlayerBuzzers">
+                <div class="team-buzzers">
+                    <button class="player-buzzer" id="secondBuzzerA">🔵 BUZZER</button>
+                </div>
+                <div class="team-buzzers">
+                    <button class="player-buzzer" id="secondBuzzerB">🔴 BUZZER</button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="start-btn" id="secondStartBtn">🚀 INIZIA QUARTINA</button>
+                <button class="next-btn" id="secondNextBtn">⏭️ PROSSIMA AFFERMAZIONE</button>
+                <button class="next-btn" id="secondNextQuartinaBtn">📋 PROSSIMA QUARTINA</button>
+            </div>
+            
+            <div class="answer-controls hidden" id="secondAnswerControls">
+                <div class="player-name" id="secondAnsweringPlayer"></div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="correct-btn" id="secondCorrectBtn">✅ ESATTA</button>
+                    <button class="wrong-btn" id="secondWrongBtn">❌ ERRATA</button>
+                </div>
+            </div>
+            
+            <div class="correct-answer hidden" id="correctAnswerDisplay">
+                <strong>🎯 Risposta corretta:</strong> <span id="correctAnswerText"></span>
+            </div>
+            
+            <div class="game-completed hidden" id="secondGameCompleted">
+                <h2>🎉 Gioco Completato!</h2>
+                <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
+                <button class="next-game-btn" id="secondNextGameBtn">Prossimo Gioco: Una tira l'altra →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schermata del terzo gioco (Una tira l'altra) -->
+    <div class="container hidden" id="thirdGameScreen">
+        <header>
+            <h1>Laureata a Catena</h1>
+            <div class="game-mode" id="thirdGameMode">🎯 Una tira l'altra</div>
+        </header>
+        
+        <div class="game-info">
+            <div class="team team-a" id="thirdTeamAElement">
+                <div class="team-name" id="thirdDisplayTeamA">Squadra A</div>
+                <div class="score" id="thirdScoreA">0</div>
+            </div>
+            <div class="team" id="thirdTeamBElement">
+                <div class="team-name" id="thirdDisplayTeamB">Squadra B</div>
+                <div class="score" id="thirdScoreB">0</div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="chain-container" id="chainContainer">
+                <!-- Le parole della catena verranno aggiunte qui dinamicamente -->
+            </div>
+            
+            <div class="round-info" id="thirdRoundInfo">🔗 Catena: 1/2</div>
+            
+            <div class="message" id="thirdMessage">🎯 Scegli da che direzione iniziare la catena!</div>
+            
+            <div class="chain-direction" id="chainDirection">
+                <button class="direction-btn" id="topDirectionBtn">⬇️ Dall'alto</button>
+                <button class="direction-btn" id="bottomDirectionBtn">⬆️ Dal basso</button>
+            </div>
+            
+            <div class="controls">
+                <button class="start-btn" id="thirdStartBtn">🚀 INIZIA CATENA</button>
+                <button class="buzzer" id="thirdBuzzer">🔥 BUZZER</button>
+                <button class="next-btn" id="thirdNextBtn">⏭️ PROSSIMA CATENA</button>
+            </div>
+            
+            <div class="answer-controls hidden" id="thirdAnswerControls">
+                <div class="player-name" id="thirdAnsweringPlayer"></div>
+                <div style="display: flex; gap: 12px;">
+                    <button class="correct-btn" id="thirdCorrectBtn">✅ ESATTA</button>
+                    <button class="wrong-btn" id="thirdWrongBtn">❌ ERRATA</button>
+                </div>
+            </div>
+            
+            <!-- Opzioni per cambiare direzione -->
+            <div class="chain-direction hidden" id="directionOptions">
+                <button class="direction-btn" id="continueDirectionBtn">🔄 Continua</button>
+                <button class="direction-btn" id="changeDirectionBtn">🔄 Cambia direzione</button>
+            </div>
+            
+            <!-- ZIP Game -->
+            <div class="zip-container hidden" id="zipContainer">
+                <h2 style="text-align: center; margin-bottom: 15px;">🎯 GIOCO DELLA ZIP</h2>
+                
+                <div class="chain-container">
+                    <div class="chain-word revealed" id="zipFirstWord">
+                        BANCO
+                    </div>
+                    <div class="chain-word hidden-word" id="zipSecondWord">
+                        D__I
+                    </div>
+                    <div class="chain-word hidden-word" id="zipThirdWord">
+                        C___O
+                    </div>
+                    <div class="chain-word revealed" id="zipFourthWord">
+                        BATTAGLIA
+                    </div>
+                </div>
+                
+                <div class="zip-prize" id="zipPrize">
+                    🏆 Premio in palio: <span id="prizeValue">50</span> punti!
+                </div>
+
+                <div class="zip-timer hidden" id="zipTimer">
+                    ⏰ Tempo rimanente: <span id="zipTimeLeft">10</span> secondi
+                </div>
+                
+                <div class="message" id="zipMessage">
+                    🎯 Hai completato la catena! Vuoi giocare la ZIP o passare la mano?
+                </div>
+                
+                <div class="zip-options" id="zipOptions">
+                    <button class="zip-btn" id="playZipBtn">🎮 GIOCA LA ZIP</button>
+                    <button class="zip-btn" id="passZipBtn">🔄 PASSA LA MANO</button>
+                </div>
+                
+                <div class="answer-controls hidden" id="zipAnswerControls">
+                    <div class="player-name" id="zipAnsweringPlayer"></div>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="correct-btn" id="zipCorrectBtn">✅ ESATTA</button>
+                        <button class="wrong-btn" id="zipWrongBtn">❌ ERRATA</button>
+                    </div>
+                </div>
+                
+                <div class="correct-answer hidden" id="zipCorrectAnswer">
+                    <strong>🎯 Risposta corretta:</strong> <span id="zipAnswerText">BANCO DATI CAMPO BATTAGLIA</span>
+                </div>
+            </div>
+            
+            <div class="game-completed hidden" id="thirdGameCompleted">
+                <h2>🎉 Gioco Completato!</h2>
+                <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
+                <button class="next-game-btn" id="thirdNextGameBtn">🏠 Torna al Menu Principale</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elemento audio nascosto per la canzone -->
+    <audio id="introMusic" preload="auto">
+        <source src="intro-music.mp3" type="audio/mp3">
+        Il tuo browser non supporta l'elemento audio.
+    </audio>
 
     <script>
-        // VARIABILI DI GIOCO
-        let currentGame = 1; // 1 = Caccia alla Parola, 2 = Quartina, 3 = Catena
-        let scoreA = 0;
-        let scoreB = 0;
-        let currentTeam = 'A'; // Squadra attiva
+        // Elementi DOM per la sigla
+        const loadingScreen = document.getElementById('loadingScreen');
+        const introOverlay = document.getElementById('introOverlay');
+        const introVideo = document.getElementById('introVideo');
+        const playIntroBtn = document.getElementById('playIntroBtn');
         
-        // GIOCO 1: CACCIA ALLA PAROLA
+        // Funzione per mostrare la sigla
+        function showIntro() {
+            // Nascondi la schermata di caricamento
+            loadingScreen.classList.add('hidden');
+            
+            // Mostra la sigla
+            introOverlay.classList.remove('hidden');
+        }
+        
+        // Funzione per saltare la sigla
+        function skipIntro() {
+            introOverlay.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
+        }
+        
+        // Event listener per il pulsante "Riproduci sigla"
+        playIntroBtn.addEventListener('click', () => {
+            introVideo.play();
+            playIntroBtn.style.display = 'none';
+        });
+        
+        // Quando il video finisce, passa al setup
+        introVideo.addEventListener('ended', () => {
+            skipIntro();
+        });
+        
+        // Inizializzazione del gioco
+        window.addEventListener('load', () => {
+            // Simula un tempo di caricamento
+            setTimeout(() => {
+                showIntro();
+            }, 1500);
+        });
+
+        // Variabili di gioco per Caccia alla Parola
         let currentWord = '';
         let revealedLetters = [];
         let currentLetterIndex = 0;
@@ -839,20 +1103,31 @@
         let gameStarted = false;
         let currentRound = 1;
         let totalRounds = 12;
+        let scoreA = 0;
+        let scoreB = 0;
+        let currentTeam = 'A';
+        let answeringPlayer = '';
+        let musicPlayed = false; // Variabile per controllare se la musica è già stata riprodotta
         
+        // Lista di parole LUNGHE e complesse (sempre nello stesso ordine)
         const wordList = [
             'AUTOMOBILE', 'TELEVISIONE', 'COMPUTER', 'BIBLIOTECA', 'GIARDINO',
             'ELEFANTE', 'CANGURO', 'DINOSAURO', 'AEROPORTO', 'UNIVERSITÀ',
             'RISTORANTE', 'OSPEDALE'
         ];
         
-        // GIOCO 2: QUANDO, DOVE, COME, PERCHÉ
+        // Variabili di gioco per Quando, Dove, Come, Perché
         let secondGameStarted = false;
         let secondCurrentRound = 1;
         let secondTotalRounds = 4;
         let currentQuartinaStep = 0;
-        let quartinaPoints = 40;
+        let currentAnsweringPlayer = '';
+        let currentAnsweringTeam = '';
+        let quartinaPoints = 20;
+        let musicTimeout;
+        let musicTimerInterval;
         
+        // Lista di quartine (Quando, Dove, Come, Perché, Risposta)
         const quartineList = [
             {
                 quando: "La notte di Natale...",
@@ -884,64 +1159,75 @@
             }
         ];
         
-        // GIOCO 3: UNA TIRA L'ALTRA
+        // Variabili di gioco per Una tira l'altra
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         let thirdTotalRounds = 2;
-        let currentChainDirection = '';
+        let currentChainDirection = ''; // 'top' o 'bottom'
+        let currentChainPosition = 0;
         let currentHiddenWordIndex = 0;
         let zipGameActive = false;
         let zipPlayingTeam = '';
-        let revealedLettersPerWord = [];
+        let revealedLettersPerWord = []; // Tiene traccia delle lettere rivelate per ogni parola
+        let currentRevealedLetters = []; // Lettere rivelate per la parola corrente
         let zipTimerInterval;
         let zipTimeLeft = 10;
         
+        // Lista di catene per Una tira l'altra (7 parole per catena) - SOLO LA SECONDA CATENA HA LA ZIP
         const chainList = [
             {
                 words: ["CARNEVALE", "SAMBA", "COPACABANA", "CAIPIRINHA", "AMAZZONIA", "PALME", "OCEANO"],
-                zip: null
+                zip: null // Prima catena senza ZIP
             },
             {
                 words: ["CAFFÈ", "ZUCCHERO", "PIANTAGIONE", "COLONIALISMO", "NAVI", "EUROPA", "MERCATO"],
                 zip: {
                     first: "BANCO",
-                    second: "DATI",
-                    third: "CAMPO",
+                    second: "DATI", // Seconda parola
+                    third: "CAMPO",  // Terza parola
                     fourth: "BATTAGLIA",
                     answer: "BANCO DATI CAMPO BATTAGLIA"
                 }
             }
         ];
         
-        // ELEMENTI DOM
+        // Elementi DOM
         const setupScreen = document.getElementById('setupScreen');
-        const gameLayout = document.getElementById('gameLayout');
-        const startGameBtn = document.getElementById('startGameBtn');
-        
-        // Squadre
-        const displayTeamA = document.getElementById('displayTeamA');
-        const displayTeamB = document.getElementById('displayTeamB');
-        const scoreAElement = document.getElementById('scoreA');
-        const scoreBElement = document.getElementById('scoreB');
-        const teamANameInput = document.getElementById('teamAName');
-        const teamBNameInput = document.getElementById('teamBName');
-        const teamAPanel = document.getElementById('teamAPanel');
-        const teamBPanel = document.getElementById('teamBPanel');
-        
-        // Gioco 1: Caccia alla Parola
-        const wordGame = document.getElementById('wordGame');
+        const gameScreen = document.getElementById('gameScreen');
+        const secondGameScreen = document.getElementById('secondGameScreen');
+        const thirdGameScreen = document.getElementById('thirdGameScreen');
         const wordGrid = document.getElementById('wordGrid');
         const message = document.getElementById('message');
-        const roundInfoElement = document.getElementById('roundInfo');
         const startBtn = document.getElementById('startBtn');
         const buzzer = document.getElementById('buzzer');
         const nextBtn = document.getElementById('nextBtn');
-        const assignPoints = document.getElementById('assignPoints');
-        const assignTeamA = document.getElementById('assignTeamA');
-        const assignTeamB = document.getElementById('assignTeamB');
+        const scoreAElement = document.getElementById('scoreA');
+        const scoreBElement = document.getElementById('scoreB');
+        const roundInfoElement = document.getElementById('roundInfo');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const answerControls = document.getElementById('answerControls');
+        const correctBtn = document.getElementById('correctBtn');
+        const wrongBtn = document.getElementById('wrongBtn');
+        const answeringPlayerElement = document.getElementById('answeringPlayer');
+        const gameCompleted = document.getElementById('gameCompleted');
+        const nextGameBtn = document.getElementById('nextGameBtn');
+        const teamAElement = document.getElementById('teamAElement');
+        const teamBElement = document.getElementById('teamBElement');
         
-        // Gioco 2: Quartina
-        const quartinaGame = document.getElementById('quartinaGame');
+        // Elementi per i nomi delle squadre
+        const teamANameInput = document.getElementById('teamAName');
+        const teamBNameInput = document.getElementById('teamBName');
+        
+        const displayTeamA = document.getElementById('displayTeamA');
+        const displayTeamB = document.getElementById('displayTeamB');
+        
+        // Elementi DOM per Quando, Dove, Come, Perché
+        const secondDisplayTeamA = document.getElementById('secondDisplayTeamA');
+        const secondDisplayTeamB = document.getElementById('secondDisplayTeamB');
+        const secondScoreA = document.getElementById('secondScoreA');
+        const secondScoreB = document.getElementById('secondScoreB');
+        const secondTeamAElement = document.getElementById('secondTeamAElement');
+        const secondTeamBElement = document.getElementById('secondTeamBElement');
         const quandoLine = document.getElementById('quandoLine');
         const doveLine = document.getElementById('doveLine');
         const comeLine = document.getElementById('comeLine');
@@ -955,14 +1241,29 @@
         const secondStartBtn = document.getElementById('secondStartBtn');
         const secondNextBtn = document.getElementById('secondNextBtn');
         const secondNextQuartinaBtn = document.getElementById('secondNextQuartinaBtn');
+        const secondAnswerControls = document.getElementById('secondAnswerControls');
+        const secondAnsweringPlayer = document.getElementById('secondAnsweringPlayer');
+        const secondCorrectBtn = document.getElementById('secondCorrectBtn');
+        const secondWrongBtn = document.getElementById('secondWrongBtn');
+        const secondGameCompleted = document.getElementById('secondGameCompleted');
+        const secondNextGameBtn = document.getElementById('secondNextGameBtn');
         const quartinaPointsElement = document.getElementById('quartinaPoints');
         const pointsValueElement = document.getElementById('pointsValue');
-        const secondAssignPoints = document.getElementById('secondAssignPoints');
-        const secondAssignTeamA = document.getElementById('secondAssignTeamA');
-        const secondAssignTeamB = document.getElementById('secondAssignTeamB');
+        const correctAnswerDisplay = document.getElementById('correctAnswerDisplay');
+        const correctAnswerText = document.getElementById('correctAnswerText');
+        const introMusic = document.getElementById('introMusic');
+        const musicTimer = document.getElementById('musicTimer');
+        const secondPlayerBuzzers = document.getElementById('secondPlayerBuzzers');
+        const secondBuzzerA = document.getElementById('secondBuzzerA');
+        const secondBuzzerB = document.getElementById('secondBuzzerB');
         
-        // Gioco 3: Catena
-        const chainGame = document.getElementById('chainGame');
+        // Elementi DOM per Una tira l'altra
+        const thirdDisplayTeamA = document.getElementById('thirdDisplayTeamA');
+        const thirdDisplayTeamB = document.getElementById('thirdDisplayTeamB');
+        const thirdScoreA = document.getElementById('thirdScoreA');
+        const thirdScoreB = document.getElementById('thirdScoreB');
+        const thirdTeamAElement = document.getElementById('thirdTeamAElement');
+        const thirdTeamBElement = document.getElementById('thirdTeamBElement');
         const chainContainer = document.getElementById('chainContainer');
         const thirdRoundInfo = document.getElementById('thirdRoundInfo');
         const thirdMessage = document.getElementById('thirdMessage');
@@ -971,12 +1272,14 @@
         const thirdStartBtn = document.getElementById('thirdStartBtn');
         const thirdBuzzer = document.getElementById('thirdBuzzer');
         const thirdNextBtn = document.getElementById('thirdNextBtn');
-        const thirdAssignPoints = document.getElementById('thirdAssignPoints');
-        const thirdAssignTeamA = document.getElementById('thirdAssignTeamA');
-        const thirdAssignTeamB = document.getElementById('thirdAssignTeamB');
-        const gameMode = document.getElementById('gameMode');
+        const thirdAnswerControls = document.getElementById('thirdAnswerControls');
+        const thirdAnsweringPlayer = document.getElementById('thirdAnsweringPlayer');
+        const thirdCorrectBtn = document.getElementById('thirdCorrectBtn');
+        const thirdWrongBtn = document.getElementById('thirdWrongBtn');
+        const thirdGameCompleted = document.getElementById('thirdGameCompleted');
+        const thirdNextGameBtn = document.getElementById('thirdNextGameBtn');
         
-        // ZIP Game
+        // Elementi DOM per ZIP
         const zipContainer = document.getElementById('zipContainer');
         const zipFirstWord = document.getElementById('zipFirstWord');
         const zipSecondWord = document.getElementById('zipSecondWord');
@@ -989,78 +1292,51 @@
         const zipOptions = document.getElementById('zipOptions');
         const playZipBtn = document.getElementById('playZipBtn');
         const passZipBtn = document.getElementById('passZipBtn');
-        const zipAssignPoints = document.getElementById('zipAssignPoints');
-        const zipAssignTeamA = document.getElementById('zipAssignTeamA');
-        const zipAssignTeamB = document.getElementById('zipAssignTeamB');
+        const zipAnswerControls = document.getElementById('zipAnswerControls');
+        const zipAnsweringPlayer = document.getElementById('zipAnsweringPlayer');
+        const zipCorrectBtn = document.getElementById('zipCorrectBtn');
+        const zipWrongBtn = document.getElementById('zipWrongBtn');
+        const zipCorrectAnswer = document.getElementById('zipCorrectAnswer');
+        const zipAnswerText = document.getElementById('zipAnswerText');
         const prizeValueElement = document.getElementById('prizeValue');
         
-        // INIZIALIZZAZIONE
+        // Elementi DOM per le opzioni di direzione
+        const directionOptions = document.getElementById('directionOptions');
+        const continueDirectionBtn = document.getElementById('continueDirectionBtn');
+        const changeDirectionBtn = document.getElementById('changeDirectionBtn');
+        
+        // Aggiorna la visualizzazione delle squadre attive
+        function updateActiveTeam() {
+            if (currentTeam === 'A') {
+                teamAElement.classList.add('active-team');
+                teamBElement.classList.remove('active-team');
+                secondTeamAElement.classList.add('active-team');
+                secondTeamBElement.classList.remove('active-team');
+                thirdTeamAElement.classList.add('active-team');
+                thirdTeamBElement.classList.remove('active-team');
+            } else {
+                teamBElement.classList.add('active-team');
+                teamAElement.classList.remove('active-team');
+                secondTeamBElement.classList.add('active-team');
+                secondTeamAElement.classList.remove('active-team');
+                thirdTeamBElement.classList.add('active-team');
+                thirdTeamAElement.classList.remove('active-team');
+            }
+        }
+        
+        // Inizializzazione del gioco Caccia alla Parola
         function initGame() {
+            resetGame();
             updateScores();
             updateActiveTeam();
-            showGame(1);
-        }
-        
-        function showGame(gameNumber) {
-            currentGame = gameNumber;
-            
-            // Nascondi tutti i giochi
-            wordGame.classList.add('hidden');
-            quartinaGame.classList.add('hidden');
-            chainGame.classList.add('hidden');
-            
-            // Mostra il gioco corrente
-            if (gameNumber === 1) {
-                wordGame.classList.remove('hidden');
-                gameMode.textContent = "🔍 Indovina la Parola";
-                initWordGame();
-            } else if (gameNumber === 2) {
-                quartinaGame.classList.remove('hidden');
-                gameMode.textContent = "Quando, Dove, Come eeeee Perché";
-                initQuartinaGame();
-            } else if (gameNumber === 3) {
-                chainGame.classList.remove('hidden');
-                gameMode.textContent = "🎯 Una tira l'altra";
-                initChainGame();
-            }
-        }
-        
-        // GESTIONE PUNTEGGI
-        function updateScores() {
-            scoreAElement.textContent = scoreA;
-            scoreBElement.textContent = scoreB;
-        }
-        
-        function addPoints(team, points) {
-            if (team === 'A') {
-                scoreA += points;
-            } else {
-                scoreB += points;
-            }
-            updateScores();
-        }
-        
-        function updateActiveTeam() {
-            // Rimuovi evidenziazione da entrambe le squadre
-            teamAPanel.classList.remove('active');
-            teamBPanel.classList.remove('active');
-            
-            // Evidenzia la squadra attiva
-            if (currentTeam === 'A') {
-                teamAPanel.classList.add('active');
-            } else {
-                teamBPanel.classList.add('active');
-            }
-        }
-        
-        // GIOCO 1: CACCIA ALLA PAROLA
-        function initWordGame() {
-            resetWordGame();
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
-            message.textContent = `🎯 Inizia la ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}! Premi 'INIZIA' per cominciare il gioco!`;
+            message.textContent = `🎯 Inizia la ${displayTeamA.textContent}!`;
+            
+            // NON riprodurre la musica qui - verrà riprodotta solo quando inizia il primo gioco
         }
         
-        function resetWordGame() {
+        // Reset del gioco Caccia alla Parola
+        function resetGame() {
             clearInterval(letterInterval);
             gameStarted = false;
             revealedLetters = [];
@@ -1068,22 +1344,30 @@
             wordGrid.innerHTML = '';
             buzzer.disabled = true;
             nextBtn.disabled = true;
-            assignPoints.classList.add('hidden');
+            answerControls.classList.add('hidden');
         }
         
-        function startWordGame() {
+        // Avvia il gioco Caccia alla Parola
+        function startGame() {
             if (gameStarted) return;
             
             gameStarted = true;
             currentWord = wordList[currentRound - 1];
             createWordGrid();
             startRevealingLetters();
-            message.textContent = `🔍 Indovina la parola! Tocca alla ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}`;
+            message.textContent = `🔍 Indovina la parola! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             buzzer.disabled = false;
             startBtn.disabled = true;
             nextBtn.disabled = true;
+            
+            // RIPRODUCI LA MUSICA SOLO QUI, quando inizia effettivamente il primo gioco E SOLO UNA VOLTA
+            if (!musicPlayed) {
+                playIntroMusic();
+                musicPlayed = true;
+            }
         }
         
+        // Crea la griglia per la parola
         function createWordGrid() {
             wordGrid.innerHTML = '';
             for (let i = 0; i < currentWord.length; i++) {
@@ -1094,15 +1378,13 @@
             }
         }
         
+        // Inizia a rivelare le lettere
         function startRevealingLetters() {
             const positions = Array.from({length: currentWord.length}, (_, i) => i);
             shuffleArray(positions);
             
             letterInterval = setInterval(() => {
                 if (currentLetterIndex >= currentWord.length) {
-                    clearInterval(letterInterval);
-                    message.textContent = "⏰ Tempo scaduto! La parola era: " + currentWord;
-                    assignPoints.classList.remove('hidden');
                     return;
                 }
                 
@@ -1112,6 +1394,7 @@
             }, 1500);
         }
         
+        // Rivela una lettera
         function revealLetter(position) {
             const letterBox = document.getElementById(`letter-${position}`);
             letterBox.textContent = currentWord[position];
@@ -1124,28 +1407,47 @@
             }, 500);
         }
         
+        // Gestisce la pressione del buzzer
         function handleBuzzer() {
             if (!gameStarted) return;
             
             clearInterval(letterInterval);
-            message.textContent = `🎯 ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}, qual è la parola?`;
-            assignPoints.classList.remove('hidden');
-            buzzer.disabled = true;
-        }
-        
-        function assignWordPoints(team) {
-            const points = 10;
-            addPoints(team, points);
-            message.textContent = `✅ ${team === 'A' ? 'Squadra A' : 'Squadra B'} ha indovinato! +${points} punti!`;
-            revealAllLetters();
-            nextBtn.disabled = false;
-            assignPoints.classList.add('hidden');
             
-            // La squadra che ha indovinato mantiene il turno
-            currentTeam = team;
-            updateActiveTeam();
+            answeringPlayer = currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
+            answeringPlayerElement.textContent = `🎤 Risponde: ${answeringPlayer}`;
+            
+            const teamName = currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
+            
+            message.textContent = `🎯 ${teamName}, qual è la parola?`;
+            buzzer.disabled = true;
+            answerControls.classList.remove('hidden');
         }
         
+        // Gestisce una risposta corretta
+        function handleCorrectAnswer() {
+            message.textContent = `✅ Esatto! La parola è "${currentWord}". +10 punti per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            revealAllLetters();
+            updateScore(currentTeam, 10);
+            nextBtn.disabled = false;
+            answerControls.classList.add('hidden');
+            
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
+            message.textContent += ` 🔄 Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+        }
+        
+        // Gestisce una risposta errata
+        function handleWrongAnswer() {
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
+            
+            message.textContent = `❌ Risposta errata! Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            answerControls.classList.add('hidden');
+            startRevealingLetters();
+            buzzer.disabled = false;
+        }
+        
+        // Rivela tutte le lettere
         function revealAllLetters() {
             for (let i = 0; i < currentWord.length; i++) {
                 const letterBox = document.getElementById(`letter-${i}`);
@@ -1156,37 +1458,160 @@
             }
         }
         
+        // Passa alla parola successiva
         function nextWord() {
             currentRound++;
             if (currentRound > totalRounds) {
-                showGame(2); // Passa al prossimo gioco
+                completeGame();
                 return;
             }
             
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
-            resetWordGame();
+            resetGame();
             startBtn.disabled = false;
             updateActiveTeam();
-            message.textContent = `🔄 Prossima parola! Inizia la ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}`;
+            message.textContent = `🔄 Prossima parola! Inizia la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
         }
         
-        // GIOCO 2: QUANDO, DOVE, COME, PERCHÉ
-        function initQuartinaGame() {
-            resetQuartinaGame();
+        // Completa il gioco Caccia alla Parola
+        function completeGame() {
+            message.textContent = '🎉 Hai completato tutte le parole!';
+            startBtn.disabled = true;
+            buzzer.disabled = true;
+            nextBtn.disabled = true;
+            gameCompleted.classList.remove('hidden');
+            
+            // Ferma la musica
+            skipMusic();
+        }
+        
+        // Aggiorna il punteggio
+        function updateScore(team, points) {
+            if (team === 'A') {
+                scoreA += points;
+                scoreAElement.textContent = scoreA;
+                secondScoreA.textContent = scoreA;
+                thirdScoreA.textContent = scoreA;
+            } else {
+                scoreB += points;
+                scoreBElement.textContent = scoreB;
+                secondScoreB.textContent = scoreB;
+                thirdScoreB.textContent = scoreB;
+            }
+        }
+        
+        // Funzione per mescolare un array (algoritmo Fisher-Yates)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Inizia il gioco principale dopo il setup
+        function startMainGame() {
+            displayTeamA.textContent = teamANameInput.value;
+            displayTeamB.textContent = teamBNameInput.value;
+            
+            secondDisplayTeamA.textContent = teamANameInput.value;
+            secondDisplayTeamB.textContent = teamBNameInput.value;
+            
+            thirdDisplayTeamA.textContent = teamANameInput.value;
+            thirdDisplayTeamB.textContent = teamBNameInput.value;
+            
+            setupScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            initGame();
+        }
+        
+        // Passa al secondo gioco
+        function startSecondGame() {
+            gameScreen.classList.add('hidden');
+            secondGameScreen.classList.remove('hidden');
+            
+            initSecondGame();
+        }
+        
+        // Riproduce la musica introduttiva nel PRIMO gioco - MODIFICATA PER NON PARTIRE DURANTE LA SIGLA
+        function playIntroMusic() {
+            // Assicurati che la musica sia ferma prima di iniziare
+            skipMusic();
+            
+            introMusic.volume = 0.5;
+            
+            // Mostra il timer
+            musicTimer.classList.remove('hidden');
+            let timeLeft = 10;
+            musicTimer.textContent = `🎵 Musica: ${timeLeft}s`;
+            
+            // Aggiorna il timer ogni secondo
+            musicTimerInterval = setInterval(() => {
+                timeLeft--;
+                musicTimer.textContent = `🎵 Musica: ${timeLeft}s`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(musicTimerInterval);
+                    musicTimer.classList.add('hidden');
+                }
+            }, 1000);
+            
+            // Tentativo di riproduzione con gestione errori
+            const playPromise = introMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Musica riprodotta con successo
+                }).catch(error => {
+                    console.log("Errore nella riproduzione:", error);
+                    skipMusic();
+                });
+            }
+            
+            musicTimeout = setTimeout(() => {
+                skipMusic();
+            }, 10000);
+        }
+        
+        // Salta la musica
+        function skipMusic() {
+            introMusic.pause();
+            introMusic.currentTime = 0;
+            clearTimeout(musicTimeout);
+            clearInterval(musicTimerInterval);
+            musicTimer.classList.add('hidden');
+        }
+        
+        // Inizializzazione del secondo gioco
+        function initSecondGame() {
+            resetSecondGame();
+            updateSecondScores();
             secondRoundInfo.textContent = `📋 Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
-            secondMessage.textContent = `🎯 Premi 'INIZIA QUARTINA' per iniziare il gioco!`;
-            quartinaPoints = 40;
+            secondMessage.textContent = "🎯 Premi 'INIZIA QUARTINA' per iniziare il gioco!";
+            quartinaPoints = 20;
             updateQuartinaPointsDisplay();
+            
+            secondStartBtn.disabled = false;
+            secondNextBtn.disabled = true;
+            secondNextQuartinaBtn.disabled = true;
+            secondPlayerBuzzers.classList.add('hidden');
+            secondAnswerControls.classList.add('hidden');
         }
         
-        function resetQuartinaGame() {
+        // Reset del secondo gioco
+        function resetSecondGame() {
             secondGameStarted = false;
             currentQuartinaStep = 0;
             resetQuartinaDisplay();
-            secondAssignPoints.classList.add('hidden');
+            secondAnswerControls.classList.add('hidden');
+            correctAnswerDisplay.classList.add('hidden');
             secondNextQuartinaBtn.disabled = true;
+            secondPlayerBuzzers.classList.add('hidden');
+            secondBuzzerA.disabled = false;
+            secondBuzzerB.disabled = false;
         }
         
+        // Reset della visualizzazione della quartina
         function resetQuartinaDisplay() {
             quandoLine.classList.remove('revealed');
             doveLine.classList.remove('revealed');
@@ -1199,11 +1624,13 @@
             percheText.textContent = "❓ (Perché)";
         }
         
+        // Aggiorna display punti quartina
         function updateQuartinaPointsDisplay() {
             pointsValueElement.textContent = quartinaPoints;
         }
         
-        function startQuartinaGame() {
+        // Avvia il secondo gioco
+        function startSecondGameRound() {
             if (secondGameStarted) return;
             
             secondGameStarted = true;
@@ -1213,11 +1640,15 @@
             secondNextQuartinaBtn.disabled = true;
             
             revealQuartinaStep();
-            secondMessage.textContent = `🔍 Indovina a cosa si riferisce la quartina! Tocca alla ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}`;
+            secondMessage.textContent = `🔍 Indovina a cosa si riferisce la quartina! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             quartinaPoints = 40;
             updateQuartinaPointsDisplay();
+            
+            // Mostra i buzzer delle squadre
+            secondPlayerBuzzers.classList.remove('hidden');
         }
         
+        // Rivela il passo successivo della quartina
         function revealNextQuartinaStep() {
             if (currentQuartinaStep >= 3) return;
             
@@ -1233,11 +1664,12 @@
                 secondNextBtn.disabled = true;
                 secondNextQuartinaBtn.disabled = false;
                 secondMessage.textContent = "⏰ Quartina completata! Nessuno ha indovinato.";
-                secondAssignPoints.classList.remove('hidden');
+                showCorrectAnswer();
             }
             updateQuartinaPointsDisplay();
         }
         
+        // Rivela il passo corrente della quartina
         function revealQuartinaStep() {
             const currentQuartina = quartineList[secondCurrentRound - 1];
             
@@ -1262,62 +1694,130 @@
             }
         }
         
-        function assignQuartinaPoints(team) {
-            addPoints(team, quartinaPoints);
-            secondMessage.textContent = `✅ ${team === 'A' ? 'Squadra A' : 'Squadra B'} ha indovinato! +${quartinaPoints} punti!`;
-            revealAllQuartinaSteps();
-            secondNextQuartinaBtn.disabled = false;
-            secondAssignPoints.classList.add('hidden');
-            
-            // La squadra che ha indovinato mantiene il turno
-            currentTeam = team;
-            updateActiveTeam();
+        // Mostra la risposta corretta
+        function showCorrectAnswer() {
+            const currentQuartina = quartineList[secondCurrentRound - 1];
+            correctAnswerText.textContent = currentQuartina.risposta;
+            correctAnswerDisplay.classList.remove('hidden');
         }
         
+        // Gestisce il buzzer della squadra A nel secondo gioco
+        function handleSecondBuzzerA() {
+            handleSecondBuzzer('A');
+        }
+        
+        // Gestisce il buzzer della squadra B nel secondo gioco
+        function handleSecondBuzzerB() {
+            handleSecondBuzzer('B');
+        }
+        
+        // Gestisce il buzzer nel secondo gioco
+        function handleSecondBuzzer(team) {
+            currentAnsweringTeam = team;
+            currentAnsweringPlayer = team === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
+            
+            secondAnsweringPlayer.textContent = `🎤 Risponde: ${currentAnsweringPlayer}`;
+            secondMessage.textContent = `🎯 ${currentAnsweringPlayer}, qual è la risposta?`;
+            
+            secondBuzzerA.disabled = true;
+            secondBuzzerB.disabled = true;
+            secondAnswerControls.classList.remove('hidden');
+        }
+        
+        // Gestisce una risposta corretta nel secondo gioco
+        function handleSecondCorrectAnswer() {
+            const currentQuartina = quartineList[secondCurrentRound - 1];
+            
+            secondMessage.textContent = `✅ Esatto! La risposta è "${currentQuartina.risposta}". +${quartinaPoints} punti per la ${currentAnsweringTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentAnsweringTeam, quartinaPoints);
+            
+            revealAllQuartinaSteps();
+            secondNextQuartinaBtn.disabled = false;
+            secondAnswerControls.classList.add('hidden');
+            correctAnswerDisplay.classList.add('hidden');
+            secondPlayerBuzzers.classList.add('hidden');
+        }
+        
+        // Gestisce una risposta errata nel secondo gioco
+        function handleSecondWrongAnswer() {
+            secondMessage.textContent = "❌ Risposta errata! La quartina continua...";
+            secondAnswerControls.classList.add('hidden');
+            secondBuzzerA.disabled = false;
+            secondBuzzerB.disabled = false;
+        }
+        
+        // Rivela tutti i passi della quartina
         function revealAllQuartinaSteps() {
             currentQuartinaStep = 3;
             revealQuartinaStep();
         }
         
+        // Passa alla quartina successiva
         function nextQuartina() {
             secondCurrentRound++;
             if (secondCurrentRound > secondTotalRounds) {
-                showGame(3); // Passa al prossimo gioco
+                completeSecondGame();
                 return;
             }
             
             secondRoundInfo.textContent = `📋 Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
-            resetQuartinaGame();
+            resetSecondGame();
             secondStartBtn.disabled = false;
             secondMessage.textContent = `🔄 Prossima quartina! Premi "INIZIA QUARTINA" per iniziare.`;
         }
         
-        // GIOCO 3: UNA TIRA L'ALTRA
-        function initChainGame() {
-            resetChainGame();
+        // Completa il secondo gioco
+        function completeSecondGame() {
+            secondMessage.textContent = '🎉 Hai completato tutte le quartine!';
+            secondStartBtn.disabled = true;
+            secondNextBtn.disabled = true;
+            secondNextQuartinaBtn.disabled = true;
+            secondGameCompleted.classList.remove('hidden');
+        }
+        
+        // Passa al terzo gioco
+        function startThirdGame() {
+            secondGameScreen.classList.add('hidden');
+            thirdGameScreen.classList.remove('hidden');
+            
+            initThirdGame();
+        }
+        
+        // Inizializzazione del terzo gioco
+        function initThirdGame() {
+            resetThirdGame();
+            updateThirdScores();
             thirdRoundInfo.textContent = `🔗 Catena: ${thirdCurrentRound}/${thirdTotalRounds}`;
-            thirdMessage.textContent = "🎯 Scegli da che direzione iniziare la catena!";
+            thirdMessage.textContent = `🎯 Scegli da che direzione iniziare la catena!`;
             
             createChainDisplay();
             
             thirdStartBtn.disabled = false;
             thirdBuzzer.disabled = true;
             thirdNextBtn.disabled = true;
+            directionOptions.classList.add('hidden');
             zipContainer.classList.add('hidden');
         }
         
-        function resetChainGame() {
+        // Reset del terzo gioco
+        function resetThirdGame() {
             thirdGameStarted = false;
             currentChainDirection = '';
+            currentChainPosition = 0;
             currentHiddenWordIndex = 0;
             zipGameActive = false;
             revealedLettersPerWord = [];
+            currentRevealedLetters = [];
             
             chainDirection.classList.remove('hidden');
-            thirdAssignPoints.classList.add('hidden');
             zipContainer.classList.add('hidden');
+            thirdAnswerControls.classList.add('hidden');
+            zipAnswerControls.classList.add('hidden');
+            zipCorrectAnswer.classList.add('hidden');
+            directionOptions.classList.add('hidden');
         }
         
+        // Crea la visualizzazione della catena
         function createChainDisplay() {
             chainContainer.innerHTML = '';
             const currentChain = chainList[thirdCurrentRound - 1];
@@ -1353,6 +1853,7 @@
             }
         }
         
+        // Gestisce la scelta della direzione
         function handleDirectionChoice(direction) {
             currentChainDirection = direction;
             
@@ -1369,7 +1870,8 @@
             thirdStartBtn.disabled = false;
         }
         
-        function startChainGame() {
+        // Avvia il terzo gioco
+        function startThirdGameRound() {
             if (thirdGameStarted) return;
             
             thirdGameStarted = true;
@@ -1380,15 +1882,18 @@
             
             // Determina la posizione iniziale in base alla direzione scelta
             if (currentChainDirection === 'top') {
+                currentChainPosition = 0;
                 currentHiddenWordIndex = 1;
             } else {
+                currentChainPosition = chainList[thirdCurrentRound - 1].words.length - 1;
                 currentHiddenWordIndex = chainList[thirdCurrentRound - 1].words.length - 2;
             }
             
             highlightCurrentWord();
-            thirdMessage.textContent = `🔍 Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}`;
+            thirdMessage.textContent = `🔍 Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
         }
         
+        // Evidenzia la parola corrente
         function highlightCurrentWord() {
             // Rimuovi evidenziazione da tutte le parole
             const allWords = document.querySelectorAll('.chain-word');
@@ -1397,33 +1902,90 @@
             });
             
             // Evidenzia la parola corrente
-            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
-            if (wordElement) wordElement.classList.add('glow');
+            if (currentChainDirection === 'top') {
+                if (currentHiddenWordIndex < chainList[thirdCurrentRound - 1].words.length - 1) {
+                    const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+                    if (wordElement) wordElement.classList.add('glow');
+                }
+            } else {
+                if (currentHiddenWordIndex > 0) {
+                    const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+                    if (wordElement) wordElement.classList.add('glow');
+                }
+            }
         }
         
-        function handleChainBuzzer() {
+        // Gestisce il buzzer nel terzo gioco
+        function handleThirdBuzzer() {
             if (!thirdGameStarted) return;
             
-            thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}, qual è la parola nascosta?`;
+            thirdAnsweringPlayer.textContent = `🎤 Risponde: ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola nascosta?`;
             thirdBuzzer.disabled = true;
-            thirdAssignPoints.classList.remove('hidden');
+            thirdAnswerControls.classList.remove('hidden');
         }
         
-        function assignChainPoints(team) {
-            const points = 15;
-            addPoints(team, points);
-            thirdMessage.textContent = `✅ ${team === 'A' ? 'Squadra A' : 'Squadra B'} ha indovinato! +${points} punti!`;
+        // Verifica se tutte le parole sono state rivelate
+        function checkAllWordsRevealed() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            for (let i = 1; i < currentChain.words.length - 1; i++) {
+                const wordElement = document.getElementById(`chain-word-${i}`);
+                if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    return false; // Trovata una parola ancora nascosta
+                }
+            }
+            return true; // Tutte le parole sono rivelate
+        }
+        
+        // Completa una catena
+        function completeChain() {
+            thirdMessage.textContent = `🎉 Catena completata! +25 punti bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 25);
             
-            // Rivela completamente la parola
+            thirdBuzzer.disabled = true;
+            thirdAnswerControls.classList.add('hidden');
+            directionOptions.classList.add('hidden');
+            
+            // Controlla se entrambe le catena sono state completate
+            const allWordsRevealed = checkAllWordsRevealed();
+            
+            if (allWordsRevealed) {
+                if (thirdCurrentRound >= thirdTotalRounds) {
+                    // Attiva il gioco della ZIP solo per la seconda catena
+                    const currentChain = chainList[thirdCurrentRound - 1];
+                    if (currentChain.zip) {
+                        setTimeout(() => {
+                            startZipGame();
+                        }, 2000);
+                    } else {
+                        thirdNextBtn.disabled = false;
+                        thirdMessage.textContent += ` Premi "PROSSIMA CATENA" per continuare.`;
+                    }
+                } else {
+                    // Abilita il pulsante per passare alla prossima catena
+                    thirdNextBtn.disabled = false;
+                    thirdMessage.textContent += ` Premi "PROSSIMA CATENA" per continuare.`;
+                }
+            }
+        }
+        
+        // Gestisce una risposta corretta nel terzo gioco
+        function handleThirdCorrectAnswer() {
             const currentChain = chainList[thirdCurrentRound - 1];
             const correctWord = currentChain.words[currentHiddenWordIndex];
+            
+            // Rivela completamente la parola
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
             wordElement.textContent = correctWord;
             wordElement.classList.remove('hidden-word');
             wordElement.classList.add('revealed');
             wordElement.classList.remove('glow');
             
-            thirdAssignPoints.classList.add('hidden');
+            thirdMessage.textContent = `✅ Esatto! La parola è "${correctWord}". +15 punti per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 15);
+            
+            // La squadra mantiene il turno
+            thirdAnswerControls.classList.add('hidden');
             
             // Verifica se la catena è completata
             const allWordsRevealed = checkAllWordsRevealed();
@@ -1452,47 +2014,145 @@
                 }
             }
             
-            // La squadra che ha indovinato mantiene il turno
-            currentTeam = team;
-            updateActiveTeam();
+            // Mostra opzioni per cambiare direzione
+            showDirectionOptions();
+        }
+        
+        // Mostra le opzioni per cambiare direzione
+        function showDirectionOptions() {
+            thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, vuoi continuare nella stessa direzione o cambiare?`;
+            directionOptions.classList.remove('hidden');
+        }
+        
+        // Continua nella stessa direzione
+        function continueDirection() {
+            directionOptions.classList.add('hidden');
+            highlightCurrentWord();
+            thirdMessage.textContent = `🔍 Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+        }
+        
+        // Cambia direzione
+        function changeDirection() {
+            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
+            directionOptions.classList.add('hidden');
             
+            // CORREZIONE: Trova la prima parola nascosta disponibile nella nuova direzione
+            const currentChain = chainList[thirdCurrentRound - 1];
+            
+            if (currentChainDirection === 'top') {
+                // Dall'alto: cerca la prima parola nascosta dall'inizio
+                for (let i = 1; i < currentChain.words.length - 1; i++) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            } else {
+                // Dal basso: cerca la prima parola nascosta dalla fine
+                for (let i = currentChain.words.length - 2; i > 0; i--) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            }
+            
+            highlightCurrentWord();
+            thirdMessage.textContent = `🔄 Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+        }
+        
+        // Gestisce una risposta errata nel terzo gioco
+        function handleThirdWrongAnswer() {
+            // Aggiungi una lettera alla parola
+            revealAdditionalLetter();
+            
+            // Cambia squadra
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            
+            // Verifica se la parola è stata completamente rivelata
+            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+            if (wordElement && !wordElement.classList.contains('hidden-word')) {
+                // Se la parola è stata completamente rivelata, passa alla prossima
+                if (currentChainDirection === 'top') {
+                    currentHiddenWordIndex++;
+                } else {
+                    currentHiddenWordIndex--;
+                }
+                
+                // Verifica se la catena è completata
+                const allWordsRevealed = checkAllWordsRevealed();
+                if (allWordsRevealed) {
+                    completeChain();
+                    return;
+                }
+            }
+            
+            thirdMessage.textContent = `❌ Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            thirdAnswerControls.classList.add('hidden');
+            thirdBuzzer.disabled = false;
+            
+            // Evidenzia la parola corrente
             highlightCurrentWord();
         }
         
-        function checkAllWordsRevealed() {
+        // Rivela una lettera aggiuntiva quando si sbaglia
+        function revealAdditionalLetter() {
             const currentChain = chainList[thirdCurrentRound - 1];
-            for (let i = 1; i < currentChain.words.length - 1; i++) {
-                const wordElement = document.getElementById(`chain-word-${i}`);
-                if (wordElement && wordElement.classList.contains('hidden-word')) {
-                    return false; // Trovata una parola ancora nascosta
+            const word = currentChain.words[currentHiddenWordIndex];
+            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+            
+            // Trova una lettera non ancora rivelata
+            const unrevealedPositions = [];
+            for (let i = 0; i < word.length; i++) {
+                if (!revealedLettersPerWord[currentHiddenWordIndex].includes(i)) {
+                    unrevealedPositions.push(i);
                 }
             }
-            return true; // Tutte le parole sono rivelate
-        }
-        
-        function completeChain() {
-            const bonusPoints = 25;
-            addPoints(currentTeam, bonusPoints);
-            thirdMessage.textContent = `🎉 Catena completata! Bonus di ${bonusPoints} punti per la ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'}!`;
-            thirdBuzzer.disabled = true;
-            thirdAssignPoints.classList.add('hidden');
             
-            // Attiva il gioco della ZIP solo per la seconda catena
-            const currentChain = chainList[thirdCurrentRound - 1];
-            if (currentChain.zip) {
-                setTimeout(() => {
-                    startZipGame();
-                }, 2000);
-            } else {
-                thirdNextBtn.disabled = false;
-                thirdMessage.textContent += ` Premi "PROSSIMA CATENA" per continuare.`;
+            if (unrevealedPositions.length > 0) {
+                // Scegli una posizione casuale
+                const randomIndex = Math.floor(Math.random() * unrevealedPositions.length);
+                const position = unrevealedPositions[randomIndex];
+                
+                // Aggiungi alla lista delle lettere rivelate
+                revealedLettersPerWord[currentHiddenWordIndex].push(position);
+                
+                // Aggiorna la visualizzazione
+                updateWordDisplay(currentHiddenWordIndex);
             }
         }
         
-        // ZIP GAME
+        // Aggiorna la visualizzazione di una parola
+        function updateWordDisplay(wordIndex) {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const word = currentChain.words[wordIndex];
+            const wordElement = document.getElementById(`chain-word-${wordIndex}`);
+            
+            let displayText = '';
+            for (let i = 0; i < word.length; i++) {
+                if (revealedLettersPerWord[wordIndex].includes(i)) {
+                    displayText += word.charAt(i);
+                } else {
+                    displayText += '_';
+                }
+            }
+            
+            wordElement.textContent = displayText;
+            
+            // Se tutte le lettere sono rivelate, rimuovi la classe hidden-word
+            if (displayText.indexOf('_') === -1) {
+                wordElement.classList.remove('hidden-word');
+                wordElement.classList.add('revealed');
+            }
+        }
+        
+        // Avvia il gioco della ZIP
         function startZipGame() {
             zipGameActive = true;
-            zipContainer.classList.remove('hidden');
+            chainContainer.classList.add('hidden'); // Nasconde la catena
+            zipContainer.classList.remove('hidden'); // Mostra la ZIP
             
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
@@ -1503,26 +2163,32 @@
             zipThirdWord.textContent = "C___O"; // CAMPO con lettere nascoste
             zipFourthWord.textContent = zipData.fourth;
             
-            zipMessage.textContent = `🎯 Hai completato la catena! La ${currentTeam === 'A' ? 'Squadra A' : 'Squadra B'} può giocare la ZIP!`;
+            zipMessage.textContent = `🎯 Hai completato la catena! La ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} ha 5 secondi extra per la ZIP!`;
             zipOptions.classList.remove('hidden');
-            zipAssignPoints.classList.add('hidden');
+            zipAnswerControls.classList.add('hidden');
+            zipCorrectAnswer.classList.add('hidden');
             zipTimer.classList.add('hidden');
             
             // Determina quale squadra può giocare la ZIP
             zipPlayingTeam = currentTeam;
             
-            prizeValueElement.textContent = "50";
+            // Aggiungi 5 secondi extra per la squadra che ha completato l'ultima catena
+            prizeValueElement.textContent = "50 (5 secondi extra)";
         }
         
+        // Gestisce la scelta di giocare la ZIP
         function handlePlayZip() {
             zipOptions.classList.add('hidden');
-            zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? 'Squadra A' : 'Squadra B'}, indovina le due parole mancanti! Hai 10 secondi!`;
-            zipAssignPoints.classList.remove('hidden');
+            zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
+            
+            zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            zipAnswerControls.classList.remove('hidden');
             
             // Avvia il timer di 10 secondi
             startZipTimer();
         }
         
+        // Avvia il timer per la ZIP
         function startZipTimer() {
             zipTimer.classList.remove('hidden');
             zipTimeLeft = 10;
@@ -1540,44 +2206,48 @@
             }, 1000);
         }
         
+        // Gestisce il tempo scaduto per la ZIP
         function handleZipTimeExpired() {
             zipTimer.classList.add('hidden');
-            zipMessage.textContent = `⏰ Tempo scaduto! Adesso tocca a ${zipPlayingTeam === 'A' ? 'Squadra B' : 'Squadra A'} rispondere immediatamente!`;
-            zipAssignPoints.classList.add('hidden');
+            zipMessage.textContent = `⏰ Tempo scaduto! Adesso tocca a ${zipPlayingTeam === 'A' ? displayTeamB.textContent : displayTeamA.textContent} rispondere immediatamente!`;
+            zipAnswerControls.classList.add('hidden');
             
             // Cambia squadra
             zipPlayingTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
+            zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             
             setTimeout(() => {
-                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? 'Squadra A' : 'Squadra B'}, rispondi subito!`;
-                zipAssignPoints.classList.remove('hidden');
+                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, rispondi subito!`;
+                zipAnswerControls.classList.remove('hidden');
             }, 2000);
         }
         
+        // Gestisce la scelta di passare la ZIP
         function handlePassZip() {
             zipPlayingTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
             zipOptions.classList.add('hidden');
-            zipMessage.textContent = `🔄 Hai passato la mano! Adesso tocca a ${zipPlayingTeam === 'A' ? 'Squadra A' : 'Squadra B'} giocare la ZIP.`;
+            zipMessage.textContent = `🔄 Hai passato la mano! Adesso tocca a ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} giocare la ZIP.`;
             
             setTimeout(() => {
-                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? 'Squadra A' : 'Squadra B'}, indovina le due parole mancanti! Hai 10 secondi!`;
-                zipAssignPoints.classList.remove('hidden');
+                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
+                zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+                zipAnswerControls.classList.remove('hidden');
                 
                 // Avvia il timer di 10 secondi
                 startZipTimer();
             }, 2000);
         }
         
-        function assignZipPoints(team) {
+        // Gestisce una risposta corretta alla ZIP
+        function handleZipCorrect() {
             clearInterval(zipTimerInterval);
             zipTimer.classList.add('hidden');
             
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
-            const points = 50;
-            addPoints(team, points);
-            zipMessage.textContent = `✅ Esatto! La risposta è "${zipData.answer}". +${points} punti per la ${team === 'A' ? 'Squadra A' : 'Squadra B'}!`;
+            zipMessage.textContent = `✅ Esatto! La risposta è "${zipData.answer}". +50 punti per la ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(zipPlayingTeam, 50);
             
             // Rivela le parole nascoste
             zipSecondWord.textContent = zipData.second;
@@ -1587,71 +2257,139 @@
             zipSecondWord.classList.add('revealed');
             zipThirdWord.classList.add('revealed');
             
-            zipAssignPoints.classList.add('hidden');
+            zipAnswerControls.classList.add('hidden');
             thirdNextBtn.disabled = false;
         }
         
+        // Gestisce una risposta errata alla ZIP
+        function handleZipWrong() {
+            clearInterval(zipTimerInterval);
+            zipTimer.classList.add('hidden');
+            
+            // L'altra squadra vince i punti
+            const winningTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
+            zipMessage.textContent = `❌ Risposta errata! +50 punti per la ${winningTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(winningTeam, 50);
+            
+            // Mostra la risposta corretta
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const zipData = currentChain.zip;
+            zipAnswerText.textContent = zipData.answer;
+            zipCorrectAnswer.classList.remove('hidden');
+            
+            // Rivela le parole nascoste
+            zipSecondWord.textContent = zipData.second;
+            zipThirdWord.textContent = zipData.third;
+            zipSecondWord.classList.remove('hidden-word');
+            zipThirdWord.classList.remove('hidden-word');
+            zipSecondWord.classList.add('revealed');
+            zipThirdWord.classList.add('revealed');
+            
+            zipAnswerControls.classList.add('hidden');
+            thirdNextBtn.disabled = false;
+        }
+        
+        // Passa alla catena successiva
         function nextChain() {
             thirdCurrentRound++;
             if (thirdCurrentRound > thirdTotalRounds) {
-                // Tutti i giochi completati
-                thirdMessage.textContent = "🎉 Tutti i giochi sono stati completati!";
+                completeThirdGame();
                 return;
             }
             
+            // La squadra che ha indovinato l'ultimo collegamento mantiene il turno per la ZIP
+            // (currentTeam rimane la stessa)
+            
             thirdRoundInfo.textContent = `🔗 Catena: ${thirdCurrentRound}/${thirdTotalRounds}`;
-            resetChainGame();
-            initChainGame();
+            resetThirdGame();
+            initThirdGame();
         }
         
-        // FUNZIONI UTILITY
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
+        // Completa il terzo gioco
+        function completeThirdGame() {
+            thirdMessage.textContent = '🎉 Hai completato tutte le catene!';
+            thirdStartBtn.disabled = true;
+            thirdBuzzer.disabled = true;
+            thirdNextBtn.disabled = true;
+            thirdGameCompleted.classList.remove('hidden');
         }
         
-        // EVENT LISTENERS
-        startGameBtn.addEventListener('click', () => {
-            displayTeamA.textContent = teamANameInput.value;
-            displayTeamB.textContent = teamBNameInput.value;
+        // Torna al menu principale
+        function backToMainMenu() {
+            thirdGameScreen.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
             
-            setupScreen.classList.add('hidden');
-            gameLayout.classList.remove('hidden');
-            
+            currentRound = 1;
+            secondCurrentRound = 1;
+            thirdCurrentRound = 1;
+            scoreA = 0;
+            scoreB = 0;
+            updateScores();
             initGame();
-        });
+        }
         
-        // Gioco 1
-        startBtn.addEventListener('click', startWordGame);
+        // Aggiorna i punteggi per entrambi i giochi
+        function updateScores() {
+            scoreAElement.textContent = scoreA;
+            scoreBElement.textContent = scoreB;
+            secondScoreA.textContent = scoreA;
+            secondScoreB.textContent = scoreB;
+            thirdScoreA.textContent = scoreA;
+            thirdScoreB.textContent = scoreB;
+        }
+        
+        // Aggiorna i punteggi per il secondo gioco
+        function updateSecondScores() {
+            secondScoreA.textContent = scoreA;
+            secondScoreB.textContent = scoreB;
+        }
+        
+        // Aggiorna i punteggi per il terzo gioco
+        function updateThirdScores() {
+            thirdScoreA.textContent = scoreA;
+            thirdScoreB.textContent = scoreB;
+        }
+        
+        // Aggiungi event listeners
+        startBtn.addEventListener('click', startGame);
         buzzer.addEventListener('click', handleBuzzer);
         nextBtn.addEventListener('click', nextWord);
-        assignTeamA.addEventListener('click', () => assignWordPoints('A'));
-        assignTeamB.addEventListener('click', () => assignWordPoints('B'));
+        startGameBtn.addEventListener('click', startMainGame);
+        correctBtn.addEventListener('click', handleCorrectAnswer);
+        wrongBtn.addEventListener('click', handleWrongAnswer);
+        nextGameBtn.addEventListener('click', startSecondGame);
         
-        // Gioco 2
-        secondStartBtn.addEventListener('click', startQuartinaGame);
+        secondStartBtn.addEventListener('click', startSecondGameRound);
         secondNextBtn.addEventListener('click', revealNextQuartinaStep);
         secondNextQuartinaBtn.addEventListener('click', nextQuartina);
-        secondAssignTeamA.addEventListener('click', () => assignQuartinaPoints('A'));
-        secondAssignTeamB.addEventListener('click', () => assignQuartinaPoints('B'));
+        secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
+        secondWrongBtn.addEventListener('click', handleSecondWrongAnswer);
+        secondNextGameBtn.addEventListener('click', startThirdGame);
+        secondBuzzerA.addEventListener('click', handleSecondBuzzerA);
+        secondBuzzerB.addEventListener('click', handleSecondBuzzerB);
         
-        // Gioco 3
+        // Event listeners per il terzo gioco
         topDirectionBtn.addEventListener('click', () => handleDirectionChoice('top'));
         bottomDirectionBtn.addEventListener('click', () => handleDirectionChoice('bottom'));
-        thirdStartBtn.addEventListener('click', startChainGame);
-        thirdBuzzer.addEventListener('click', handleChainBuzzer);
+        thirdStartBtn.addEventListener('click', startThirdGameRound);
+        thirdBuzzer.addEventListener('click', handleThirdBuzzer);
         thirdNextBtn.addEventListener('click', nextChain);
-        thirdAssignTeamA.addEventListener('click', () => assignChainPoints('A'));
-        thirdAssignTeamB.addEventListener('click', () => assignChainPoints('B'));
+        thirdCorrectBtn.addEventListener('click', handleThirdCorrectAnswer);
+        thirdWrongBtn.addEventListener('click', handleThirdWrongAnswer);
+        thirdNextGameBtn.addEventListener('click', backToMainMenu);
         
-        // ZIP Game
+        // Event listeners per le opzioni di direzione
+        continueDirectionBtn.addEventListener('click', continueDirection);
+        changeDirectionBtn.addEventListener('click', changeDirection);
+        
+        // Event listeners per la ZIP
         playZipBtn.addEventListener('click', handlePlayZip);
         passZipBtn.addEventListener('click', handlePassZip);
-        zipAssignTeamA.addEventListener('click', () => assignZipPoints('A'));
-        zipAssignTeamB.addEventListener('click', () => assignZipPoints('B'));
+        zipCorrectBtn.addEventListener('click', handleZipCorrect);
+        zipWrongBtn.addEventListener('click', handleZipWrong);
+        
+        // Inizializza il gioco
+        initGame();
     </script>
 </body>
 </html>
