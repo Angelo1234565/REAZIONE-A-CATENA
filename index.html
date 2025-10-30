@@ -77,10 +77,10 @@
             margin: 0 auto;
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 25px;
+            padding: 20px;
             box-shadow: var(--shadow);
             border: 2px solid var(--accent);
-            min-height: 90vh;
+            height: 90vh;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(10px);
@@ -91,7 +91,7 @@
         
         .fullscreen .container {
             width: 98%;
-            min-height: 96vh;
+            height: 96vh;
         }
         
         .container::before {
@@ -109,8 +109,8 @@
         
         header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--accent);
             flex-shrink: 0;
             position: relative;
@@ -127,8 +127,8 @@
         }
         
         h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 10px;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 5px;
             color: var(--accent);
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
             font-weight: 800;
@@ -149,8 +149,8 @@
         }
         
         h2 {
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            margin: 10px 0;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            margin: 5px 0;
             color: var(--accent-light);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             font-weight: 600;
@@ -160,9 +160,9 @@
         .game-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.15), rgba(26, 42, 108, 0.25));
-            padding: 15px;
+            padding: 12px;
             border-radius: var(--border-radius);
             border: 2px solid rgba(253, 187, 45, 0.4);
             flex-shrink: 0;
@@ -172,7 +172,7 @@
         .team {
             text-align: center;
             flex: 1;
-            padding: 15px;
+            padding: 10px;
             transition: var(--transition);
             border-radius: 12px;
             position: relative;
@@ -195,9 +195,9 @@
         }
         
         .team-name {
-            font-size: clamp(1.3rem, 3vw, 1.6rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             color: var(--accent-light);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
             position: relative;
@@ -215,11 +215,11 @@
         }
         
         .score {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-size: clamp(2rem, 4vw, 3rem);
             font-weight: bold;
             color: var(--accent);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 10px 0;
+            margin: 5px 0;
             position: relative;
             display: inline-block;
             padding: 5px 15px;
@@ -239,10 +239,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-grow: 1;
             overflow: hidden;
-            padding: 15px;
+            padding: 12px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: var(--border-radius);
             border: 1px solid rgba(253, 187, 45, 0.2);
@@ -251,26 +251,26 @@
         .word-grid {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             max-width: 100%;
             overflow: hidden;
-            padding: 15px;
+            padding: 12px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: var(--border-radius);
             border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
         .letter-box {
-            width: clamp(60px, 8vw, 75px);
-            height: clamp(60px, 8vw, 75px);
+            width: clamp(50px, 7vw, 65px);
+            height: clamp(50px, 7vw, 65px);
             border: 3px solid var(--accent);
             margin: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
             font-weight: bold;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 12px;
@@ -301,15 +301,15 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 15px;
             flex-shrink: 0;
             flex-wrap: wrap;
         }
         
         button {
-            padding: 12px 20px;
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            padding: 10px 18px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             font-weight: bold;
             border: none;
             border-radius: 50px;
@@ -363,8 +363,8 @@
         .buzzer {
             background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
-            font-size: clamp(1.1rem, 2.8vw, 1.4rem);
-            padding: 15px 30px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            padding: 12px 25px;
             box-shadow: 0 8px 15px rgba(231, 76, 60, 0.4);
         }
         
@@ -394,20 +394,20 @@
         .correct-btn {
             background: linear-gradient(135deg, var(--success), #27ae60);
             color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
         }
         
         .wrong-btn {
             background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
         }
         
         .next-game-btn {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
-            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
-            padding: 15px 25px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            padding: 12px 20px;
         }
         
         .next-game-btn:hover {
@@ -415,13 +415,13 @@
         }
         
         .round-info {
-            font-size: clamp(1.2rem, 2.8vw, 1.5rem);
-            margin: 15px 0;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            margin: 10px 0;
             text-align: center;
             color: var(--accent);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             font-weight: bold;
-            padding: 10px 20px;
+            padding: 8px 15px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             border: 1px solid rgba(253, 187, 45, 0.3);
@@ -429,10 +429,10 @@
         
         .message {
             text-align: center;
-            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
-            margin: 15px 0;
-            min-height: 50px;
-            padding: 15px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin: 10px 0;
+            min-height: 40px;
+            padding: 12px;
             border-radius: 12px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border: 2px solid rgba(253, 187, 45, 0.3);
@@ -455,13 +455,13 @@
         .team-setup {
             display: flex;
             justify-content: space-between;
-            margin: 20px 0;
-            gap: 20px;
+            margin: 15px 0;
+            gap: 15px;
         }
         
         .team-input {
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: var(--border-radius);
             border: 2px solid rgba(253, 187, 45, 0.3);
@@ -469,18 +469,18 @@
         }
         
         .team-input h3 {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: var(--accent);
-            font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+            font-size: clamp(1rem, 2vw, 1.2rem);
         }
         
         input {
-            padding: 12px;
-            margin: 10px 0;
+            padding: 10px;
+            margin: 8px 0;
             width: 100%;
             border: none;
             border-radius: 10px;
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
             background: rgba(255, 255, 255, 0.9);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
@@ -499,12 +499,12 @@
         
         .game-mode {
             text-align: center;
-            margin-bottom: 15px;
-            font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+            margin-bottom: 10px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             color: var(--accent);
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            padding: 10px;
+            padding: 8px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             border: 1px solid rgba(253, 187, 45, 0.3);
@@ -514,16 +514,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 12px;
         }
         
         .player-name {
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
             color: var(--accent);
-            margin-top: 10px;
+            margin-top: 8px;
             font-weight: bold;
-            padding: 8px 15px;
+            padding: 6px 12px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 8px;
             border: 1px solid rgba(253, 187, 45, 0.3);
@@ -531,8 +531,8 @@
         
         .game-completed {
             text-align: center;
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 15px;
+            padding: 15px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
             border-radius: var(--border-radius);
             border: 3px solid var(--success);
@@ -563,25 +563,25 @@
         .quartina-container {
             width: 100%;
             max-width: 800px;
-            margin: 15px auto;
+            margin: 10px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: var(--border-radius);
-            padding: 20px;
+            padding: 15px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .quartina-line {
-            margin: 12px 0;
-            padding: 15px;
+            margin: 8px 0;
+            padding: 12px;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 12px;
-            min-height: 60px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
             transition: var(--transition);
             border-left: 5px solid transparent;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
@@ -596,19 +596,19 @@
         .player-buzzers {
             display: flex;
             justify-content: space-between;
-            margin: 20px 0;
-            gap: 15px;
+            margin: 15px 0;
+            gap: 12px;
         }
         
         .team-buzzers {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         
         .player-buzzer {
-            padding: 12px;
+            padding: 10px;
             background: linear-gradient(135deg, var(--info), #2980b9);
             color: white;
             border: none;
@@ -616,7 +616,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
@@ -642,18 +642,18 @@
         .quartina-controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 15px;
         }
         
         .quartina-points {
             text-align: center;
-            margin: 15px 0;
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin: 10px 0;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
             color: var(--accent);
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            padding: 10px 15px;
+            padding: 8px 12px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             border: 1px solid rgba(253, 187, 45, 0.3);
@@ -661,12 +661,12 @@
         
         .correct-answer {
             text-align: center;
-            margin: 15px 0;
-            padding: 15px;
+            margin: 10px 0;
+            padding: 12px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
             border-radius: 12px;
             border: 2px solid var(--success);
-            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
         
@@ -674,25 +674,25 @@
         .chain-container {
             width: 100%;
             max-width: 800px;
-            margin: 15px auto;
+            margin: 10px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: var(--border-radius);
-            padding: 20px;
+            padding: 15px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .chain-word {
-            margin: 12px 0;
-            padding: 18px;
+            margin: 8px 0;
+            padding: 15px;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 12px;
-            min-height: 65px;
+            min-height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+            font-size: clamp(1rem, 2vw, 1.3rem);
             transition: var(--transition);
             border-left: 5px solid transparent;
             font-weight: bold;
@@ -718,12 +718,12 @@
         .chain-direction {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 15px;
+            margin: 15px 0;
         }
         
         .direction-btn {
-            padding: 12px 25px;
+            padding: 10px 20px;
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
             border: none;
@@ -731,7 +731,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
@@ -749,10 +749,10 @@
         .zip-container {
             width: 100%;
             max-width: 800px;
-            margin: 20px auto;
+            margin: 15px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: var(--border-radius);
-            padding: 20px;
+            padding: 15px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -760,12 +760,12 @@
         .zip-options {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 15px;
+            margin: 15px 0;
         }
         
         .zip-btn {
-            padding: 15px 30px;
+            padding: 12px 25px;
             background: linear-gradient(135deg, #f1c40f, #f39c12);
             color: white;
             border: none;
@@ -773,7 +773,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
@@ -785,12 +785,12 @@
         
         .zip-prize {
             text-align: center;
-            margin: 20px 0;
-            padding: 18px;
+            margin: 15px 0;
+            padding: 15px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
             border-radius: 12px;
             border: 2px solid var(--success);
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
             font-weight: bold;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
@@ -798,12 +798,12 @@
         /* Timer per la ZIP */
         .zip-timer {
             text-align: center;
-            margin: 20px 0;
-            padding: 15px;
+            margin: 15px 0;
+            padding: 12px;
             background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
             border-radius: 12px;
             border: 2px solid var(--danger);
-            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
             font-weight: bold;
             color: var(--accent);
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
@@ -838,12 +838,12 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 18px 35px;
+            padding: 15px 30px;
             background: linear-gradient(135deg, var(--accent), #f39c12);
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             transition: var(--transition);
@@ -881,7 +881,7 @@
             border-radius: 50%;
             border-top-color: var(--accent);
             animation: spin 1s ease-in-out infinite;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         @keyframes spin {
@@ -900,9 +900,9 @@
             right: 15px;
             background: rgba(0, 0, 0, 0.8);
             color: var(--accent);
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 10px;
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
             font-weight: bold;
             z-index: 1000;
             border: 2px solid var(--accent);
@@ -935,6 +935,80 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
         
+        /* NUOVI STILI PER LA CONFIGURAZIONE MIGLIORATA */
+        .config-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .config-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: var(--border-radius);
+            padding: 15px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+        }
+        
+        .config-section h3 {
+            margin-bottom: 10px;
+            color: var(--accent);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+        }
+        
+        .player-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .player-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .player-item input {
+            flex: 1;
+        }
+        
+        .add-player-btn {
+            background: linear-gradient(135deg, var(--info), #2980b9);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        
+        .add-player-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+        }
+        
+        .remove-player-btn {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .remove-player-btn:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
+        
         /* MIGLIORAMENTI PER SCHERMI MOLTO PICCOLI */
         @media (max-width: 480px) {
             body {
@@ -947,22 +1021,22 @@
             }
             
             .letter-box {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
             
             .team-input {
-                padding: 15px;
+                padding: 12px;
             }
             
             .quartina-container {
-                padding: 15px;
+                padding: 12px;
             }
             
             .quartina-line {
-                padding: 12px;
-                min-height: 50px;
+                padding: 10px;
+                min-height: 45px;
             }
             
             .player-buzzers {
@@ -971,12 +1045,12 @@
             
             .chain-direction {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
             
             .zip-options {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
         }
         
@@ -1049,15 +1123,57 @@
                 <div class="team-input">
                     <h3>🔵 Squadra A</h3>
                     <input type="text" id="teamAName" placeholder="Nome Squadra A" value="Squadra A">
+                    <div class="player-list" id="teamAPlayers">
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 1" value="Giocatore A1">
+                            <button class="remove-player-btn">×</button>
+                        </div>
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 2" value="Giocatore A2">
+                            <button class="remove-player-btn">×</button>
+                        </div>
+                    </div>
+                    <button class="add-player-btn" data-team="A">+ Aggiungi Giocatore</button>
                 </div>
                 
                 <div class="team-input">
                     <h3>🔴 Squadra B</h3>
                     <input type="text" id="teamBName" placeholder="Nome Squadra B" value="Squadra B">
+                    <div class="player-list" id="teamBPlayers">
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 1" value="Giocatore B1">
+                            <button class="remove-player-btn">×</button>
+                        </div>
+                        <div class="player-item">
+                            <input type="text" placeholder="Giocatore 2" value="Giocatore B2">
+                            <button class="remove-player-btn">×</button>
+                        </div>
+                    </div>
+                    <button class="add-player-btn" data-team="B">+ Aggiungi Giocatore</button>
                 </div>
             </div>
             
-            <button class="start-btn" id="startGameBtn" style="font-size: clamp(1.2rem, 2.2vw, 1.4rem); padding: 15px 30px;">INIZIA IL GIOCO</button>
+            <div class="config-options">
+                <div class="config-section">
+                    <h3>🎮 Opzioni di Gioco</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <label>
+                            <input type="checkbox" id="enableMusic" checked> 
+                            Attiva musica di sottofondo
+                        </label>
+                        <label>
+                            <input type="checkbox" id="enableEffects" checked> 
+                            Attiva effetti sonori
+                        </label>
+                        <label>
+                            <input type="checkbox" id="autoNext" checked> 
+                            Passa automaticamente al prossimo gioco
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="start-btn" id="startGameBtn" style="font-size: clamp(1.1rem, 2vw, 1.3rem); padding: 12px 25px;">INIZIA IL GIOCO</button>
         </div>
     </div>
     
@@ -1096,7 +1212,7 @@
             
             <div class="answer-controls hidden" id="answerControls">
                 <div class="player-name" id="answeringPlayer"></div>
-                <div style="display: flex; gap: 15px;">
+                <div style="display: flex; gap: 12px;">
                     <button class="correct-btn" id="correctBtn">✅ ESATTA</button>
                     <button class="wrong-btn" id="wrongBtn">❌ ERRATA</button>
                 </div>
@@ -1104,7 +1220,7 @@
             
             <div class="game-completed hidden" id="gameCompleted">
                 <h2>🎉 Gioco Completato!</h2>
-                <p style="font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 15px 0;">Hai completato tutte le 12 parole di Reazione a Catena</p>
+                <p style="font-size: clamp(1rem, 1.8vw, 1.2rem); margin: 10px 0;">Hai completato tutte le 12 parole di Reazione a Catena</p>
                 <button class="next-game-btn" id="nextGameBtn">🎮 Prossimo Gioco: Quando, Dove, Come, Perché →</button>
             </div>
         </div>
@@ -1169,7 +1285,7 @@
             
             <div class="answer-controls hidden" id="secondAnswerControls">
                 <div class="player-name" id="secondAnsweringPlayer"></div>
-                <div style="display: flex; gap: 15px;">
+                <div style="display: flex; gap: 12px;">
                     <button class="correct-btn" id="secondCorrectBtn">✅ ESATTA</button>
                     <button class="wrong-btn" id="secondWrongBtn">❌ ERRATA</button>
                 </div>
@@ -1181,7 +1297,7 @@
             
             <div class="game-completed hidden" id="secondGameCompleted">
                 <h2>🎉 Gioco Completato!</h2>
-                <p style="font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 15px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
+                <p style="font-size: clamp(1rem, 1.8vw, 1.2rem); margin: 10px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
                 <button class="next-game-btn" id="secondNextGameBtn">Prossimo Gioco: Una tira l'altra →</button>
             </div>
         </div>
@@ -1227,7 +1343,7 @@
             
             <div class="answer-controls hidden" id="thirdAnswerControls">
                 <div class="player-name" id="thirdAnsweringPlayer"></div>
-                <div style="display: flex; gap: 15px;">
+                <div style="display: flex; gap: 12px;">
                     <button class="correct-btn" id="thirdCorrectBtn">✅ ESATTA</button>
                     <button class="wrong-btn" id="thirdWrongBtn">❌ ERRATA</button>
                 </div>
@@ -1241,7 +1357,7 @@
             
             <!-- ZIP Game -->
             <div class="zip-container hidden" id="zipContainer">
-                <h2 style="text-align: center; margin-bottom: 20px;">🎯 GIOCO DELLA ZIP</h2>
+                <h2 style="text-align: center; margin-bottom: 15px;">🎯 GIOCO DELLA ZIP</h2>
                 
                 <div class="chain-container">
                     <div class="chain-word revealed" id="zipFirstWord">
@@ -1277,7 +1393,7 @@
                 
                 <div class="answer-controls hidden" id="zipAnswerControls">
                     <div class="player-name" id="zipAnsweringPlayer"></div>
-                    <div style="display: flex; gap: 15px;">
+                    <div style="display: flex; gap: 12px;">
                         <button class="correct-btn" id="zipCorrectBtn">✅ ESATTA</button>
                         <button class="wrong-btn" id="zipWrongBtn">❌ ERRATA</button>
                     </div>
@@ -1290,7 +1406,7 @@
             
             <div class="game-completed hidden" id="thirdGameCompleted">
                 <h2>🎉 Gioco Completato!</h2>
-                <p style="font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 15px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
+                <p style="font-size: clamp(1rem, 1.8vw, 1.2rem); margin: 10px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
                 <button class="next-game-btn" id="thirdNextGameBtn">🏠 Torna al Menu Principale</button>
             </div>
         </div>
@@ -1571,6 +1687,65 @@
         const continueDirectionBtn = document.getElementById('continueDirectionBtn');
         const changeDirectionBtn = document.getElementById('changeDirectionBtn');
         
+        // Elementi DOM per la configurazione migliorata
+        const teamAPlayers = document.getElementById('teamAPlayers');
+        const teamBPlayers = document.getElementById('teamBPlayers');
+        const addPlayerButtons = document.querySelectorAll('.add-player-btn');
+        const enableMusic = document.getElementById('enableMusic');
+        const enableEffects = document.getElementById('enableEffects');
+        const autoNext = document.getElementById('autoNext');
+        
+        // Funzioni per la gestione dei giocatori
+        function addPlayer(team) {
+            const playerList = team === 'A' ? teamAPlayers : teamBPlayers;
+            const playerCount = playerList.children.length;
+            
+            if (playerCount >= 6) {
+                alert('Numero massimo di giocatori raggiunto (6 per squadra)');
+                return;
+            }
+            
+            const playerItem = document.createElement('div');
+            playerItem.className = 'player-item';
+            playerItem.innerHTML = `
+                <input type="text" placeholder="Giocatore ${playerCount + 1}" value="Giocatore ${team}${playerCount + 1}">
+                <button class="remove-player-btn">×</button>
+            `;
+            
+            playerList.appendChild(playerItem);
+            
+            // Aggiungi event listener al nuovo pulsante di rimozione
+            playerItem.querySelector('.remove-player-btn').addEventListener('click', function() {
+                if (playerList.children.length > 1) {
+                    playerItem.remove();
+                } else {
+                    alert('Deve esserci almeno un giocatore per squadra');
+                }
+            });
+        }
+        
+        // Inizializza i pulsanti di aggiunta giocatori
+        addPlayerButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const team = this.getAttribute('data-team');
+                addPlayer(team);
+            });
+        });
+        
+        // Inizializza i pulsanti di rimozione giocatori esistenti
+        document.querySelectorAll('.remove-player-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const playerItem = this.parentElement;
+                const playerList = playerItem.parentElement;
+                
+                if (playerList.children.length > 1) {
+                    playerItem.remove();
+                } else {
+                    alert('Deve esserci almeno un giocatore per squadra');
+                }
+            });
+        });
+        
         // Aggiorna la visualizzazione delle squadre attive
         function updateActiveTeam() {
             if (currentTeam === 'A') {
@@ -1627,7 +1802,7 @@
             nextBtn.disabled = true;
             
             // RIPRODUCI LA MUSICA SOLO QUI, quando inizia effettivamente il primo gioco E SOLO UNA VOLTA
-            if (!musicPlayed) {
+            if (!musicPlayed && enableMusic.checked) {
                 playIntroMusic();
                 musicPlayed = true;
             }
@@ -1679,7 +1854,13 @@
             
             clearInterval(letterInterval);
             
-            answeringPlayer = currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
+            // Seleziona un giocatore casuale dalla squadra corrente
+            const teamPlayers = currentTeam === 'A' ? teamAPlayers : teamBPlayers;
+            const playerItems = teamPlayers.querySelectorAll('.player-item');
+            const randomPlayer = playerItems[Math.floor(Math.random() * playerItems.length)];
+            const playerName = randomPlayer.querySelector('input').value;
+            
+            answeringPlayer = playerName;
             answeringPlayerElement.textContent = `🎤 Risponde: ${answeringPlayer}`;
             
             const teamName = currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
@@ -1749,6 +1930,13 @@
             
             // Ferma la musica
             skipMusic();
+            
+            // Se autoNext è attivo, passa automaticamente al prossimo gioco dopo 3 secondi
+            if (autoNext.checked) {
+                setTimeout(() => {
+                    startSecondGame();
+                }, 3000);
+            }
         }
         
         // Aggiorna il punteggio
@@ -1775,7 +1963,7 @@
             return array;
         }
         
-        // Inizia il gioco principale dopo el setup
+        // Inizia il gioco principale dopo il setup
         function startMainGame() {
             displayTeamA.textContent = teamANameInput.value;
             displayTeamB.textContent = teamBNameInput.value;
@@ -1980,8 +2168,14 @@
         // Gestisce il buzzer nel secondo gioco
         function handleSecondBuzzer(team) {
             currentAnsweringTeam = team;
-            currentAnsweringPlayer = team === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
             
+            // Seleziona un giocatore casuale dalla squadra
+            const teamPlayers = team === 'A' ? teamAPlayers : teamBPlayers;
+            const playerItems = teamPlayers.querySelectorAll('.player-item');
+            const randomPlayer = playerItems[Math.floor(Math.random() * playerItems.length)];
+            const playerName = randomPlayer.querySelector('input').value;
+            
+            currentAnsweringPlayer = playerName;
             secondAnsweringPlayer.textContent = `🎤 Risponde: ${currentAnsweringPlayer}`;
             secondMessage.textContent = `🎯 ${currentAnsweringPlayer}, qual è la risposta?`;
             
@@ -2039,6 +2233,13 @@
             secondNextBtn.disabled = true;
             secondNextQuartinaBtn.disabled = true;
             secondGameCompleted.classList.remove('hidden');
+            
+            // Se autoNext è attivo, passa automaticamente al prossimo gioco dopo 3 secondi
+            if (autoNext.checked) {
+                setTimeout(() => {
+                    startThirdGame();
+                }, 3000);
+            }
         }
         
         // Passa al terzo gioco
@@ -2185,8 +2386,14 @@
         function handleThirdBuzzer() {
             if (!thirdGameStarted) return;
             
-            thirdAnsweringPlayer.textContent = `🎤 Risponde: ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
-            thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola nascosta?`;
+            // Seleziona un giocatore casuale dalla squadra corrente
+            const teamPlayers = currentTeam === 'A' ? teamAPlayers : teamBPlayers;
+            const playerItems = teamPlayers.querySelectorAll('.player-item');
+            const randomPlayer = playerItems[Math.floor(Math.random() * playerItems.length)];
+            const playerName = randomPlayer.querySelector('input').value;
+            
+            thirdAnsweringPlayer.textContent = `🎤 Risponde: ${playerName}`;
+            thirdMessage.textContent = `🎯 ${playerName}, qual è la parola nascosta?`;
             thirdBuzzer.disabled = true;
             thirdAnswerControls.classList.remove('hidden');
         }
@@ -2447,7 +2654,13 @@
             zipOptions.classList.add('hidden');
             zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
             
-            zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            // Seleziona un giocatore casuale dalla squadra
+            const teamPlayers = zipPlayingTeam === 'A' ? teamAPlayers : teamBPlayers;
+            const playerItems = teamPlayers.querySelectorAll('.player-item');
+            const randomPlayer = playerItems[Math.floor(Math.random() * playerItems.length)];
+            const playerName = randomPlayer.querySelector('input').value;
+            
+            zipAnsweringPlayer.textContent = `🎤 Risponde: ${playerName}`;
             zipAnswerControls.classList.remove('hidden');
             
             // Avvia il timer di 10 secondi
@@ -2480,10 +2693,17 @@
             
             // Cambia squadra
             zipPlayingTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
-            zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            // Seleziona un giocatore casuale dalla nuova squadra
+            const teamPlayers = zipPlayingTeam === 'A' ? teamAPlayers : teamBPlayers;
+            const playerItems = teamPlayers.querySelectorAll('.player-item');
+            const randomPlayer = playerItems[Math.floor(Math.random() * playerItems.length)];
+            const playerName = randomPlayer.querySelector('input').value;
+            
+            zipAnsweringPlayer.textContent = `🎤 Risponde: ${playerName}`;
             
             setTimeout(() => {
-                zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, rispondi subito!`;
+                zipMessage.textContent = `🎯 ${playerName}, rispondi subito!`;
                 zipAnswerControls.classList.remove('hidden');
             }, 2000);
         }
@@ -2496,7 +2716,14 @@
             
             setTimeout(() => {
                 zipMessage.textContent = `🎯 ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
-                zipAnsweringPlayer.textContent = `🎤 Risponde: ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+                
+                // Seleziona un giocatore casuale dalla nuova squadra
+                const teamPlayers = zipPlayingTeam === 'A' ? teamAPlayers : teamBPlayers;
+                const playerItems = teamPlayers.querySelectorAll('.player-item');
+                const randomPlayer = playerItems[Math.floor(Math.random() * playerItems.length)];
+                const playerName = randomPlayer.querySelector('input').value;
+                
+                zipAnsweringPlayer.textContent = `🎤 Risponde: ${playerName}`;
                 zipAnswerControls.classList.remove('hidden');
                 
                 // Avvia il timer di 10 secondi
