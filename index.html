@@ -24,10 +24,16 @@
             --dark: #0d1426;
             --darker: #070b16;
             --light: #f8f9fa;
-            --card-bg: rgba(13, 20, 38, 0.92);
+            --card-bg: rgba(13, 20, 38, 0.95);
             --transition: all 0.3s ease;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             --glow: 0 0 20px rgba(253, 187, 45, 0.6);
+            --border-radius: 16px;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
         }
         
         body {
@@ -39,6 +45,10 @@
             padding: 10px;
             overflow-x: hidden;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         body::before {
@@ -48,7 +58,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTAgMGgxMDB2MTAwSDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTAgMGgxMHYxMEgweiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==');
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(253, 187, 45, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(26, 42, 108, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(178, 31, 31, 0.1) 0%, transparent 50%);
             z-index: -1;
         }
         
@@ -60,18 +73,25 @@
         
         .container {
             max-width: 1200px;
+            width: 95%;
             margin: 0 auto;
             background-color: var(--card-bg);
-            border-radius: 20px;
+            border-radius: var(--border-radius);
             padding: 25px;
             box-shadow: var(--shadow);
             border: 2px solid var(--accent);
-            min-height: 95vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .fullscreen .container {
+            width: 98%;
+            min-height: 96vh;
         }
         
         .container::before {
@@ -81,7 +101,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(253, 187, 45, 0.05), rgba(26, 42, 108, 0.05));
+            background: 
+                linear-gradient(135deg, rgba(253, 187, 45, 0.05), rgba(26, 42, 108, 0.05)),
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTAgMGgxMDB2MTAwSDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTAgMGgxMHYxMEgweiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==');
             z-index: -1;
         }
         
@@ -141,7 +163,7 @@
             margin-bottom: 20px;
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.15), rgba(26, 42, 108, 0.25));
             padding: 15px;
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             border: 2px solid rgba(253, 187, 45, 0.4);
             flex-shrink: 0;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -222,7 +244,7 @@
             overflow: hidden;
             padding: 15px;
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             border: 1px solid rgba(253, 187, 45, 0.2);
         }
         
@@ -236,7 +258,7 @@
             overflow: hidden;
             padding: 15px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
@@ -441,7 +463,7 @@
             flex: 1;
             padding: 20px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             border: 2px solid rgba(253, 187, 45, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
@@ -512,7 +534,7 @@
             margin-top: 20px;
             padding: 20px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             border: 3px solid var(--success);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -543,7 +565,7 @@
             max-width: 800px;
             margin: 15px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 20px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -654,7 +676,7 @@
             max-width: 800px;
             margin: 15px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 20px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -729,7 +751,7 @@
             max-width: 800px;
             margin: 20px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 20px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -887,6 +909,32 @@
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
         }
         
+        /* PULSANTE FULLSCREEN */
+        .fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), #f39c12);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .fullscreen-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
         /* MIGLIORAMENTI PER SCHERMI MOLTO PICCOLI */
         @media (max-width: 480px) {
             body {
@@ -968,6 +1016,9 @@
     </style>
 </head>
 <body>
+    <!-- Pulsante Fullscreen -->
+    <button class="fullscreen-btn" id="fullscreenBtn" title="Attiva/Disattiva schermo intero">⛶</button>
+    
     <!-- Schermata di caricamento -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
@@ -1250,14 +1301,14 @@
         <source src="intro-music.mp3" type="audio/mp3">
         Il tuo browser non supporta l'elemento audio.
     </audio>
-</body>
-</html>
+
     <script>
         // Elementi DOM per la sigla
         const loadingScreen = document.getElementById('loadingScreen');
         const introOverlay = document.getElementById('introOverlay');
         const introVideo = document.getElementById('introVideo');
         const playIntroBtn = document.getElementById('playIntroBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
         
         // Funzione per mostrare la sigla
         function showIntro() {
@@ -1284,6 +1335,23 @@
         introVideo.addEventListener('ended', () => {
             skipIntro();
         });
+        
+        // Gestione del fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Errore nell'attivare il fullscreen: ${err.message}`);
+                });
+                document.body.classList.add('fullscreen');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    document.body.classList.remove('fullscreen');
+                }
+            }
+        }
+        
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
         
         // Inizializzazione del gioco
         window.addEventListener('load', () => {
@@ -1707,7 +1775,7 @@
             return array;
         }
         
-        // Inizia il gioco principale dopo il setup
+        // Inizia il gioco principale dopo el setup
         function startMainGame() {
             displayTeamA.textContent = teamANameInput.value;
             displayTeamB.textContent = teamBNameInput.value;
