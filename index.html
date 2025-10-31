@@ -1020,7 +1020,7 @@
             gap: 8px;
         }
         
-        /* STILI PER L'INTESA VINCENTE */
+        /* STILI PER L'INTESA VINCENTE - MIGLIORATI */
         .intesa-container {
             width: 100%;
             max-width: 900px;
@@ -1311,6 +1311,65 @@
             animation: pulse 2s infinite;
         }
         
+        /* NUOVI STILI PER L'INTESA VINCENTE - MIGLIORATI */
+        .team-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .suggeritori-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 30%;
+        }
+        
+        .suggeritore {
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--info);
+            text-align: center;
+        }
+        
+        .indovino-container {
+            width: 30%;
+            text-align: center;
+        }
+        
+        .indovino {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--danger);
+        }
+        
+        .word-for-suggeritori {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: bold;
+            color: var(--accent);
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .word-guessed-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            padding: 12px 25px;
+            margin-top: 15px;
+        }
+        
+        .word-guessed-btn:hover {
+            background: linear-gradient(135deg, #27ae60, #219a52);
+        }
+        
+        .timer-stopped {
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            color: white;
+        }
+
         /* MIGLIORAMENTI PER SCHERMI MOLTO PICCOLI */
         @media (max-width: 480px) {
             body {
@@ -1371,6 +1430,15 @@
             .intesa-btn {
                 width: 100%;
                 max-width: 250px;
+            }
+            
+            .team-layout {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .suggeritori-container, .indovino-container {
+                width: 100%;
             }
         }
 
@@ -1806,7 +1874,7 @@
         </div>
     </div>
 
-    <!-- Schermata del quarto gioco (L'Intesa Vincente) -->
+    <!-- Schermata del quarto gioco (L'Intesa Vincente) - MIGLIORATA -->
     <div class="container hidden" id="fourthGameScreen">
         <header>
             <div class="game-logo">
@@ -1838,13 +1906,64 @@
                     <i class="fas fa-stopwatch"></i> Tempo rimanente: <span id="intesaTimeLeft">60</span> secondi
                 </div>
                 
-                <div class="hidden-word-display" id="hiddenWordDisplay">
-                    <span id="hiddenWordText">PAROLA NASCOSTA</span>
+                <!-- Layout squadra A -->
+                <div class="team-layout" id="teamALayout">
+                    <div class="suggeritori-container">
+                        <div class="suggeritore" id="suggeritore1A">
+                            <div class="role-name">Suggeritore 1</div>
+                            <div class="role-player" id="suggeritore1AName">Giocatore A1</div>
+                            <div class="word-for-suggeritori hidden" id="wordForSuggeritori1A">PAROLA</div>
+                        </div>
+                        <div class="suggeritore" id="suggeritore2A">
+                            <div class="role-name">Suggeritore 2</div>
+                            <div class="role-player" id="suggeritore2AName">Giocatore A2</div>
+                            <div class="word-for-suggeritori hidden" id="wordForSuggeritori2A">PAROLA</div>
+                        </div>
+                    </div>
+                    
+                    <div class="indovino-container">
+                        <div class="indovino" id="indovinoA">
+                            <div class="role-name">Indovino</div>
+                            <div class="role-player" id="indovinoAName">Giocatore A3</div>
+                            <button class="intesa-btn intesa-buzzer word-guessed-btn hidden" id="wordGuessedBtnA">
+                                <i class="fas fa-check"></i> PAROLA INDOVINATA
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="hidden-word-display hidden" id="hiddenWordDisplayA">
+                        <span id="hiddenWordTextA">PAROLA NASCOSTA</span>
+                    </div>
                 </div>
                 
-                <div class="question-display" id="questionDisplay">
-                    <div class="current-word" id="currentWordIndicator">Parola corrente: <span id="currentWordNumber">1</span></div>
-                    <div class="question-text" id="questionText">I suggeritori iniziano a formulare la domanda...</div>
+                <!-- Layout squadra B -->
+                <div class="team-layout hidden" id="teamBLayout">
+                    <div class="hidden-word-display hidden" id="hiddenWordDisplayB">
+                        <span id="hiddenWordTextB">PAROLA NASCOSTA</span>
+                    </div>
+                    
+                    <div class="indovino-container">
+                        <div class="indovino" id="indovinoB">
+                            <div class="role-name">Indovino</div>
+                            <div class="role-player" id="indovinoBName">Giocatore B3</div>
+                            <button class="intesa-btn intesa-buzzer word-guessed-btn hidden" id="wordGuessedBtnB">
+                                <i class="fas fa-check"></i> PAROLA INDOVINATA
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="suggeritori-container">
+                        <div class="suggeritore" id="suggeritore1B">
+                            <div class="role-name">Suggeritore 1</div>
+                            <div class="role-player" id="suggeritore1BName">Giocatore B1</div>
+                            <div class="word-for-suggeritori hidden" id="wordForSuggeritori1B">PAROLA</div>
+                        </div>
+                        <div class="suggeritore" id="suggeritore2B">
+                            <div class="role-name">Suggeritore 2</div>
+                            <div class="role-player" id="suggeritore2BName">Giocatore B2</div>
+                            <div class="word-for-suggeritori hidden" id="wordForSuggeritori2B">PAROLA</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="intesa-stats">
@@ -1866,63 +1985,23 @@
                     </div>
                 </div>
                 
-                <div class="player-roles">
-                    <div class="player-role">
-                        <div class="role-name">Suggeritore 1</div>
-                        <div class="role-player" id="suggeritore1A">Giocatore A1</div>
-                    </div>
-                    <div class="player-role">
-                        <div class="role-name">Suggeritore 2</div>
-                        <div class="role-player" id="suggeritore2A">Giocatore A2</div>
-                    </div>
-                    <div class="player-role">
-                        <div class="role-name">Indovino</div>
-                        <div class="role-player" id="indovinoA">Giocatore A3</div>
-                    </div>
-                    <div class="player-role">
-                        <div class="role-name">Indovino</div>
-                        <div class="role-player" id="indovinoB">Giocatore B3</div>
-                    </div>
-                    <div class="player-role">
-                        <div class="role-name">Suggeritore 2</div>
-                        <div class="role-player" id="suggeritore2B">Giocatore B2</div>
-                    </div>
-                    <div class="player-role">
-                        <div class="role-name">Suggeritore 1</div>
-                        <div class="role-player" id="suggeritore1B">Giocatore B1</div>
-                    </div>
-                </div>
-                
                 <div class="message" id="fourthMessage">
                     <i class="fas fa-info-circle"></i> Inizia la squadra con il montepremi più basso. Premi "INIZIA MANCHE" per cominciare!
                 </div>
                 
                 <div class="intesa-controls">
                     <button class="intesa-btn" id="fourthStartBtn"><i class="fas fa-rocket btn-icon"></i> INIZIA MANCHE</button>
-                    <button class="intesa-btn intesa-buzzer" id="fourthBuzzer"><i class="fas fa-bullhorn btn-icon"></i> BUZZER</button>
                     <button class="intesa-btn pass-btn" id="passBtn"><i class="fas fa-forward btn-icon"></i> PASSA (<span id="passCount">3</span>)</button>
                     <button class="intesa-btn double-btn" id="doubleBtn"><i class="fas fa-retweet btn-icon"></i> RADDOPPIO (<span id="doubleCount">2</span>)</button>
                 </div>
                 
-                <div class="answer-controls hidden" id="fourthAnswerControls">
-                    <div class="player-name" id="fourthAnsweringPlayer"></div>
-                    <div style="display: flex; gap: 12px;">
-                        <button class="correct-btn" id="fourthCorrectBtn"><i class="fas fa-check btn-icon"></i> ESATTA</button>
-                        <button class="wrong-btn" id="fourthWrongBtn"><i class="fas fa-times btn-icon"></i> ERRATA</button>
-                    </div>
+                <div class="intesa-final hidden" id="intesaFinal">
+                    <div class="champion-crown"><i class="fas fa-crown"></i></div>
+                    <h2><i class="fas fa-trophy"></i> CAMPIONE DELLA PUNTATA!</h2>
+                    <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">La <span id="championTeam">Squadra A</span> si laurea campione!</p>
+                    <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 8px 0;">Bonus: <span id="finalBonus">1000</span>€ + <span id="wordBonus">0</span>€ per le parole indovinate</p>
+                    <button class="next-game-btn" id="fourthNextGameBtn"><i class="fas fa-home btn-icon"></i> Torna al Menu Principale</button>
                 </div>
-                
-                <div class="correct-answer hidden" id="fourthCorrectAnswer">
-                    <strong><i class="fas fa-bullseye"></i> Risposta corretta:</strong> <span id="fourthAnswerText"></span>
-                </div>
-            </div>
-            
-            <div class="intesa-final hidden" id="intesaFinal">
-                <div class="champion-crown"><i class="fas fa-crown"></i></div>
-                <h2><i class="fas fa-trophy"></i> CAMPIONE DELLA PUNTATA!</h2>
-                <p style="font-size: clamp(1rem, 2vw, 1.2rem); margin: 12px 0;">La <span id="championTeam">Squadra A</span> si laurea campione!</p>
-                <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 8px 0;">Bonus: <span id="finalBonus">1000</span>€ + <span id="wordBonus">0</span>€ per le parole indovinate</p>
-                <button class="next-game-btn" id="fourthNextGameBtn"><i class="fas fa-home btn-icon"></i> Torna al Menu Principale</button>
             </div>
         </div>
     </div>
@@ -1934,46 +2013,6 @@
     </audio>
 
     <script>
-        // Elementi DOM per la sigla
-        const loadingScreen = document.getElementById('loadingScreen');
-        const introOverlay = document.getElementById('introOverlay');
-        const introVideo = document.getElementById('introVideo');
-        const playIntroBtn = document.getElementById('playIntroBtn');
-        
-        // Funzione per mostrare la sigla
-        function showIntro() {
-            // Nascondi la schermata di caricamento
-            loadingScreen.classList.add('hidden');
-            
-            // Mostra la sigla
-            introOverlay.classList.remove('hidden');
-        }
-        
-        // Funzione per saltare la sigla
-        function skipIntro() {
-            introOverlay.classList.add('hidden');
-            setupScreen.classList.remove('hidden');
-        }
-        
-        // Event listener per il pulsante "Riproduci sigla"
-        playIntroBtn.addEventListener('click', () => {
-            introVideo.play();
-            playIntroBtn.style.display = 'none';
-        });
-        
-        // Quando il video finisce, passa al setup
-        introVideo.addEventListener('ended', () => {
-            skipIntro();
-        });
-        
-        // Inizializzazione del gioco
-        window.addEventListener('load', () => {
-            // Simula un tempo di caricamento
-            setTimeout(() => {
-                showIntro();
-            }, 1500);
-        });
-
         // Array per memorizzare i giocatori di ogni squadra
         let teamAPlayers = [];
         let teamBPlayers = [];
@@ -2156,7 +2195,7 @@
             }
         ];
         
-        // Variabili di gioco per L'Intesa Vincente
+        // Variabili di gioco per L'Intesa Vincente - MIGLIORATE
         let fourthGameStarted = false;
         let currentPlayingTeam = ''; // 'A' o 'B'
         let currentWordIndex = 0;
@@ -2167,38 +2206,36 @@
         let intesaTimerInterval;
         let intesaTimeLeft = 60;
         let zipBonusTime = 5; // 5 secondi extra dalla ZIP
-        let currentQuestion = '';
         let currentHiddenWord = '';
         let isDoubleRound = false;
-        let currentSuggeritoreIndex = 0; // Alterna tra i due suggeritori
+        let timerStopped = false;
         
         // Lista di parole per L'Intesa Vincente
         const intesaWords = [
-"FORESTA", "VIAGGIO", "CITTÀ", "ROMANZO", "AUTORE",
-"STRADA", "MONETA", "STAGIONE", "ESPLORATORE", "AVVENTURA",
-"MONTAGNA", "FARO", "VELA", "MAESTRO", "ALLIEVO",
-"DUELLO", "GIURIA", "PUNTEGGIO", "MISSIONE", "ORIGINE",
-"CASTELLO", "OCEANO", "DRAGO", "TESORO", "LEGGENDA",
-"PORTALE", "DESTINO", "NAVIGATORE", "TEMPESTA", "ISOLA",
-"CONQUISTA", "PRIGIONE", "CORONA", "FANTASMA", "ENIGMA",
-"TORRE", "MAGO", "BATTAGLIA", "INVENZIONE", "CAVALIERE",
-"VIOLINO", "SOGNO", "TRAMONTO", "MARE", "RICORDO",
-"FESTA", "SEGRETO", "PROMESSA", "SCOPERTA", "MISTERO"
+            "FORESTA", "VIAGGIO", "CITTÀ", "ROMANZO", "AUTORE",
+            "STRADA", "MONETA", "STAGIONE", "ESPLORATORE", "AVVENTURA",
+            "MONTAGNA", "FARO", "VELA", "MAESTRO", "ALLIEVO",
+            "DUELLO", "GIURIA", "PUNTEGGIO", "MISSIONE", "ORIGINE",
+            "CASTELLO", "OCEANO", "DRAGO", "TESORO", "LEGGENDA",
+            "PORTALE", "DESTINO", "NAVIGATORE", "TEMPESTA", "ISOLA",
+            "CONQUISTA", "PRIGIONE", "CORONA", "FANTASMA", "ENIGMA",
+            "TORRE", "MAGO", "BATTAGLIA", "INVENZIONE", "CAVALIERE",
+            "VIOLINO", "SOGNO", "TRAMONTO", "MARE", "RICORDO",
+            "FESTA", "SEGRETO", "PROMESSA", "SCOPERTA", "MISTERO"
         ];
         
         // Lista di parole per i raddoppi (locuzioni o gruppi di parole)
         const doubleWords = [
-           "PRIMA GUERRA", "ACQUA MINERALE", "STELLA POLARE", "CAMPO DA CALCIO", "PONTE LEVATOIO",
-           "FUOCO ARTIFICIALE", "LUCE SOLARE", "VENTO GELIDO", "PIANTA GRASSA", "LUNA PIENA",
-            "CUORE SPEZZATO", "CANE RANDAGIO", "CAVALLO MARINO", "TERRA PROMESSA", "FIORE D’ARANCIO",
+            "PRIMA GUERRA", "ACQUA MINERALE", "STELLA POLARE", "CAMPO DA CALCIO", "PONTE LEVATOIO",
+            "FUOCO ARTIFICIALE", "LUCE SOLARE", "VENTO GELIDO", "PIANTA GRASSA", "LUNA PIENA",
+            "CUORE SPEZZATO", "CANE RANDAGIO", "CAVALLO MARINO", "TERRA PROMESSA", "FIORE D'ARANCIO",
             "NOTTE FONDA", "TEMPO LIBERO", "VIA LATTEA", "PORTO SICURO", "STRADA MAESTRA",
-           "TRENO REGIONALE", "PUNTO DEBOLE", "ARCOBALENO ARTICO", "FOGLIA SECCA", "SOLE NASCENTE",
-           "FONTE SEGRETA", "CASA VACANZE", "FAME NERA", "CAMPO MINATO", "FILO SPINATO",
+            "TRENO REGIONALE", "PUNTO DEBOLE", "ARCOBALENO ARTICO", "FOGLIA SECCA", "SOLE NASCENTE",
+            "FONTE SEGRETA", "CASA VACANZE", "FAME NERA", "CAMPO MINATO", "FILO SPINATO",
             "FERRO BATTUTO", "ALBERO GENEALOGICO", "SOGNO RICORRENTE", "PESO MASSIMO", "LAGO ARTIFICIALE",
-          "PAROLA CHIAVE", "NAVE PIRATA", "TEMPO LIMITE", "OCCHIO DI BUE", "PORTA PRINCIPALE",
-           "VENTO DI TRAMONTANA", "ANELLO NUZIALE", "MONETA D’ORO", "FESTA PATRONALE", "GIOCO DI RUOLO",
-          "VIAGGIO DI NOZZE", "FACCIA NASCOSTA", "ACQUA ALTA", "FUOCO LENTO", "PUNTO DI PARTENZA"
-
+            "PAROLA CHIAVE", "NAVE PIRATA", "TEMPO LIMITE", "OCCHIO DI BUE", "PORTA PRINCIPALE",
+            "VENTO DI TRAMONTANA", "ANELLO NUZIALE", "MONETA D'ORO", "FESTA PATRONALE", "GIOCO DI RUOLO",
+            "VIAGGIO DI NOZZE", "FACCIA NASCOSTA", "ACQUA ALTA", "FUOCO LENTO", "PUNTO DI PARTENZA"
         ];
         
         // Elementi DOM
@@ -2317,7 +2354,7 @@
         const continueDirectionBtn = document.getElementById('continueDirectionBtn');
         const changeDirectionBtn = document.getElementById('changeDirectionBtn');
         
-        // Elementi DOM per L'Intesa Vincente
+        // Elementi DOM per L'Intesa Vincente - MIGLIORATI
         const fourthDisplayTeamA = document.getElementById('fourthDisplayTeamA');
         const fourthDisplayTeamB = document.getElementById('fourthDisplayTeamB');
         const fourthScoreA = document.getElementById('fourthScoreA');
@@ -2328,40 +2365,81 @@
         const zipBonusTimeElement = document.getElementById('zipBonusTime');
         const intesaTimer = document.getElementById('intesaTimer');
         const intesaTimeLeftElement = document.getElementById('intesaTimeLeft');
-        const hiddenWordDisplay = document.getElementById('hiddenWordDisplay');
-        const hiddenWordText = document.getElementById('hiddenWordText');
-        const questionDisplay = document.getElementById('questionDisplay');
-        const currentWordIndicator = document.getElementById('currentWordIndicator');
-        const currentWordNumber = document.getElementById('currentWordNumber');
-        const questionText = document.getElementById('questionText');
         const wordsGuessedAElement = document.getElementById('wordsGuessedA');
         const wordsGuessedBElement = document.getElementById('wordsGuessedB');
         const passesRemainingElement = document.getElementById('passesRemaining');
         const doublesRemainingElement = document.getElementById('doublesRemaining');
-        const suggeritore1A = document.getElementById('suggeritore1A');
-        const suggeritore2A = document.getElementById('suggeritore2A');
-        const indovinoA = document.getElementById('indovinoA');
-        const indovinoB = document.getElementById('indovinoB');
-        const suggeritore2B = document.getElementById('suggeritore2B');
-        const suggeritore1B = document.getElementById('suggeritore1B');
         const fourthMessage = document.getElementById('fourthMessage');
         const fourthStartBtn = document.getElementById('fourthStartBtn');
-        const fourthBuzzer = document.getElementById('fourthBuzzer');
         const passBtn = document.getElementById('passBtn');
         const passCount = document.getElementById('passCount');
         const doubleBtn = document.getElementById('doubleBtn');
         const doubleCount = document.getElementById('doubleCount');
-        const fourthAnswerControls = document.getElementById('fourthAnswerControls');
-        const fourthAnsweringPlayer = document.getElementById('fourthAnsweringPlayer');
-        const fourthCorrectBtn = document.getElementById('fourthCorrectBtn');
-        const fourthWrongBtn = document.getElementById('fourthWrongBtn');
-        const fourthCorrectAnswer = document.getElementById('fourthCorrectAnswer');
-        const fourthAnswerText = document.getElementById('fourthAnswerText');
         const intesaFinal = document.getElementById('intesaFinal');
         const championTeam = document.getElementById('championTeam');
         const finalBonus = document.getElementById('finalBonus');
         const wordBonus = document.getElementById('wordBonus');
         const fourthNextGameBtn = document.getElementById('fourthNextGameBtn');
+        
+        // NUOVI ELEMENTI PER IL LAYOUT MIGLIORATO DELL'INTESA VINCENTE
+        const teamALayout = document.getElementById('teamALayout');
+        const teamBLayout = document.getElementById('teamBLayout');
+        const hiddenWordDisplayA = document.getElementById('hiddenWordDisplayA');
+        const hiddenWordTextA = document.getElementById('hiddenWordTextA');
+        const hiddenWordDisplayB = document.getElementById('hiddenWordDisplayB');
+        const hiddenWordTextB = document.getElementById('hiddenWordTextB');
+        const wordForSuggeritori1A = document.getElementById('wordForSuggeritori1A');
+        const wordForSuggeritori2A = document.getElementById('wordForSuggeritori2A');
+        const wordForSuggeritori1B = document.getElementById('wordForSuggeritori1B');
+        const wordForSuggeritori2B = document.getElementById('wordForSuggeritori2B');
+        const wordGuessedBtnA = document.getElementById('wordGuessedBtnA');
+        const wordGuessedBtnB = document.getElementById('wordGuessedBtnB');
+        const suggeritore1AName = document.getElementById('suggeritore1AName');
+        const suggeritore2AName = document.getElementById('suggeritore2AName');
+        const indovinoAName = document.getElementById('indovinoAName');
+        const indovinoBName = document.getElementById('indovinoBName');
+        const suggeritore1BName = document.getElementById('suggeritore1BName');
+        const suggeritore2BName = document.getElementById('suggeritore2BName');
+        
+        // Elementi DOM per la sigla
+        const loadingScreen = document.getElementById('loadingScreen');
+        const introOverlay = document.getElementById('introOverlay');
+        const introVideo = document.getElementById('introVideo');
+        const playIntroBtn = document.getElementById('playIntroBtn');
+        
+        // Funzione per mostrare la sigla
+        function showIntro() {
+            // Nascondi la schermata di caricamento
+            loadingScreen.classList.add('hidden');
+            
+            // Mostra la sigla
+            introOverlay.classList.remove('hidden');
+        }
+        
+        // Funzione per saltare la sigla
+        function skipIntro() {
+            introOverlay.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
+        }
+        
+        // Event listener per il pulsante "Riproduci sigla"
+        playIntroBtn.addEventListener('click', () => {
+            introVideo.play();
+            playIntroBtn.style.display = 'none';
+        });
+        
+        // Quando il video finisce, passa al setup
+        introVideo.addEventListener('ended', () => {
+            skipIntro();
+        });
+        
+        // Inizializzazione del gioco
+        window.addEventListener('load', () => {
+            // Simula un tempo di caricamento
+            setTimeout(() => {
+                showIntro();
+            }, 1500);
+        });
         
         // Aggiorna la visualizzazione delle squadre attive
         function updateActiveTeam() {
@@ -3402,7 +3480,7 @@
             initFourthGame();
         }
         
-        // Inizializzazione del quarto gioco (L'Intesa Vincente)
+        // Inizializzazione del quarto gioco (L'Intesa Vincente) - MIGLIORATA
         function initFourthGame() {
             resetFourthGame();
             updateFourthScores();
@@ -3416,18 +3494,18 @@
             // Imposta il bonus della ZIP
             zipBonusTimeElement.textContent = zipBonusTime;
             
+            // Mostra il layout della squadra che inizia
+            showTeamLayout(currentPlayingTeam);
+            
             fourthMessage.textContent = `🎯 Inizia la ${currentPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}! Premi "INIZIA MANCHE" per cominciare.`;
             
             fourthStartBtn.disabled = false;
-            fourthBuzzer.disabled = true;
             passBtn.disabled = true;
             doubleBtn.disabled = true;
-            fourthAnswerControls.classList.add('hidden');
-            fourthCorrectAnswer.classList.add('hidden');
             intesaFinal.classList.add('hidden');
         }
         
-        // Reset del quarto gioco
+        // Reset del quarto gioco - MIGLIORATO
         function resetFourthGame() {
             fourthGameStarted = false;
             currentWordIndex = 0;
@@ -3437,12 +3515,33 @@
             doublesRemaining = 2;
             clearInterval(intesaTimerInterval);
             intesaTimeLeft = 60;
-            currentQuestion = '';
             currentHiddenWord = '';
             isDoubleRound = false;
-            currentSuggeritoreIndex = 0;
+            timerStopped = false;
             
             updateIntesaStats();
+            
+            // Nascondi tutti i layout
+            teamALayout.classList.add('hidden');
+            teamBLayout.classList.add('hidden');
+            
+            // Nascondi le parole per i suggeritori
+            wordForSuggeritori1A.classList.add('hidden');
+            wordForSuggeritori2A.classList.add('hidden');
+            wordForSuggeritori1B.classList.add('hidden');
+            wordForSuggeritori2B.classList.add('hidden');
+            
+            // Nascondi i pulsanti "Parola indovinata"
+            wordGuessedBtnA.classList.add('hidden');
+            wordGuessedBtnB.classList.add('hidden');
+            
+            // Nascondi le parole nascoste
+            hiddenWordDisplayA.classList.add('hidden');
+            hiddenWordDisplayB.classList.add('hidden');
+            
+            // Ripristina il timer
+            intesaTimer.classList.remove('timer-stopped');
+            intesaTimeLeftElement.textContent = intesaTimeLeft;
         }
         
         // Imposta i ruoli dei giocatori
@@ -3450,16 +3549,27 @@
             // Assegna casualmente i ruoli per ogni squadra
             if (teamAPlayers.length >= 3) {
                 const shuffledA = [...teamAPlayers].sort(() => Math.random() - 0.5);
-                suggeritore1A.textContent = shuffledA[0];
-                suggeritore2A.textContent = shuffledA[1];
-                indovinoA.textContent = shuffledA[2];
+                suggeritore1AName.textContent = shuffledA[0];
+                suggeritore2AName.textContent = shuffledA[1];
+                indovinoAName.textContent = shuffledA[2];
             }
             
             if (teamBPlayers.length >= 3) {
                 const shuffledB = [...teamBPlayers].sort(() => Math.random() - 0.5);
-                suggeritore1B.textContent = shuffledB[0];
-                suggeritore2B.textContent = shuffledB[1];
-                indovinoB.textContent = shuffledB[2];
+                suggeritore1BName.textContent = shuffledB[0];
+                suggeritore2BName.textContent = shuffledB[1];
+                indovinoBName.textContent = shuffledB[2];
+            }
+        }
+        
+        // Mostra il layout della squadra specificata
+        function showTeamLayout(team) {
+            if (team === 'A') {
+                teamALayout.classList.remove('hidden');
+                teamBLayout.classList.add('hidden');
+            } else {
+                teamBLayout.classList.remove('hidden');
+                teamALayout.classList.add('hidden');
             }
         }
         
@@ -3473,13 +3583,12 @@
             doubleCount.textContent = doublesRemaining;
         }
         
-        // Avvia una manche dell'Intesa Vincente
+        // Avvia una manche dell'Intesa Vincente - MIGLIORATA
         function startIntesaManche() {
             if (fourthGameStarted) return;
             
             fourthGameStarted = true;
             fourthStartBtn.disabled = true;
-            fourthBuzzer.disabled = false;
             passBtn.disabled = false;
             doubleBtn.disabled = false;
             
@@ -3499,20 +3608,33 @@
         // Avvia il timer dell'Intesa Vincente
         function startIntesaTimer() {
             intesaTimerInterval = setInterval(() => {
-                intesaTimeLeft--;
-                intesaTimeLeftElement.textContent = intesaTimeLeft;
-                
-                if (intesaTimeLeft <= 0) {
-                    clearInterval(intesaTimerInterval);
-                    endIntesaManche();
+                if (!timerStopped) {
+                    intesaTimeLeft--;
+                    intesaTimeLeftElement.textContent = intesaTimeLeft;
+                    
+                    if (intesaTimeLeft <= 0) {
+                        clearInterval(intesaTimerInterval);
+                        endIntesaManche();
+                    }
                 }
             }, 1000);
         }
         
-        // Mostra la prossima parola
+        // Ferma il timer
+        function stopTimer() {
+            timerStopped = true;
+            intesaTimer.classList.add('timer-stopped');
+        }
+        
+        // Riprendi il timer
+        function resumeTimer() {
+            timerStopped = false;
+            intesaTimer.classList.remove('timer-stopped');
+        }
+        
+        // Mostra la prossima parola - MIGLIORATA
         function showNextWord() {
             currentWordIndex++;
-            currentWordNumber.textContent = currentWordIndex;
             
             // Scegli una parola casuale
             if (isDoubleRound && doublesRemaining > 0) {
@@ -3523,88 +3645,67 @@
                 currentHiddenWord = intesaWords[Math.floor(Math.random() * intesaWords.length)];
             }
             
-            hiddenWordText.textContent = currentHiddenWord;
-            currentQuestion = '';
-            questionText.textContent = "I suggeritori iniziano a formulare la domanda...";
-            currentSuggeritoreIndex = 0;
+            // Mostra la parola ai suggeritori
+            showWordToSuggeritori();
             
-            // Abilita il buzzer
-            fourthBuzzer.disabled = false;
-        }
-        
-        // Gestisce il buzzer nell'Intesa Vincente
-        function handleFourthBuzzer() {
-            if (!fourthGameStarted) return;
-            
-            // Ferma il timer temporaneamente
-            clearInterval(intesaTimerInterval);
-            
-            const indovino = currentPlayingTeam === 'A' ? indovinoA.textContent : indovinoB.textContent;
-            fourthAnsweringPlayer.textContent = `🎤 Risponde: ${indovino}`;
-            fourthMessage.textContent = `🎯 ${indovino}, qual è la risposta?`;
-            
-            fourthBuzzer.disabled = true;
-            fourthAnswerControls.classList.remove('hidden');
-        }
-        
-        // Gestisce una risposta corretta nell'Intesa Vincente
-        function handleFourthCorrectAnswer() {
+            // Nascondi il pulsante "Parola indovinata" finché non viene premuto il buzzer
             if (currentPlayingTeam === 'A') {
-                wordsGuessedA += isDoubleRound ? 2 : 1;
+                wordGuessedBtnA.classList.add('hidden');
             } else {
-                wordsGuessedB += isDoubleRound ? 2 : 1;
+                wordGuessedBtnB.classList.add('hidden');
             }
             
-            fourthMessage.textContent = `✅ Esatto! La risposta è "${currentHiddenWord}". +${isDoubleRound ? 2 : 1} punto/i per la ${currentPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            
-            // Se era un raddoppio, consumalo
-            if (isDoubleRound) {
-                doublesRemaining--;
-                isDoubleRound = false;
+            // Abilita il pulsante "Parola indovinata"
+            if (currentPlayingTeam === 'A') {
+                wordGuessedBtnA.disabled = false;
+            } else {
+                wordGuessedBtnB.disabled = false;
             }
             
-            updateIntesaStats();
-            fourthAnswerControls.classList.add('hidden');
-            
-            // Riprendi il timer e mostra la prossima parola
-            startIntesaTimer();
-            showNextWord();
+            // Mostra la parola nascosta grande al centro
+            if (currentPlayingTeam === 'A') {
+                hiddenWordTextA.textContent = currentHiddenWord;
+                hiddenWordDisplayA.classList.remove('hidden');
+            } else {
+                hiddenWordTextB.textContent = currentHiddenWord;
+                hiddenWordDisplayB.classList.remove('hidden');
+            }
         }
         
-        // Gestisce una risposta errata nell'Intesa Vincente
-        function handleFourthWrongAnswer() {
-            if (currentPlayingTeam === 'A' && wordsGuessedA > 0) {
-                wordsGuessedA -= isDoubleRound ? 2 : 1;
-                if (wordsGuessedA < 0) wordsGuessedA = 0;
-            } else if (currentPlayingTeam === 'B' && wordsGuessedB > 0) {
-                wordsGuessedB -= isDoubleRound ? 2 : 1;
-                if (wordsGuessedB < 0) wordsGuessedB = 0;
+        // Mostra la parola ai suggeritori
+        function showWordToSuggeritori() {
+            if (currentPlayingTeam === 'A') {
+                wordForSuggeritori1A.textContent = currentHiddenWord;
+                wordForSuggeritori2A.textContent = currentHiddenWord;
+                wordForSuggeritori1A.classList.remove('hidden');
+                wordForSuggeritori2A.classList.remove('hidden');
+            } else {
+                wordForSuggeritori1B.textContent = currentHiddenWord;
+                wordForSuggeritori2B.textContent = currentHiddenWord;
+                wordForSuggeritori1B.classList.remove('hidden');
+                wordForSuggeritori2B.classList.remove('hidden');
             }
-            
-            fourthMessage.textContent = `❌ Risposta errata! -${isDoubleRound ? 2 : 1} punto/i per la ${currentPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}.`;
-            
-            // Se era un raddoppio, consumalo
-            if (isDoubleRound) {
-                doublesRemaining--;
-                isDoubleRound = false;
-            }
-            
-            updateIntesaStats();
-            fourthAnswerControls.classList.add('hidden');
-            
-            // Riprendi il timer e mostra la prossima parola
-            startIntesaTimer();
-            showNextWord();
         }
         
         // Gestisce il passaggio di una parola
         function handlePass() {
-            if (passesRemaining <= 0) return;
+            if (passesRemaining <= 0 || !fourthGameStarted) return;
             
             passesRemaining--;
             updateIntesaStats();
             
             fourthMessage.textContent = `🔄 Parola passata! Passi rimanenti: ${passesRemaining}.`;
+            
+            // Nascondi la parola attuale
+            if (currentPlayingTeam === 'A') {
+                hiddenWordDisplayA.classList.add('hidden');
+                wordForSuggeritori1A.classList.add('hidden');
+                wordForSuggeritori2A.classList.add('hidden');
+            } else {
+                hiddenWordDisplayB.classList.add('hidden');
+                wordForSuggeritori1B.classList.add('hidden');
+                wordForSuggeritori2B.classList.add('hidden');
+            }
             
             // Mostra la prossima parola
             showNextWord();
@@ -3612,8 +3713,8 @@
         
         // Gestisce il raddoppio
         function handleDouble() {
-            if (doublesRemaining <= 0 || (currentPlayingTeam === 'A' && wordsGuessedA < 2) || (currentPlayingTeam === 'B' && wordsGuessedB < 2)) {
-                fourthMessage.textContent = "❌ Non puoi usare il raddoppio ora! Devi avere almeno 2 punti.";
+            if (doublesRemaining <= 0 || !fourthGameStarted) {
+                fourthMessage.textContent = "❌ Non puoi usare il raddoppio ora!";
                 return;
             }
             
@@ -3627,20 +3728,76 @@
             showNextWord();
         }
         
+        // Gestisce l'indovinamento di una parola
+        function handleWordGuessed() {
+            if (!fourthGameStarted) return;
+            
+            // Ferma il timer temporaneamente
+            stopTimer();
+            
+            if (currentPlayingTeam === 'A') {
+                wordsGuessedA += isDoubleRound ? 2 : 1;
+                wordGuessedBtnA.disabled = true;
+            } else {
+                wordsGuessedB += isDoubleRound ? 2 : 1;
+                wordGuessedBtnB.disabled = true;
+            }
+            
+            fourthMessage.textContent = `✅ Parola indovinata! "${currentHiddenWord}". +${isDoubleRound ? 2 : 1} punto/i per la ${currentPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            
+            // Se era un raddoppio, consumalo
+            if (isDoubleRound) {
+                doublesRemaining--;
+                isDoubleRound = false;
+            }
+            
+            updateIntesaStats();
+            
+            // Nascondi la parola attuale
+            if (currentPlayingTeam === 'A') {
+                hiddenWordDisplayA.classList.add('hidden');
+                wordForSuggeritori1A.classList.add('hidden');
+                wordForSuggeritori2A.classList.add('hidden');
+            } else {
+                hiddenWordDisplayB.classList.add('hidden');
+                wordForSuggeritori1B.classList.add('hidden');
+                wordForSuggeritori2B.classList.add('hidden');
+            }
+            
+            // Riprendi il timer dopo un breve ritardo
+            setTimeout(() => {
+                resumeTimer();
+                showNextWord();
+            }, 2000);
+        }
+        
         // Termina una manche dell'Intesa Vincente
         function endIntesaManche() {
             fourthGameStarted = false;
-            fourthBuzzer.disabled = true;
             passBtn.disabled = true;
             doubleBtn.disabled = true;
             
             fourthMessage.textContent = `⏰ Tempo scaduto! La ${currentPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} ha indovinato ${currentPlayingTeam === 'A' ? wordsGuessedA : wordsGuessedB} parole.`;
+            
+            // Nascondi la parola attuale
+            if (currentPlayingTeam === 'A') {
+                hiddenWordDisplayA.classList.add('hidden');
+                wordForSuggeritori1A.classList.add('hidden');
+                wordForSuggeritori2A.classList.add('hidden');
+                wordGuessedBtnA.classList.add('hidden');
+            } else {
+                hiddenWordDisplayB.classList.add('hidden');
+                wordForSuggeritori1B.classList.add('hidden');
+                wordForSuggeritori2B.classList.add('hidden');
+                wordGuessedBtnB.classList.add('hidden');
+            }
             
             // Se è la prima squadra, passa alla seconda
             if (currentPlayingTeam === 'A') {
                 currentPlayingTeam = 'B';
                 setTimeout(() => {
                     resetFourthGame();
+                    showTeamLayout('B');
                     fourthMessage.textContent = `🎯 Adesso tocca alla ${displayTeamB.textContent}! Premi "INIZIA MANCHE" per cominciare.`;
                     fourthStartBtn.disabled = false;
                 }, 3000);
@@ -3675,10 +3832,10 @@
             // Mostra il vincitore
             championTeam.textContent = winner === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
             finalBonus.textContent = "1000";
-            wordBonus.textContent = winnerPoints * 1000;
+            wordBonus.textContent = winnerPoints * 100;
             
             // Aggiorna il punteggio
-            updateScore(winner, 1000 + (winnerPoints * 1000));
+            updateScore(winner, 1000 + (winnerPoints * 100));
             
             intesaFinal.classList.remove('hidden');
             fourthMessage.textContent = `🎉 La ${winner === 'A' ? displayTeamA.textContent : displayTeamB.textContent} vince l'Intesa Vincente!`;
@@ -3695,10 +3852,10 @@
                 const randomWinner = Math.random() > 0.5 ? 'A' : 'B';
                 championTeam.textContent = randomWinner === 'A' ? displayTeamA.textContent : displayTeamB.textContent;
                 finalBonus.textContent = "1000";
-                wordBonus.textContent = (randomWinner === 'A' ? wordsGuessedA : wordsGuessedB) * 1000;
+                wordBonus.textContent = (randomWinner === 'A' ? wordsGuessedA : wordsGuessedB) * 100;
                 
                 // Aggiorna il punteggio
-                updateScore(randomWinner, 1000 + ((randomWinner === 'A' ? wordsGuessedA : wordsGuessedB) * 1000));
+                updateScore(randomWinner, 1000 + ((randomWinner === 'A' ? wordsGuessedA : wordsGuessedB) * 100));
                 
                 intesaFinal.classList.remove('hidden');
                 fourthMessage.textContent = `🎉 La ${randomWinner === 'A' ? displayTeamA.textContent : displayTeamB.textContent} vince l'Intesa Vincente dopo lo spareggio!`;
@@ -3787,13 +3944,12 @@
         zipCorrectBtn.addEventListener('click', handleZipCorrect);
         zipWrongBtn.addEventListener('click', handleZipWrong);
         
-        // Event listeners per L'Intesa Vincente
+        // Event listeners per L'Intesa Vincente - MIGLIORATI
         fourthStartBtn.addEventListener('click', startIntesaManche);
-        fourthBuzzer.addEventListener('click', handleFourthBuzzer);
-        fourthCorrectBtn.addEventListener('click', handleFourthCorrectAnswer);
-        fourthWrongBtn.addEventListener('click', handleFourthWrongAnswer);
         passBtn.addEventListener('click', handlePass);
         doubleBtn.addEventListener('click', handleDouble);
+        wordGuessedBtnA.addEventListener('click', handleWordGuessed);
+        wordGuessedBtnB.addEventListener('click', handleWordGuessed);
         fourthNextGameBtn.addEventListener('click', backToMainMenu);
         
         // Inizializza il gioco
