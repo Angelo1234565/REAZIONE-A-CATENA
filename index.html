@@ -2017,12 +2017,6 @@
             buzzer.disabled = false;
             startBtn.disabled = true;
             nextBtn.disabled = true;
-            
-            // RIPRODUCI LA MUSICA SOLO QUI, quando inizia effettivamente il primo gioco E SOLO UNA VOLTA
-            if (!musicPlayed) {
-                playIntroMusic();
-                musicPlayed = true;
-            }
         }
         
         // Crea la griglia per la parola
@@ -2192,6 +2186,10 @@
             
             setupScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
+            
+            // RIPRODUCI LA MUSICA QUI, quando si clicca su "INIZIA IL GIOCO" nella schermata di setup
+            playIntroMusic();
+            
             initGame();
         }
         
@@ -2203,7 +2201,7 @@
             initSecondGame();
         }
         
-        // Riproduce la musica introduttiva nel PRIMO gioco - MODIFICATA PER NON PARTIRE DURANTE LA SIGLA
+        // RIPRODUCI LA MUSICA INTRODUTTIVA - MODIFICATA PER PARTIRE QUANDO SI CLICCA SU "INIZIA IL GIOCO"
         function playIntroMusic() {
             // Assicurati che la musica sia ferma prima di iniziare
             skipMusic();
@@ -2835,7 +2833,7 @@
             zipThirdWord.textContent = "C___O"; // CAMPO con lettere nascoste
             zipFourthWord.textContent = zipData.fourth;
             
-            zipMessage.textContent = `🎯 Hai completato la catena! La ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} ha 5 secondi extra per la ZIP!`;
+            zipMessage.textContent = `🎯 Hai completato la catena! La ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} ha 5 secondi extra per la ZIP!`;
             zipOptions.classList.remove('hidden');
             zipAnswerControls.classList.add('hidden');
             zipCorrectAnswer.classList.add('hidden');
