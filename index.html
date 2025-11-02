@@ -123,7 +123,7 @@
         }
         
         .team-sidebar {
-            width: 180px;
+            width: 200px; /* MODIFICATO: da 180px a 200px per evitare tagli */
             display: flex;
             flex-direction: column;
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.1), rgba(26, 42, 108, 0.2));
@@ -910,7 +910,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGh9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
             z-index: -1;
         }
 
@@ -1111,6 +1111,144 @@
             margin-top: 2px;
         }
         
+        /* NUOVO STILE PER IL LIBRICINO ISTRUZIONI */
+        .instructions-book {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), #f39c12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+        
+        .instructions-book:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .instructions-book i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .instructions-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .instructions-content {
+            max-width: 800px;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 3px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .instructions-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            z-index: -1;
+        }
+        
+        .instructions-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        .instructions-header h2 {
+            color: var(--accent);
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            margin-bottom: 10px;
+        }
+        
+        .instructions-section {
+            margin-bottom: 20px;
+        }
+        
+        .instructions-section h3 {
+            color: var(--accent);
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .instructions-section p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .instructions-section ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .instructions-section li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .instructions-section li i {
+            color: var(--accent);
+            margin-top: 4px;
+        }
+        
+        .close-instructions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .close-instructions:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+        
         /* MIGLIORAMENTI PER SCHERMI MOLTO PICCOLI */
         @media (max-width: 768px) {
             .game-layout {
@@ -1197,6 +1335,10 @@
                 max-width: 250px;
                 padding: 10px;
             }
+            
+            .instructions-content {
+                padding: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1243,6 +1385,10 @@
                 max-width: 200px;
                 padding: 8px;
                 font-size: 0.7rem;
+            }
+            
+            .instructions-content {
+                padding: 15px;
             }
         }
 
@@ -1383,6 +1529,71 @@
     <!-- Timer musica (nascosto inizialmente) -->
     <div class="music-timer hidden" id="musicTimer"><i class="fas fa-music"></i> <span id="musicTimeLeft">20</span>s</div>
 
+    <!-- Libricino istruzioni -->
+    <div class="instructions-book" id="instructionsBook">
+        <i class="fas fa-book"></i>
+    </div>
+
+    <!-- Overlay istruzioni -->
+    <div class="instructions-overlay hidden" id="instructionsOverlay">
+        <div class="instructions-content">
+            <button class="close-instructions" id="closeInstructions"><i class="fas fa-times"></i></button>
+            <div class="instructions-header">
+                <h2><i class="fas fa-book"></i> Manuale di Istruzioni</h2>
+                <p>Guida completa per giocare a Laureata a Catena</p>
+            </div>
+            
+            <div class="instructions-section">
+                <h3><i class="fas fa-gamepad"></i> Panoramica del Gioco</h3>
+                <p>Laureata a Catena è un gioco a squadre ispirato al famoso programma televisivo. Due squadre si sfidano in tre diversi giochi per accumulare punti e vincere la partita.</p>
+            </div>
+            
+            <div class="instructions-section">
+                <h3><i class="fas fa-search"></i> Caccia alla Parola</h3>
+                <ul>
+                    <li><i class="fas fa-play"></i> Premi "INIZIA" per iniziare il gioco</li>
+                    <li><i class="fas fa-fire"></i> Premi "BUZZER" quando pensi di sapere la parola</li>
+                    <li><i class="fas fa-euro-sign"></i> Ogni parola indovinata vale €2.000</li>
+                    <li><i class="fas fa-forward"></i> "PROSSIMA" passa alla parola successiva</li>
+                </ul>
+            </div>
+            
+            <div class="instructions-section">
+                <h3><i class="fas fa-question-circle"></i> Quando, Dove, Come, Perché</h3>
+                <ul>
+                    <li><i class="fas fa-rocket"></i> Premi "INIZIA QUARTINA" per iniziare</li>
+                    <li><i class="fas fa-fire"></i> Premi "BUZZER" quando pensi di sapere la risposta</li>
+                    <li><i class="fas fa-euro-sign"></i> Indovinando con il primo indizio: €8.000</li>
+                    <li><i class="fas fa-euro-sign"></i> Indovinando con altri indizi: €4.000</li>
+                    <li><i class="fas fa-forward"></i> "PROSSIMA AFFERMAZIONE" rivela il prossimo indizio</li>
+                </ul>
+            </div>
+            
+            <div class="instructions-section">
+                <h3><i class="fas fa-bullseye"></i> Una tira l'altra</h3>
+                <ul>
+                    <li><i class="fas fa-arrow-up"></i> Scegli da che direzione iniziare</li>
+                    <li><i class="fas fa-rocket"></i> Premi "INIZIA CATENA" per iniziare</li>
+                    <li><i class="fas fa-fire"></i> Premi "BUZZER" quando pensi di sapere la parola</li>
+                    <li><i class="fas fa-euro-sign"></i> Ogni parola indovinata vale €3.000</li>
+                    <li><i class="fas fa-clock"></i> Hai 20 secondi per indovinare</li>
+                    <li><i class="fas fa-redo"></i> Se il tempo scade, passa all'altra squadra e viene aggiunta una lettera</li>
+                    <li><i class="fas fa-gamepad"></i> Alla fine di ogni catena c'è una ZIP da giocare</li>
+                </ul>
+            </div>
+            
+            <div class="instructions-section">
+                <h3><i class="fas fa-trophy"></i> Punteggi</h3>
+                <ul>
+                    <li><i class="fas fa-search"></i> Caccia alla Parola: €2.000 per parola</li>
+                    <li><i class="fas fa-question-circle"></i> Quando, Dove, Come, Perché: €8.000/€4.000</li>
+                    <li><i class="fas fa-bullseye"></i> Una tira l'altra: €3.000 per parola + bonus catena</li>
+                    <li><i class="fas fa-gamepad"></i> ZIP: €15.000 per la prima, €20.000 per la seconda</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
     <!-- Schermata di setup -->
     <div class="game-screen hidden" id="setupScreen">
         <header>
@@ -1428,16 +1639,6 @@
             <button class="start-btn" id="startGameBtn" style="font-size: clamp(1.1rem, 2vw, 1.3rem); padding: 12px 24px; margin-top: 15px;">
                 <i class="fas fa-play-circle btn-icon"></i> INIZIA IL GIOCO
             </button>
-        </div>
-        
-        <!-- Istruzioni per il setup -->
-        <div class="instructions">
-            <h3><i class="fas fa-info-circle"></i> Istruzioni</h3>
-            <ul>
-                <li><i class="fas fa-user-plus"></i> Aggiungi i giocatori per ogni squadra</li>
-                <li><i class="fas fa-edit"></i> Personalizza i nomi delle squadre</li>
-                <li><i class="fas fa-play"></i> Premi "INIZIA IL GIOCO" per cominciare</li>
-            </ul>
         </div>
     </div>
     
@@ -1491,7 +1692,7 @@
                     <div class="game-completed hidden" id="gameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
                         <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 10px 0;">Hai completato tutte le 8 parole di Reazione a Catena</p>
-                        <button class="next-game-btn" id="nextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Prossimo Gioco: Quando, Dove, Come, Perché →</button>
+                        <button class="next-game-btn" id="nextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Quando, Dove, Come, Perché →</button>
                     </div>
                 </div>
             </div>
@@ -1504,17 +1705,6 @@
                     <!-- Lista giocatori Squadra B -->
                 </div>
             </div>
-        </div>
-        
-        <!-- Istruzioni per il primo gioco -->
-        <div class="instructions">
-            <h3><i class="fas fa-info-circle"></i> Caccia alla Parola</h3>
-            <ul>
-                <li><i class="fas fa-play"></i> Premi "INIZIA" per iniziare</li>
-                <li><i class="fas fa-fire"></i> Premi "BUZZER" quando pensi di sapere la parola</li>
-                <li><i class="fas fa-euro-sign"></i> Ogni parola indovinata vale €2.000</li>
-                <li><i class="fas fa-forward"></i> "PROSSIMA" passa alla parola successiva</li>
-            </ul>
         </div>
     </div>
 
@@ -1596,7 +1786,7 @@
                     <div class="game-completed hidden" id="secondGameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
                         <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 10px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
-                        <button class="next-game-btn" id="secondNextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Prossimo Gioco: Una tira l'altra →</button>
+                        <button class="next-game-btn" id="secondNextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Una tira l'altra →</button>
                     </div>
                 </div>
             </div>
@@ -1609,18 +1799,6 @@
                     <!-- Lista giocatori Squadra B -->
                 </div>
             </div>
-        </div>
-        
-        <!-- Istruzioni per il secondo gioco -->
-        <div class="instructions">
-            <h3><i class="fas fa-info-circle"></i> Quando, Dove, Come, Perché</h3>
-            <ul>
-                <li><i class="fas fa-rocket"></i> Premi "INIZIA QUARTINA" per iniziare</li>
-                <li><i class="fas fa-fire"></i> Premi "BUZZER" quando pensi di sapere la risposta</li>
-                <li><i class="fas fa-euro-sign"></i> Indovinando con il primo indizio: €8.000</li>
-                <li><i class="fas fa-euro-sign"></i> Indovinando con altri indizi: €4.000</li>
-                <li><i class="fas fa-forward"></i> "PROSSIMA AFFERMAZIONE" rivela il prossimo indizio</li>
-            </ul>
         </div>
     </div>
 
@@ -1692,21 +1870,21 @@
                         
                         <div class="chain-container">
                             <div class="chain-word revealed" id="zipFirstWord">
-                                BANCO
+                                <!-- Prima parola ZIP -->
                             </div>
                             <div class="chain-word hidden-word" id="zipSecondWord">
-                                D__I
+                                <!-- Seconda parola ZIP -->
                             </div>
                             <div class="chain-word hidden-word" id="zipThirdWord">
-                                C___O
+                                <!-- Terza parola ZIP -->
                             </div>
                             <div class="chain-word revealed" id="zipFourthWord">
-                                BATTAGLIA
+                                <!-- Quarta parola ZIP -->
                             </div>
                         </div>
                         
                         <div class="zip-prize" id="zipPrize">
-                            <i class="fas fa-trophy"></i> Premio in palio: <span id="prizeValue">50</span> punti!
+                            <i class="fas fa-trophy"></i> Premio in palio: <span id="prizeValue">15.000</span> punti!
                         </div>
 
                         <div class="zip-timer hidden" id="zipTimer">
@@ -1731,7 +1909,7 @@
                         </div>
                         
                         <div class="correct-answer hidden" id="zipCorrectAnswer">
-                            <strong><i class="fas fa-bullseye"></i> Risposta corretta:</strong> <span id="zipAnswerText">BANCO DATI CAMPO BATTAGLIA</span>
+                            <strong><i class="fas fa-bullseye"></i> Risposta corretta:</strong> <span id="zipAnswerText"></span>
                         </div>
                     </div>
                     
@@ -1752,19 +1930,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Istruzioni per il terzo gioco -->
-        <div class="instructions">
-            <h3><i class="fas fa-info-circle"></i> Una tira l'altra</h3>
-            <ul>
-                <li><i class="fas fa-arrow-up"></i> Scegli da che direzione iniziare</li>
-                <li><i class="fas fa-rocket"></i> Premi "INIZIA CATENA" per iniziare</li>
-                <li><i class="fas fa-fire"></i> Premi "BUZZER" quando pensi di sapere la parola</li>
-                <li><i class="fas fa-euro-sign"></i> Ogni parola indovinata vale €3.000</li>
-                <li><i class="fas fa-clock"></i> Hai 20 secondi per indovinare</li>
-                <li><i class="fas fa-redo"></i> Se il tempo scade, passa all'altra squadra e viene aggiunta una lettera</li>
-            </ul>
-        </div>
     </div>
 
     <!-- Elemento audio nascosto per la canzone -->
@@ -1778,6 +1943,11 @@
         const introOverlay = document.getElementById('introOverlay');
         const introVideo = document.getElementById('introVideo');
         const playIntroBtn = document.getElementById('playIntroBtn');
+        
+        // Elementi DOM per le istruzioni
+        const instructionsBook = document.getElementById('instructionsBook');
+        const instructionsOverlay = document.getElementById('instructionsOverlay');
+        const closeInstructions = document.getElementById('closeInstructions');
         
         // Funzione per mostrare la sigla
         function showIntro() {
@@ -1803,6 +1973,16 @@
         // Quando il video finisce, passa al setup
         introVideo.addEventListener('ended', () => {
             skipIntro();
+        });
+        
+        // Event listener per il libricino istruzioni
+        instructionsBook.addEventListener('click', () => {
+            instructionsOverlay.classList.remove('hidden');
+        });
+        
+        // Event listener per chiudere le istruzioni
+        closeInstructions.addEventListener('click', () => {
+            instructionsOverlay.classList.add('hidden');
         });
         
         // Inizializzazione del gioco
@@ -1978,20 +2158,28 @@
         let chainTimerInterval;
         let chainTimeLeft = 20; // MODIFICATO: timer di 20 secondi
         
-        // Lista di catene per Una tira l'altra (7 parole per catena) - SOLO LA SECONDA CATENA HA LA ZIP
+        // MODIFICATO: Lista di catene per Una tira l'altra con parole realistiche da Reazione a Catena
         const chainList = [
             {
-                words: ["CARNEVALE", "SAMBA", "COPACABANA", "CAIPIRINHA", "AMAZZONIA", "PALME", "OCEANO"],
-                zip: null // Prima catena senza ZIP
+                words: ["ONDA", "RADIO", "AMATORE", "SPORTIVO"],
+                zip: {
+                    first: "ONDA",
+                    second: "RADIO", 
+                    third: "AMATORE",  
+                    fourth: "SPORTIVO",
+                    answer: "ONDA RADIO AMATORE SPORTIVO",
+                    prize: 15000
+                }
             },
             {
-                words: ["CAFFÈ", "ZUCCHERO", "PIANTAGIONE", "COLONIALISMO", "NAVI", "EUROPA", "MERCATO"],
+                words: ["CAPO", "STAZIONE", "CENTRALE", "OPERATIVA"],
                 zip: {
-                    first: "BANCO",
-                    second: "DATI", // Seconda parola
-                    third: "CAMPO",  // Terza parola
-                    fourth: "BATTAGLIA",
-                    answer: "BANCO DATI CAMPO BATTAGLIA"
+                    first: "CAPO",
+                    second: "STAZIONE", 
+                    third: "CENTRALE",  
+                    fourth: "OPERATIVA",
+                    answer: "CAPO STAZIONE CENTRALE OPERATIVA",
+                    prize: 20000
                 }
             }
         ];
@@ -2520,9 +2708,8 @@
                 quartinaPoints = 4000; // MODIFICATO: da 10 a 4000
                 secondNextBtn.disabled = true;
                 secondNextQuartinaBtn.disabled = false;
-                secondMessage.textContent = "⏰ Quartina completata! Nessuno ha indovinato.";
                 // MODIFICATO: non mostrare più automaticamente la risposta corretta
-                // showCorrectAnswer();
+                // secondMessage.textContent = "⏰ Quartina completata! Nessuno ha indovinato.";
             }
             updateQuartinaPointsDisplay();
         }
@@ -2885,22 +3072,10 @@
             const allWordsRevealed = checkAllWordsRevealed();
             
             if (allWordsRevealed) {
-                if (thirdCurrentRound >= thirdTotalRounds) {
-                    // Attiva il gioco della ZIP solo per la seconda catena
-                    const currentChain = chainList[thirdCurrentRound - 1];
-                    if (currentChain.zip) {
-                        setTimeout(() => {
-                            startZipGame();
-                        }, 2000);
-                    } else {
-                        thirdNextBtn.disabled = false;
-                        thirdMessage.textContent += ` Premi "PROSSIMA CATENA" per continuare.`;
-                    }
-                } else {
-                    // Abilita il pulsante per passare alla prossima catena
-                    thirdNextBtn.disabled = false;
-                    thirdMessage.textContent += ` Premi "PROSSIMA CATENA" per continuare.`;
-                }
+                // Attiva il gioco della ZIP per entrambe le catene
+                setTimeout(() => {
+                    startZipGame();
+                }, 2000);
             }
         }
         
@@ -3015,10 +3190,10 @@
             // Cambia squadra
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
             
-            // Verifica se la parola è stata completamente rivelata
+            // Verifica se la parola è stata completamente rivelada
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
             if (wordElement && !wordElement.classList.contains('hidden-word')) {
-                // Se la parola è stata completamente rivelata, passa alla prossima
+                // Se la parola è stata completamente rivelada, passa alla prossima
                 if (currentChainDirection === 'top') {
                     currentHiddenWordIndex++;
                 } else {
@@ -3106,8 +3281,8 @@
             
             // Imposta le parole della ZIP con lettere nascoste
             zipFirstWord.textContent = zipData.first;
-            zipSecondWord.textContent = "D__I"; // DATI con lettere nascoste
-            zipThirdWord.textContent = "C___O"; // CAMPO con lettere nascoste
+            zipSecondWord.textContent = zipData.second.charAt(0) + '_'.repeat(zipData.second.length - 2) + zipData.second.charAt(zipData.second.length - 1);
+            zipThirdWord.textContent = zipData.third.charAt(0) + '_'.repeat(zipData.third.length - 2) + zipData.third.charAt(zipData.third.length - 1);
             zipFourthWord.textContent = zipData.fourth;
             
             zipMessage.textContent = `🎯 Hai completato la catena! La ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent} ha 5 secondi extra per la ZIP!`;
@@ -3119,8 +3294,8 @@
             // Determina quale squadra può giocare la ZIP
             zipPlayingTeam = currentTeam;
             
-            // Aggiungi 5 secondi extra per la squadra che ha completato l'ultima catena
-            prizeValueElement.textContent = "50 (5 secondi extra)";
+            // Imposta il premio per la ZIP
+            prizeValueElement.textContent = `${zipData.prize.toLocaleString()}`;
         }
         
         // Gestisce la scelta di giocare la ZIP
@@ -3193,8 +3368,8 @@
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
-            zipMessage.textContent = `✅ Esatto! La risposta è "${zipData.answer}". +50 punti per la ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(zipPlayingTeam, 50);
+            zipMessage.textContent = `✅ Esatto! La risposta è "${zipData.answer}". +€${zipData.prize.toLocaleString()} per la ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(zipPlayingTeam, zipData.prize);
             
             // Rivela le parole nascoste
             zipSecondWord.textContent = zipData.second;
@@ -3205,7 +3380,16 @@
             zipThirdWord.classList.add('revealed');
             
             zipAnswerControls.classList.add('hidden');
-            thirdNextBtn.disabled = false;
+            
+            // Verifica se è l'ultima catena
+            if (thirdCurrentRound >= thirdTotalRounds) {
+                thirdNextBtn.disabled = false;
+            } else {
+                // Passa alla prossima catena
+                setTimeout(() => {
+                    nextChain();
+                }, 3000);
+            }
         }
         
         // Gestisce una risposta errata alla ZIP
@@ -3213,14 +3397,15 @@
             clearInterval(zipTimerInterval);
             zipTimer.classList.add('hidden');
             
-            // L'altra squadra vince i punti
-            const winningTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
-            zipMessage.textContent = `❌ Risposta errata! +50 punti per la ${winningTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(winningTeam, 50);
-            
-            // Mostra la risposta corretta
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
+            
+            // L'altra squadra vince i punti
+            const winningTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
+            zipMessage.textContent = `❌ Risposta errata! +€${zipData.prize.toLocaleString()} per la ${winningTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(winningTeam, zipData.prize);
+            
+            // Mostra la risposta corretta
             zipAnswerText.textContent = zipData.answer;
             zipCorrectAnswer.classList.remove('hidden');
             
@@ -3233,7 +3418,16 @@
             zipThirdWord.classList.add('revealed');
             
             zipAnswerControls.classList.add('hidden');
-            thirdNextBtn.disabled = false;
+            
+            // Verifica se è l'ultima catena
+            if (thirdCurrentRound >= thirdTotalRounds) {
+                thirdNextBtn.disabled = false;
+            } else {
+                // Passa alla prossima catena
+                setTimeout(() => {
+                    nextChain();
+                }, 3000);
+            }
         }
         
         // Passa alla catena successiva
