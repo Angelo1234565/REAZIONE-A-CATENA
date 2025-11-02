@@ -782,10 +782,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
-            z-index: -1;
-        }
-        
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg
         .chain-word.revealed {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
             border-left: 5px solid var(--accent);
@@ -940,6 +937,32 @@
             z-index: -1;
         }
 
+        /* Timer per Una tira l'altra */
+        .chain-timer {
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
+            border-radius: 12px;
+            border: 2px solid var(--danger);
+            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            font-weight: bold;
+            color: var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chain-timer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            z-index: -1;
+        }
+
         /* STILI PER LA SIGLA - MODIFICATI PER AVERLA A TUTTO SCHERMO */
         .intro-overlay {
             position: fixed;
@@ -1044,6 +1067,66 @@
             gap: 6px;
         }
         
+        /* MANUALE DELLE ISTRUZIONI */
+        .instructions {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+            z-index: 1000;
+            border: 2px solid var(--accent);
+            max-width: 300px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .instructions:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+        }
+        
+        .instructions-content {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--accent);
+            width: 280px;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        .instructions:hover .instructions-content {
+            display: block;
+        }
+        
+        .instructions h3 {
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .instructions ul {
+            padding-left: 15px;
+            margin: 8px 0;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
         /* MIGLIORAMENTI PER SCHERMI MOLTO PICCOLI */
         @media (max-width: 768px) {
             .game-layout {
@@ -1125,6 +1208,14 @@
             button {
                 padding: 8px 12px;
             }
+            
+            .instructions {
+                max-width: 250px;
+            }
+            
+            .instructions-content {
+                width: 240px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1165,6 +1256,15 @@
             
             .buzzer {
                 padding: 8px 16px;
+            }
+            
+            .instructions {
+                max-width: 200px;
+                padding: 8px 10px;
+            }
+            
+            .instructions-content {
+                width: 200px;
             }
         }
 
@@ -1305,6 +1405,14 @@
     <!-- Timer musica (nascosto inizialmente) -->
     <div class="music-timer hidden" id="musicTimer"><i class="fas fa-music"></i> <span id="musicTimeLeft">20</span>s</div>
 
+    <!-- Manuale delle istruzioni -->
+    <div class="instructions" id="instructions">
+        <i class="fas fa-question-circle"></i> ISTRUZIONI
+        <div class="instructions-content" id="instructionsContent">
+            <!-- Il contenuto verrà popolato dinamicamente in base al gioco -->
+        </div>
+    </div>
+
     <!-- Schermata di setup -->
     <div class="game-screen hidden" id="setupScreen">
         <header>
@@ -1369,7 +1477,7 @@
             <!-- Sidebar Squadra A -->
             <div class="team-sidebar" id="teamASidebar">
                 <div class="team-name" id="displayTeamA">Squadra A</div>
-                <div class="score" id="scoreA">0</div>
+                <div class="score" id="scoreA">0 €</div>
                 <div class="players-list" id="teamAPlayersList">
                     <!-- Lista giocatori Squadra A -->
                 </div>
@@ -1382,7 +1490,7 @@
                         <!-- Le lettere verranno aggiunte qui dinamicamente -->
                     </div>
                     
-                    <div class="round-info" id="roundInfo"><i class="fas fa-pencil-alt"></i> Parola: 1/12</div>
+                    <div class="round-info" id="roundInfo"><i class="fas fa-pencil-alt"></i> Parola: 1/8</div>
                     
                     <div class="message" id="message">Premi "INIZIA" per cominciare il gioco!</div>
                     
@@ -1402,7 +1510,7 @@
                     
                     <div class="game-completed hidden" id="gameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
-                        <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 10px 0;">Hai completato tutte le 12 parole di Reazione a Catena</p>
+                        <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 10px 0;">Hai completato tutte le 8 parole di Reazione a Catena</p>
                         <button class="next-game-btn" id="nextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Prossimo Gioco: Quando, Dove, Come, Perché →</button>
                     </div>
                 </div>
@@ -1411,7 +1519,7 @@
             <!-- Sidebar Squadra B -->
             <div class="team-sidebar" id="teamBSidebar">
                 <div class="team-name" id="displayTeamB">Squadra B</div>
-                <div class="score" id="scoreB">0</div>
+                <div class="score" id="scoreB">0 €</div>
                 <div class="players-list" id="teamBPlayersList">
                     <!-- Lista giocatori Squadra B -->
                 </div>
@@ -1435,7 +1543,7 @@
             <!-- Sidebar Squadra A -->
             <div class="team-sidebar" id="secondTeamASidebar">
                 <div class="team-name" id="secondDisplayTeamA">Squadra A</div>
-                <div class="score" id="secondScoreA">0</div>
+                <div class="score" id="secondScoreA">0 €</div>
                 <div class="players-list" id="secondTeamAPlayersList">
                     <!-- Lista giocatori Squadra A -->
                 </div>
@@ -1462,7 +1570,7 @@
                     <div class="round-info" id="secondRoundInfo"><i class="fas fa-clipboard-list"></i> Quartina: 1/4</div>
                     
                     <div class="quartina-points" id="quartinaPoints">
-                        <i class="fas fa-trophy"></i> Punti possibili: <span id="pointsValue">20</span>
+                        <i class="fas fa-trophy"></i> Premio: <span id="pointsValue">8.000 €</span>
                     </div>
                     
                     <div class="message" id="secondMessage">Premi "INIZIA QUARTINA" per iniziare il gioco!</div>
@@ -1505,7 +1613,7 @@
             <!-- Sidebar Squadra B -->
             <div class="team-sidebar" id="secondTeamBSidebar">
                 <div class="team-name" id="secondDisplayTeamB">Squadra B</div>
-                <div class="score" id="secondScoreB">0</div>
+                <div class="score" id="secondScoreB">0 €</div>
                 <div class="players-list" id="secondTeamBPlayersList">
                     <!-- Lista giocatori Squadra B -->
                 </div>
@@ -1529,7 +1637,7 @@
             <!-- Sidebar Squadra A -->
             <div class="team-sidebar" id="thirdTeamASidebar">
                 <div class="team-name" id="thirdDisplayTeamA">Squadra A</div>
-                <div class="score" id="thirdScoreA">0</div>
+                <div class="score" id="thirdScoreA">0 €</div>
                 <div class="players-list" id="thirdTeamAPlayersList">
                     <!-- Lista giocatori Squadra A -->
                 </div>
@@ -1543,6 +1651,10 @@
                     </div>
                     
                     <div class="round-info" id="thirdRoundInfo"><i class="fas fa-link"></i> Catena: 1/2</div>
+                    
+                    <div class="chain-timer hidden" id="chainTimer">
+                        <i class="fas fa-clock"></i> Tempo rimanente: <span id="chainTimeLeft">20</span> secondi
+                    </div>
                     
                     <div class="message" id="thirdMessage"><i class="fas fa-bullseye"></i> Scegli da che direzione iniziare la catena!</div>
                     
@@ -1631,7 +1743,7 @@
             <!-- Sidebar Squadra B -->
             <div class="team-sidebar" id="thirdTeamBSidebar">
                 <div class="team-name" id="thirdDisplayTeamB">Squadra B</div>
-                <div class="score" id="thirdScoreB">0</div>
+                <div class="score" id="thirdScoreB">0 €</div>
                 <div class="players-list" id="thirdTeamBPlayersList">
                     <!-- Lista giocatori Squadra B -->
                 </div>
@@ -1778,18 +1890,17 @@
         let letterInterval;
         let gameStarted = false;
         let currentRound = 1;
-        let totalRounds = 12;
+        let totalRounds = 8; // MODIFICATO: da 12 a 8 parole
         let scoreA = 0;
         let scoreB = 0;
         let currentTeam = 'A';
         let answeringPlayer = '';
         let musicPlayed = false; // Variabile per controllare se la musica è già stata riprodotta
         
-        // Lista di parole LUNGHE e complesse (sempre nello stesso ordine)
+        // Lista di parole LUNGHE e complesse (sempre nello stesso ordine) - MODIFICATO: 8 parole invece di 12
         const wordList = [
-            'AUTOMOBILE', 'TELEVISIONE', 'COMPUTER', 'BIBLIOTECA', 'GIARDINO',
-            'ELEFANTE', 'CANGURO', 'DINOSAURO', 'AEROPORTO', 'UNIVERSITÀ',
-            'RISTORANTE', 'OSPEDALE'
+            'AUTOMOBILE', 'TELEVISIONE', 'COMPUTER', 'BIBLIOTECA', 
+            'GIARDINO', 'ELEFANTE', 'CANGURO', 'DINOSAURO'
         ];
         
         // Variabili di gioco per Quando, Dove, Come, Perché
@@ -1799,7 +1910,7 @@
         let currentQuartinaStep = 0;
         let currentAnsweringPlayer = '';
         let currentAnsweringTeam = '';
-        let quartinaPoints = 20;
+        let quartinaPrize = 8000; // MODIFICATO: da punti a euro
         let musicTimeout;
         let musicTimerInterval;
         
@@ -1848,6 +1959,8 @@
         let currentRevealedLetters = []; // Lettere rivelate per la parola corrente
         let zipTimerInterval;
         let zipTimeLeft = 10;
+        let chainTimerInterval; // Timer per Una tira l'altra
+        let chainTimeLeft = 20; // 20 secondi per indovinare
         
         // Lista di catene per Una tira l'altra (7 parole per catena) - SOLO LA SECONDA CATENA HA LA ZIP
         const chainList = [
@@ -1963,6 +2076,8 @@
         const thirdWrongBtn = document.getElementById('thirdWrongBtn');
         const thirdGameCompleted = document.getElementById('thirdGameCompleted');
         const thirdNextGameBtn = document.getElementById('thirdNextGameBtn');
+        const chainTimer = document.getElementById('chainTimer');
+        const chainTimeLeftElement = document.getElementById('chainTimeLeft');
         
         // Elementi DOM per ZIP
         const zipContainer = document.getElementById('zipContainer');
@@ -1989,6 +2104,63 @@
         const directionOptions = document.getElementById('directionOptions');
         const continueDirectionBtn = document.getElementById('continueDirectionBtn');
         const changeDirectionBtn = document.getElementById('changeDirectionBtn');
+        
+        // Elementi DOM per il manuale delle istruzioni
+        const instructions = document.getElementById('instructions');
+        const instructionsContent = document.getElementById('instructionsContent');
+        
+        // Aggiorna il manuale delle istruzioni in base al gioco corrente
+        function updateInstructions(gameType) {
+            let content = '';
+            
+            switch(gameType) {
+                case 'caccia':
+                    content = `
+                        <h3><i class="fas fa-search"></i> Caccia alla Parola</h3>
+                        <ul>
+                            <li>Le lettere vengono rivelate una alla volta</li>
+                            <li>Premi il BUZZER quando pensi di conoscere la parola</li>
+                            <li>Risposta corretta: <strong>2.000 €</strong></li>
+                            <li>Risposta errata: passa il turno all'altra squadra</li>
+                            <li>8 parole in totale</li>
+                        </ul>
+                    `;
+                    break;
+                case 'quartina':
+                    content = `
+                        <h3><i class="fas fa-question-circle"></i> Quando, Dove, Come, Perché</h3>
+                        <ul>
+                            <li>Vengono rivelati 4 indizi uno alla volta</li>
+                            <li>Premi il BUZZER quando pensi di conoscere la risposta</li>
+                            <li>Premi al 1° indizio: <strong>8.000 €</strong></li>
+                            <li>Premi dal 2° al 4° indizio: <strong>4.000 €</strong></li>
+                            <li>4 quartine in totale</li>
+                        </ul>
+                    `;
+                    break;
+                case 'catena':
+                    content = `
+                        <h3><i class="fas fa-link"></i> Una tira l'altra</h3>
+                        <ul>
+                            <li>Scegli da che direzione iniziare la catena</li>
+                            <li>Indovina le parole nascoste per completare la catena</li>
+                            <li>Timer di 20 secondi per indovinare</li>
+                            <li>Tempo scaduto: passa alla squadra avversaria + lettera rivelata</li>
+                            <li>Parola indovinata: <strong>3.000 €</strong></li>
+                            <li>Catena completata: bonus 25.000 €</li>
+                            <li>2 catene in totale</li>
+                        </ul>
+                    `;
+                    break;
+                default:
+                    content = `
+                        <h3><i class="fas fa-graduation-cap"></i> Laureata a Catena</h3>
+                        <p>Benvenuto al gioco! Seleziona le squadre e inizia a giocare.</p>
+                    `;
+            }
+            
+            instructionsContent.innerHTML = content;
+        }
         
         // Aggiorna la visualizzazione delle squadre attive
         function updateActiveTeam() {
@@ -2044,6 +2216,9 @@
             updatePlayersInSidebars();
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
             message.textContent = `🎯 Inizia la ${displayTeamA.textContent}!`;
+            
+            // Aggiorna le istruzioni
+            updateInstructions('caccia');
             
             // NON riprodurre la musica qui - verrà riprodotta solo quando inizia il primo gioco
         }
@@ -2132,9 +2307,9 @@
         
         // Gestisce una risposta corretta
         function handleCorrectAnswer() {
-            message.textContent = `✅ Esatto! La parola è "${currentWord}". +10 punti per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            message.textContent = `✅ Esatto! La parola è "${currentWord}". +2.000 € per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
             revealAllLetters();
-            updateScore(currentTeam, 10);
+            updateScore(currentTeam, 2000); // MODIFICATO: 2.000 euro invece di 10 punti
             nextBtn.disabled = false;
             answerControls.classList.add('hidden');
             
@@ -2192,13 +2367,13 @@
             skipMusic();
         }
         
-        // Aggiorna il punteggio
-        function updateScore(team, points) {
+        // Aggiorna il punteggio (in euro)
+        function updateScore(team, amount) {
             if (team === 'A') {
-                scoreA += points;
-                scoreAElement.textContent = scoreA;
-                secondScoreA.textContent = scoreA;
-                thirdScoreA.textContent = scoreA;
+                scoreA += amount;
+                scoreAElement.textContent = formatMoney(scoreA);
+                secondScoreA.textContent = formatMoney(scoreA);
+                thirdScoreA.textContent = formatMoney(scoreA);
                 
                 // Aggiungi animazione
                 scoreAElement.classList.add('score-pop');
@@ -2206,10 +2381,10 @@
                     scoreAElement.classList.remove('score-pop');
                 }, 500);
             } else {
-                scoreB += points;
-                scoreBElement.textContent = scoreB;
-                secondScoreB.textContent = scoreB;
-                thirdScoreB.textContent = scoreB;
+                scoreB += amount;
+                scoreBElement.textContent = formatMoney(scoreB);
+                secondScoreB.textContent = formatMoney(scoreB);
+                thirdScoreB.textContent = formatMoney(scoreB);
                 
                 // Aggiungi animazione
                 scoreBElement.classList.add('score-pop');
@@ -2217,6 +2392,15 @@
                     scoreBElement.classList.remove('score-pop');
                 }, 500);
             }
+        }
+        
+        // Formatta il denaro in formato euro
+        function formatMoney(amount) {
+            return new Intl.NumberFormat('it-IT', { 
+                style: 'currency', 
+                currency: 'EUR',
+                minimumFractionDigits: 0 
+            }).format(amount);
         }
         
         // Funzione per mescolare un array (algoritmo Fisher-Yates)
@@ -2312,7 +2496,7 @@
             updatePlayersInSidebars();
             secondRoundInfo.textContent = `📋 Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
             secondMessage.textContent = "🎯 Premi 'INIZIA QUARTINA' per iniziare il gioco!";
-            quartinaPoints = 20;
+            quartinaPrize = 8000; // MODIFICATO: 8.000 euro per il primo indizio
             updateQuartinaPointsDisplay();
             
             secondStartBtn.disabled = false;
@@ -2320,6 +2504,9 @@
             secondNextQuartinaBtn.disabled = true;
             secondPlayerBuzzers.classList.add('hidden');
             secondAnswerControls.classList.add('hidden');
+            
+            // Aggiorna le istruzioni
+            updateInstructions('quartina');
         }
         
         // Reset del secondo gioco
@@ -2348,9 +2535,9 @@
             percheText.textContent = "❓ (Perché)";
         }
         
-        // Aggiorna display punti quartina
+        // Aggiorna display premi quartina
         function updateQuartinaPointsDisplay() {
-            pointsValueElement.textContent = quartinaPoints;
+            pointsValueElement.textContent = formatMoney(quartinaPrize);
         }
         
         // Avvia il secondo gioco
@@ -2365,7 +2552,7 @@
             
             revealQuartinaStep();
             secondMessage.textContent = `🔍 Indovina a cosa si riferisce la quartina! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
-            quartinaPoints = 40;
+            quartinaPrize = 8000; // MODIFICATO: 8.000 euro per il primo indizio
             updateQuartinaPointsDisplay();
             
             // Mostra i buzzer delle squadre
@@ -2380,15 +2567,16 @@
             revealQuartinaStep();
             
             if (currentQuartinaStep === 1) {
-                quartinaPoints = 30;
+                quartinaPrize = 4000; // MODIFICATO: 4.000 euro dal secondo indizio in poi
             } else if (currentQuartinaStep === 2) {
-                quartinaPoints = 20;
+                quartinaPrize = 4000;
             } else if (currentQuartinaStep === 3) {
-                quartinaPoints = 10;
+                quartinaPrize = 4000;
                 secondNextBtn.disabled = true;
                 secondNextQuartinaBtn.disabled = false;
                 secondMessage.textContent = "⏰ Quartina completata! Nessuno ha indovinato.";
-                showCorrectAnswer();
+                // MODIFICATO: Non mostrare più automaticamente la risposta corretta
+                // showCorrectAnswer();
             }
             updateQuartinaPointsDisplay();
         }
@@ -2452,13 +2640,14 @@
         function handleSecondCorrectAnswer() {
             const currentQuartina = quartineList[secondCurrentRound - 1];
             
-            secondMessage.textContent = `✅ Esatto! La risposta è "${currentQuartina.risposta}". +${quartinaPoints} punti per la ${currentAnsweringTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(currentAnsweringTeam, quartinaPoints);
+            secondMessage.textContent = `✅ Esatto! La risposta è "${currentQuartina.risposta}". +${formatMoney(quartinaPrize)} per la ${currentAnsweringTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentAnsweringTeam, quartinaPrize);
             
             revealAllQuartinaSteps();
+            // MODIFICATO: Mostra la risposta corretta solo quando viene indovinata
+            showCorrectAnswer();
             secondNextQuartinaBtn.disabled = false;
             secondAnswerControls.classList.add('hidden');
-            correctAnswerDisplay.classList.add('hidden');
             secondPlayerBuzzers.classList.add('hidden');
         }
         
@@ -2522,6 +2711,10 @@
             thirdNextBtn.disabled = true;
             directionOptions.classList.add('hidden');
             zipContainer.classList.add('hidden');
+            chainTimer.classList.add('hidden');
+            
+            // Aggiorna le istruzioni
+            updateInstructions('catena');
         }
         
         // Reset del terzo gioco
@@ -2533,6 +2726,7 @@
             zipGameActive = false;
             revealedLettersPerWord = [];
             currentRevealedLetters = [];
+            chainTimeLeft = 20;
             
             chainDirection.classList.remove('hidden');
             zipContainer.classList.add('hidden');
@@ -2540,6 +2734,10 @@
             zipAnswerControls.classList.add('hidden');
             zipCorrectAnswer.classList.add('hidden');
             directionOptions.classList.add('hidden');
+            chainTimer.classList.add('hidden');
+            
+            // Ferma il timer se è attivo
+            clearInterval(chainTimerInterval);
         }
         
         // Crea la visualizzazione della catena
@@ -2595,6 +2793,47 @@
             thirdStartBtn.disabled = false;
         }
         
+        // Avvia il timer per Una tira l'altra
+        function startChainTimer() {
+            chainTimer.classList.remove('hidden');
+            chainTimeLeft = 20;
+            chainTimeLeftElement.textContent = chainTimeLeft;
+            
+            chainTimerInterval = setInterval(() => {
+                chainTimeLeft--;
+                chainTimeLeftElement.textContent = chainTimeLeft;
+                
+                if (chainTimeLeft <= 0) {
+                    clearInterval(chainTimerInterval);
+                    // Tempo scaduto - passa alla squadra avversaria e rivela una lettera
+                    handleChainTimeExpired();
+                }
+            }, 1000);
+        }
+        
+        // Gestisce il tempo scaduto per Una tira l'altra
+        function handleChainTimeExpired() {
+            chainTimer.classList.add('hidden');
+            thirdMessage.textContent = `⏰ Tempo scaduto! Passa alla ${currentTeam === 'A' ? displayTeamB.textContent : displayTeamA.textContent} e viene rivelata una lettera.`;
+            
+            // Cambia squadra
+            currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
+            
+            // Rivela una lettera aggiuntiva
+            revealAdditionalLetter();
+            
+            // Ripristina il buzzer
+            thirdBuzzer.disabled = false;
+            thirdAnswerControls.classList.add('hidden');
+            
+            // Riavvia il timer
+            setTimeout(() => {
+                startChainTimer();
+                thirdMessage.textContent = `🔍 Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            }, 2000);
+        }
+        
         // Avvia il terzo gioco
         function startThirdGameRound() {
             if (thirdGameStarted) return;
@@ -2616,6 +2855,9 @@
             
             highlightCurrentWord();
             thirdMessage.textContent = `🔍 Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            // Avvia il timer di 20 secondi
+            startChainTimer();
         }
         
         // Evidenzia la parola corrente
@@ -2644,6 +2886,10 @@
         function handleThirdBuzzer() {
             if (!thirdGameStarted) return;
             
+            // Ferma il timer quando si preme il buzzer
+            clearInterval(chainTimerInterval);
+            chainTimer.classList.add('hidden');
+            
             thirdAnsweringPlayer.textContent = `🎤 Risponde: ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
             thirdMessage.textContent = `🎯 ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}, qual è la parola nascosta?`;
             thirdBuzzer.disabled = true;
@@ -2664,8 +2910,12 @@
         
         // Completa una catena
         function completeChain() {
-            thirdMessage.textContent = `🎉 Catena completata! +25 punti bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(currentTeam, 25);
+            // Ferma il timer
+            clearInterval(chainTimerInterval);
+            chainTimer.classList.add('hidden');
+            
+            thirdMessage.textContent = `🎉 Catena completata! +25.000 € bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 25000); // MODIFICATO: 25.000 euro di bonus
             
             thirdBuzzer.disabled = true;
             thirdAnswerControls.classList.add('hidden');
@@ -2706,8 +2956,8 @@
             wordElement.classList.add('revealed');
             wordElement.classList.remove('glow');
             
-            thirdMessage.textContent = `✅ Esatto! La parola è "${correctWord}". +15 punti per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(currentTeam, 15);
+            thirdMessage.textContent = `✅ Esatto! La parola è "${correctWord}". +3.000 € per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 3000); // MODIFICATO: 3.000 euro per parola indovinata
             
             // La squadra mantiene il turno
             thirdAnswerControls.classList.add('hidden');
@@ -2739,6 +2989,9 @@
                 }
             }
             
+            // Riavvia il timer
+            startChainTimer();
+            
             // Mostra opzioni per cambiare direzione
             showDirectionOptions();
         }
@@ -2754,6 +3007,9 @@
             directionOptions.classList.add('hidden');
             highlightCurrentWord();
             thirdMessage.textContent = `🔍 Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            // Riavvia il timer
+            startChainTimer();
         }
         
         // Cambia direzione
@@ -2786,6 +3042,9 @@
             
             highlightCurrentWord();
             thirdMessage.textContent = `🔄 Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
+            
+            // Riavvia il timer
+            startChainTimer();
         }
         
         // Gestisce una risposta errata nel terzo gioco
@@ -2820,6 +3079,9 @@
             
             // Evidenzia la parola corrente
             highlightCurrentWord();
+            
+            // Riavvia il timer
+            startChainTimer();
         }
         
         // Rivela una lettera aggiuntiva quando si sbaglia
@@ -2971,8 +3233,8 @@
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
-            zipMessage.textContent = `✅ Esatto! La risposta è "${zipData.answer}". +50 punti per la ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(zipPlayingTeam, 50);
+            zipMessage.textContent = `✅ Esatto! La risposta è "${zipData.answer}". +50.000 € per la ${zipPlayingTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(zipPlayingTeam, 50000); // MODIFICATO: 50.000 euro per la ZIP
             
             // Rivela le parole nascoste
             zipSecondWord.textContent = zipData.second;
@@ -2993,8 +3255,8 @@
             
             // L'altra squadra vince i punti
             const winningTeam = zipPlayingTeam === 'A' ? 'B' : 'A';
-            zipMessage.textContent = `❌ Risposta errata! +50 punti per la ${winningTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
-            updateScore(winningTeam, 50);
+            zipMessage.textContent = `❌ Risposta errata! +50.000 € per la ${winningTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(winningTeam, 50000); // MODIFICATO: 50.000 euro per la ZIP
             
             // Mostra la risposta corretta
             const currentChain = chainList[thirdCurrentRound - 1];
@@ -3051,28 +3313,31 @@
             scoreB = 0;
             updateScores();
             initGame();
+            
+            // Aggiorna le istruzioni
+            updateInstructions('default');
         }
         
         // Aggiorna i punteggi per entrambi i giochi
         function updateScores() {
-            scoreAElement.textContent = scoreA;
-            scoreBElement.textContent = scoreB;
-            secondScoreA.textContent = scoreA;
-            secondScoreB.textContent = scoreB;
-            thirdScoreA.textContent = scoreA;
-            thirdScoreB.textContent = scoreB;
+            scoreAElement.textContent = formatMoney(scoreA);
+            scoreBElement.textContent = formatMoney(scoreB);
+            secondScoreA.textContent = formatMoney(scoreA);
+            secondScoreB.textContent = formatMoney(scoreB);
+            thirdScoreA.textContent = formatMoney(scoreA);
+            thirdScoreB.textContent = formatMoney(scoreB);
         }
         
         // Aggiorna i punteggi per il secondo gioco
         function updateSecondScores() {
-            secondScoreA.textContent = scoreA;
-            secondScoreB.textContent = scoreB;
+            secondScoreA.textContent = formatMoney(scoreA);
+            secondScoreB.textContent = formatMoney(scoreB);
         }
         
         // Aggiorna i punteggi per il terzo gioco
         function updateThirdScores() {
-            thirdScoreA.textContent = scoreA;
-            thirdScoreB.textContent = scoreB;
+            thirdScoreA.textContent = formatMoney(scoreA);
+            thirdScoreB.textContent = formatMoney(scoreB);
         }
         
         // Aggiungi event listeners
@@ -3084,7 +3349,7 @@
         wrongBtn.addEventListener('click', handleWrongAnswer);
         nextGameBtn.addEventListener('click', startSecondGame);
         
-        secondStartBtn.addEventListener('click', startSecondGameRound);
+        secondStartBtn.addEventListener('click', startSecondGameRound');
         secondNextBtn.addEventListener('click', revealNextQuartinaStep);
         secondNextQuartinaBtn.addEventListener('click', nextQuartina);
         secondCorrectBtn.addEventListener('click', handleSecondCorrectAnswer);
@@ -3115,6 +3380,9 @@
         
         // Inizializza il gioco
         initGame();
+        
+        // Inizializza le istruzioni
+        updateInstructions('default');
     </script>
 </body>
 </html>
