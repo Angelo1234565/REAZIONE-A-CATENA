@@ -2277,14 +2277,13 @@
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
+            // CORREZIONE: NON passare direttamente alla ZIP, ma verificare se ci sono ancora parole nascoste
             if (checkAllWordsRevealed()) {
                 completeChain();
                 return;
             }
             
-            document.getElementById('thirdBuzzer').disabled = false;
-            
-            // NON ripartire il timer immediatamente - mostrare le opzioni di direzione
+            // Se ci sono ancora parole nascoste, mostrare le opzioni di direzione
             showDirectionOptions();
         }
 
@@ -2369,11 +2368,10 @@
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             document.getElementById('directionOptions').classList.add('hidden');
             
-            if (checkAllWordsRevealed()) {
-                setTimeout(() => {
-                    startZipGame();
-                }, 2000);
-            }
+            // Solo ora che tutte le parole sono state rivelate, passare alla ZIP
+            setTimeout(() => {
+                startZipGame();
+            }, 2000);
         }
 
         function showDirectionOptions() {
