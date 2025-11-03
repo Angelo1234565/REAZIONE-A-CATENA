@@ -533,31 +533,31 @@
             padding: 8px;
         }
         
-        /* CATENA COMPATTA CON 7 PAROLE */
+        /* CATENA VERTICALE CON 7 PAROLE */
         .chain-container {
             width: 100%;
-            max-width: 100%;
+            max-width: 500px;
             margin: 10px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 12px;
             padding: 12px;
-            max-height: 40vh;
+            max-height: 50vh;
             overflow-y: auto;
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
         
         .chain-word {
-            padding: 10px;
+            padding: 12px;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
-            min-height: 45px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             transition: var(--transition);
             border-left: 4px solid transparent;
         }
@@ -577,7 +577,7 @@
             transform: scale(1.05);
         }
         
-        /* CONTROLLI RIORGANIZZATI */
+        /* CONTROLLI RIORGANIZZATI - A DESTRA DELLA CATENA */
         .chain-controls-area {
             display: flex;
             flex-direction: column;
@@ -859,6 +859,36 @@
             z-index: 10;
         }
 
+        /* LAYOUT PER UNA TIRA L'ALTRA CON CATENA VERTICALE */
+        .chain-game-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100%;
+            gap: 15px;
+        }
+        
+        .chain-display-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+        }
+        
+        .chain-controls-section {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            gap: 15px;
+        }
+        
         @media (max-width: 768px) {
             .game-layout, .third-game-layout {
                 flex-direction: column;
@@ -873,14 +903,12 @@
                 width: 100%;
             }
             
-            .chain-container {
-                grid-template-columns: repeat(4, 1fr);
+            .chain-game-container {
+                flex-direction: column;
             }
-        }
-        
-        @media (max-width: 480px) {
-            .chain-container {
-                grid-template-columns: repeat(2, 1fr);
+            
+            .chain-controls-section {
+                width: 100%;
             }
         }
     </style>
@@ -1113,20 +1141,25 @@
             
             <!-- Container catena a destra -->
             <div class="third-chain-container">
-                <div class="game-area">
-                    <div class="round-info" id="thirdRoundInfo"><i class="fas fa-link"></i> Catena: 1/2</div>
-                    
-                    <!-- CATENA COMPATTA CON 7 PAROLE -->
-                    <div class="chain-container" id="chainContainer"></div>
-                    
-                    <div class="chain-timer hidden" id="chainTimer">
-                        <i class="fas fa-clock"></i> Tempo rimanente: <span id="chainTimeLeft">20</span> secondi
+                <div class="chain-game-container">
+                    <!-- Sezione catena verticale -->
+                    <div class="chain-display-section">
+                        <div class="round-info" id="thirdRoundInfo"><i class="fas fa-link"></i> Catena: 1/2</div>
+                        
+                        <!-- CATENA VERTICALE CON 7 PAROLE -->
+                        <div class="chain-container" id="chainContainer">
+                            <!-- Le parole verranno aggiunte dinamicamente -->
+                        </div>
+                        
+                        <div class="chain-timer hidden" id="chainTimer">
+                            <i class="fas fa-clock"></i> Tempo rimanente: <span id="chainTimeLeft">20</span> secondi
+                        </div>
                     </div>
                     
-                    <div class="message" id="thirdMessage"><i class="fas fa-bullseye"></i> Scegli da che direzione iniziare la catena!</div>
-                    
-                    <!-- AREA CONTROLLI RIORGANIZZATA -->
-                    <div class="chain-controls-area">
+                    <!-- Sezione controlli a destra -->
+                    <div class="chain-controls-section">
+                        <div class="message" id="thirdMessage"><i class="fas fa-bullseye"></i> Scegli da che direzione iniziare la catena!</div>
+                        
                         <div class="chain-direction" id="chainDirection">
                             <button class="direction-btn" id="topDirectionBtn"><i class="fas fa-arrow-down"></i> Dall'alto</button>
                             <button class="direction-btn" id="bottomDirectionBtn"><i class="fas fa-arrow-up"></i> Dal basso</button>
@@ -1151,53 +1184,53 @@
                             <button class="direction-btn" id="continueDirectionBtn"><i class="fas fa-redo"></i> Continua</button>
                             <button class="direction-btn" id="changeDirectionBtn"><i class="fas fa-exchange-alt"></i> Cambia direzione</button>
                         </div>
-                    </div>
-                    
-                    <!-- ZIP Game -->
-                    <div class="zip-container hidden" id="zipContainer">
-                        <h2 style="text-align: center; margin-bottom: 10px;"><i class="fas fa-bullseye"></i> GIOCO DELLA ZIP</h2>
                         
-                        <div class="chain-container">
-                            <div class="chain-word revealed" id="zipFirstWord"></div>
-                            <div class="chain-word hidden-word" id="zipSecondWord"></div>
-                            <div class="chain-word hidden-word" id="zipThirdWord"></div>
-                            <div class="chain-word revealed" id="zipFourthWord"></div>
-                        </div>
-                        
-                        <div class="zip-prize" id="zipPrize">
-                            <i class="fas fa-trophy"></i> Premio in palio: <span id="prizeValue">15.000</span> punti!
-                        </div>
+                        <!-- ZIP Game -->
+                        <div class="zip-container hidden" id="zipContainer">
+                            <h2 style="text-align: center; margin-bottom: 10px;"><i class="fas fa-bullseye"></i> GIOCO DELLA ZIP</h2>
+                            
+                            <div class="chain-container">
+                                <div class="chain-word revealed" id="zipFirstWord"></div>
+                                <div class="chain-word hidden-word" id="zipSecondWord"></div>
+                                <div class="chain-word hidden-word" id="zipThirdWord"></div>
+                                <div class="chain-word revealed" id="zipFourthWord"></div>
+                            </div>
+                            
+                            <div class="zip-prize" id="zipPrize">
+                                <i class="fas fa-trophy"></i> Premio in palio: <span id="prizeValue">15.000</span> punti!
+                            </div>
 
-                        <div class="zip-timer hidden" id="zipTimer">
-                            <i class="fas fa-clock"></i> Tempo rimanente: <span id="zipTimeLeft">20</span> secondi
-                        </div>
-                        
-                        <div class="message" id="zipMessage">
-                            <i class="fas fa-bullseye"></i> Hai completato la catena! Vuoi giocare la ZIP o passare la mano?
-                        </div>
-                        
-                        <div class="zip-options" id="zipOptions">
-                            <button class="zip-btn" id="playZipBtn"><i class="fas fa-gamepad"></i> GIOCA LA ZIP</button>
-                            <button class="zip-btn" id="passZipBtn"><i class="fas fa-redo"></i> PASSA LA MANO</button>
-                        </div>
-                        
-                        <div class="answer-controls hidden" id="zipAnswerControls">
-                            <div class="player-name" id="zipAnsweringPlayer"></div>
-                            <div style="display: flex; gap: 8px;">
-                                <button class="correct-btn" id="zipCorrectBtn"><i class="fas fa-check"></i> ESATTA</button>
-                                <button class="wrong-btn" id="zipWrongBtn"><i class="fas fa-times"></i> ERRATA</button>
+                            <div class="zip-timer hidden" id="zipTimer">
+                                <i class="fas fa-clock"></i> Tempo rimanente: <span id="zipTimeLeft">20</span> secondi
+                            </div>
+                            
+                            <div class="message" id="zipMessage">
+                                <i class="fas fa-bullseye"></i> Hai completato la catena! Vuoi giocare la ZIP o passare la mano?
+                            </div>
+                            
+                            <div class="zip-options" id="zipOptions">
+                                <button class="zip-btn" id="playZipBtn"><i class="fas fa-gamepad"></i> GIOCA LA ZIP</button>
+                                <button class="zip-btn" id="passZipBtn"><i class="fas fa-redo"></i> PASSA LA MANO</button>
+                            </div>
+                            
+                            <div class="answer-controls hidden" id="zipAnswerControls">
+                                <div class="player-name" id="zipAnsweringPlayer"></div>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="correct-btn" id="zipCorrectBtn"><i class="fas fa-check"></i> ESATTA</button>
+                                    <button class="wrong-btn" id="zipWrongBtn"><i class="fas fa-times"></i> ERRATA</button>
+                                </div>
+                            </div>
+                            
+                            <div class="correct-answer hidden" id="zipCorrectAnswer">
+                                <strong><i class="fas fa-bullseye"></i> Risposta corretta:</strong> <span id="zipAnswerText"></span>
                             </div>
                         </div>
                         
-                        <div class="correct-answer hidden" id="zipCorrectAnswer">
-                            <strong><i class="fas fa-bullseye"></i> Risposta corretta:</strong> <span id="zipAnswerText"></span>
+                        <div class="game-completed hidden" id="thirdGameCompleted">
+                            <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
+                            <p>Hai completato tutte le catene di "Una tira l'altra"</p>
+                            <button class="next-game-btn" id="thirdNextGameBtn"><i class="fas fa-home"></i> Torna al Menu Principale</button>
                         </div>
-                    </div>
-                    
-                    <div class="game-completed hidden" id="thirdGameCompleted">
-                        <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
-                        <p>Hai completato tutte le catene di "Una tira l'altra"</p>
-                        <button class="next-game-btn" id="thirdNextGameBtn"><i class="fas fa-home"></i> Torna al Menu Principale</button>
                     </div>
                 </div>
             </div>
