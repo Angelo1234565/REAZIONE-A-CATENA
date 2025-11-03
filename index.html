@@ -671,6 +671,13 @@
             opacity: 1;
         }
         
+        .chain-word.completely-hidden {
+            background: linear-gradient(135deg, rgba(178, 31, 31, 0.5), rgba(178, 31, 31, 0.4));
+            border-left: 4px solid var(--secondary);
+            color: transparent; /* Testo completamente nascosto */
+            text-shadow: none;
+        }
+        
         .chain-word.current-word {
             box-shadow: 0 0 15px rgba(253, 187, 45, 0.8);
             transform: scale(1.05);
@@ -1437,6 +1444,7 @@
         let wordAppearanceSound = new Audio('Reazione a Catena Soundtrack – Apparizione parola.mp4');
         let correctWordSound = new Audio('Reazione a Catena Soundtrack – Parola esatta.mp4');
         let moneySound = new Audio('Reazione a Catena Soundtrack – Suono effetto soldi.mp4');
+        let gongSound = new Audio('Reazione a Catena Soundtrack – Gong.mp4');
         let musicTimeout;
         
         // Elementi DOM principali
@@ -1605,10 +1613,17 @@
                 document.querySelectorAll('#scoreB, #secondScoreB, #thirdScoreB');
             
             scoreElements.forEach(el => {
+                // Salva il testo originale
+                const originalText = el.textContent;
+                
                 // Aggiungi animazione
                 const animation = document.createElement('div');
                 animation.className = 'score-animation';
                 animation.textContent = `+€${points.toLocaleString()}`;
+                el.appendChild(animation);
+                
+                // Aggiorna il punteggio
+                el.textContent = `€${team === 'A' ? scoreA.toLocaleString() : scoreB.toLocaleString()}`;
                 el.appendChild(animation);
                 
                 // Rimuovi animazione dopo che è finita
@@ -1617,10 +1632,6 @@
                         el.removeChild(animation);
                     }
                 }, 1500);
-                
-                // Aggiorna il punteggio
-                el.textContent = `€${team === 'A' ? scoreA.toLocaleString() : scoreB.toLocaleString()}`;
-                el.appendChild(animation);
                 
                 el.classList.add('score-pop');
                 setTimeout(() => el.classList.remove('score-pop'), 500);
@@ -1750,6 +1761,10 @@
         }
 
         function handleWrongAnswer() {
+            // Riproduci il suono di parola sbagliata
+            wrongAnswerSound.currentTime = 0;
+            wrongAnswerSound.play();
+            
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
             updateActiveTeam();
             
@@ -2088,24 +2103,14 @@
             
             revealedLettersPerWord = [];
             for (let i = 0; i < currentChain.words.length; i++) {
-                revealedLettersPerWord[i] = [0]; // Solo la prima lettera inizialmente
+                revealedLettersPerWord[i] = []; // Nessuna lettera rivelata inizialmente
             }
             
             for (let i = 0; i < currentChain.words.length; i++) {
                 const chainWord = document.createElement('div');
-                chainWord.className = 'chain-word';
+                chainWord.className = 'chain-word completely-hidden';
                 chainWord.id = `chain-word-${i}`;
-                
-                if (i === 0 || i === currentChain.words.length - 1) {
-                    chainWord.textContent = currentChain.words[i];
-                    chainWord.classList.add('revealed');
-                } else {
-                    const word = currentChain.words[i];
-                    // Mostra solo la prima lettera inizialmente
-                    let displayText = word.charAt(0);
-                    chainWord.textContent = displayText;
-                    chainWord.classList.add('hidden-word');
-                }
+                chainWord.textContent = '?'; // Testo completamente nascosto
                 
                 chainContainer.appendChild(chainWord);
             }
@@ -2164,10 +2169,29 @@
                 currentHiddenWordIndex = chainList[thirdCurrentRound - 1].words.length - 2;
             }
             
+            // Rivelare la prima lettera della parola corrente
+            revealFirstLetter(currentHiddenWordIndex);
+            
             highlightCurrentWord();
             document.getElementById('thirdMessage').textContent = `Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             
             startChainTimer();
+        }
+
+        function revealFirstLetter(wordIndex) {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const word = currentChain.words[wordIndex];
+            const wordElement = document.getElementById(`chain-word-${wordIndex}`);
+            
+            // Rivelare solo la prima lettera
+            revealedLettersPerWord[wordIndex] = [0];
+            wordElement.textContent = word.charAt(0);
+            wordElement.classList.remove('completely-hidden');
+            wordElement.classList.add('hidden-word');
+            
+            // Riproduci il suono di apparizione parola
+            wordAppearanceSound.currentTime = 0;
+            wordAppearanceSound.play();
         }
 
         function startChainTimer() {
@@ -2194,6 +2218,10 @@
         }
 
         function handleChainTimeExpired() {
+            // Riproduci il suono del gong
+            gongSound.currentTime = 0;
+            gongSound.play();
+            
             document.getElementById('chainTimer').classList.add('hidden');
             document.getElementById('thirdMessage').textContent = `Tempo scaduto! La parola passa alla ${currentTeam === 'A' ? document.getElementById('displayTeamB').textContent : document.getElementById('displayTeamA').textContent} e viene aggiunta una lettera!`;
             
@@ -2256,14 +2284,8 @@
             
             document.getElementById('thirdBuzzer').disabled = false;
             
-            if (currentChainDirection === 'top') {
-                currentHiddenWordIndex++;
-            } else {
-                currentHiddenWordIndex--;
-            }
-            
+            // NON ripartire il timer immediatamente - mostrare le opzioni di direzione
             showDirectionOptions();
-            startChainTimer();
         }
 
         function handleThirdWrongAnswer() {
@@ -2361,6 +2383,16 @@
 
         function continueDirection() {
             document.getElementById('directionOptions').classList.add('hidden');
+            
+            if (currentChainDirection === 'top') {
+                currentHiddenWordIndex++;
+            } else {
+                currentHiddenWordIndex--;
+            }
+            
+            // Rivelare la prima lettera della nuova parola
+            revealFirstLetter(currentHiddenWordIndex);
+            
             highlightCurrentWord();
             document.getElementById('thirdMessage').textContent = `Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             startChainTimer();
@@ -2390,6 +2422,9 @@
                     }
                 }
             }
+            
+            // Rivelare la prima lettera della nuova parola
+            revealFirstLetter(currentHiddenWordIndex);
             
             highlightCurrentWord();
             document.getElementById('thirdMessage').textContent = `Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
