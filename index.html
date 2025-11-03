@@ -140,6 +140,42 @@
             text-align: center;
             width: 100%;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .score-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 8px;
+            animation: moneyFlow 1.5s ease-out;
+            z-index: 1;
+        }
+        
+        @keyframes moneyFlow {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            80% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
         }
         
         .team-sidebar.active-a .score {
@@ -613,18 +649,26 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Ombra per leggibilità */
             transition: var(--transition);
             border-left: 4px solid transparent;
+            transform-origin: top;
+            transform: scaleY(0);
+            opacity: 0;
         }
         
         .chain-word.revealed {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(253, 187, 45, 0.2));
             border-left: 4px solid var(--accent);
             color: #fff; /* Bianco per leggibilità */
+            transform: scaleY(1);
+            opacity: 1;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
         }
         
         .chain-word.hidden-word {
             background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
             border-left: 4px solid var(--secondary);
             color: #fff; /* Bianco per leggibilità */
+            transform: scaleY(1);
+            opacity: 1;
         }
         
         .chain-word.current-word {
@@ -1392,6 +1436,7 @@
         let wrongAnswerSound = new Audio('Reazione a Catena Soundtrack – Parola Sbagliata.mp4');
         let wordAppearanceSound = new Audio('Reazione a Catena Soundtrack – Apparizione parola.mp4');
         let correctWordSound = new Audio('Reazione a Catena Soundtrack – Parola esatta.mp4');
+        let moneySound = new Audio('Reazione a Catena Soundtrack – Suono effetto soldi.mp4');
         let musicTimeout;
         
         // Elementi DOM principali
@@ -1544,21 +1589,39 @@
         }
 
         function updateScore(team, points) {
+            // Riproduci il suono dei soldi
+            moneySound.currentTime = 0;
+            moneySound.play();
+            
             if (team === 'A') {
                 scoreA += points;
             } else {
                 scoreB += points;
             }
             
-            // Aggiorna tutti i display dei punteggi
-            document.querySelectorAll('#scoreA, #secondScoreA, #thirdScoreA').forEach(el => {
-                el.textContent = `€${scoreA.toLocaleString()}`;
-                el.classList.add('score-pop');
-                setTimeout(() => el.classList.remove('score-pop'), 500);
-            });
+            // Animazione dei soldi
+            const scoreElements = team === 'A' ? 
+                document.querySelectorAll('#scoreA, #secondScoreA, #thirdScoreA') : 
+                document.querySelectorAll('#scoreB, #secondScoreB, #thirdScoreB');
             
-            document.querySelectorAll('#scoreB, #secondScoreB, #thirdScoreB').forEach(el => {
-                el.textContent = `€${scoreB.toLocaleString()}`;
+            scoreElements.forEach(el => {
+                // Aggiungi animazione
+                const animation = document.createElement('div');
+                animation.className = 'score-animation';
+                animation.textContent = `+€${points.toLocaleString()}`;
+                el.appendChild(animation);
+                
+                // Rimuovi animazione dopo che è finita
+                setTimeout(() => {
+                    if (el.contains(animation)) {
+                        el.removeChild(animation);
+                    }
+                }, 1500);
+                
+                // Aggiorna il punteggio
+                el.textContent = `€${team === 'A' ? scoreA.toLocaleString() : scoreB.toLocaleString()}`;
+                el.appendChild(animation);
+                
                 el.classList.add('score-pop');
                 setTimeout(() => el.classList.remove('score-pop'), 500);
             });
@@ -1960,10 +2023,10 @@
         let chainTimerInterval;
         let chainTimeLeft = 20;
         
-        // CATENA CON 7 PAROLE - PRIMA CATENA CON ZIP DA 15.000, SECONDA DA 20.000
+        // CATENA CON 7 PAROLE MIGLIORATA - PRIMA CATENA CON ZIP DA 15.000, SECONDA DA 20.000
         const chainList = [
             {
-                words: ["CAPITOLO", "VOCE", "S", "ROTOLO", "PANCIA", "M", "TASCA"],
+                words: ["CAPITOLO", "VOCE", "SPARTITO", "ROTOLO", "PANCIA", "MUSICA", "TASCA"],
                 zip: {
                     first: "CAPO",
                     second: "STAZIONE", 
@@ -2046,6 +2109,17 @@
                 
                 chainContainer.appendChild(chainWord);
             }
+            
+            // Animazione a fisarmonica - rivelazione progressiva
+            setTimeout(() => {
+                const words = document.querySelectorAll('.chain-word');
+                words.forEach((word, index) => {
+                    setTimeout(() => {
+                        word.style.transform = 'scaleY(1)';
+                        word.style.opacity = '1';
+                    }, index * 200); // Ritardo progressivo
+                });
+            }, 500);
         }
 
         // Event listeners per il terzo gioco
@@ -2102,6 +2176,7 @@
             document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
             
             // Timer corretto che conta 20 secondi reali
+            clearInterval(chainTimerInterval);
             chainTimerInterval = setInterval(() => {
                 chainTimeLeft--;
                 document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
@@ -2380,6 +2455,7 @@
             document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
             
             // Timer corretto che conta 20 secondi reali
+            clearInterval(zipTimerInterval);
             zipTimerInterval = setInterval(() => {
                 zipTimeLeft--;
                 document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
