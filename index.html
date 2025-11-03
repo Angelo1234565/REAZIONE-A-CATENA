@@ -597,6 +597,7 @@
             gap: 8px; /* Ridotto per far entrare più parole */
         }
         
+        /* NUOVO STILE PER LE PAROLE DELLA CATENA - COME NELLE IMMAGINI */
         .chain-word {
             padding: 12px; /* Ridotto per far entrare più parole */
             background: rgba(0, 0, 0, 0.4);
@@ -606,24 +607,41 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem); /* Leggermente ridotto */
+            font-size: clamp(1.2rem, 2.2vw, 1.5rem); /* Leggermente aumentato */
+            font-weight: 700; /* Più grassetto */
+            color: white; /* Testo bianco */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Ombra per leggibilità */
             transition: var(--transition);
             border-left: 4px solid transparent;
         }
         
         .chain-word.revealed {
-            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(253, 187, 45, 0.2));
             border-left: 4px solid var(--accent);
+            color: #fff; /* Bianco per leggibilità */
         }
         
         .chain-word.hidden-word {
             background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
             border-left: 4px solid var(--secondary);
+            color: #fff; /* Bianco per leggibilità */
         }
         
         .chain-word.current-word {
             box-shadow: 0 0 15px rgba(253, 187, 45, 0.8);
             transform: scale(1.05);
+        }
+        
+        .chain-word.wrong-answer {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.4), rgba(192, 57, 43, 0.3));
+            border-left: 4px solid var(--danger);
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
         
         /* CONTROLLI RIORGANIZZATI - A DESTRA DELLA CATENA */
@@ -744,6 +762,40 @@
             font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             font-weight: bold;
             color: var(--accent);
+        }
+
+        /* NUOVO LAYOUT PER LA ZIP CON TIMER A SINISTRA E PREMIO A DESTRA */
+        .zip-layout {
+            display: flex;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .zip-timer-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .zip-chain-center {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .zip-prize-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Schermata di caricamento */
@@ -986,6 +1038,10 @@
                 padding: 8px;
                 min-height: 40px;
                 font-size: clamp(0.8rem, 1.6vw, 1rem);
+            }
+            
+            .zip-layout {
+                flex-direction: column;
             }
         }
     </style>
@@ -1230,23 +1286,34 @@
                             <i class="fas fa-clock"></i> Tempo rimanente: <span id="chainTimeLeft">20</span> secondi
                         </div>
                         
-                        <!-- ZIP Game - ORA CENTRALE -->
+                        <!-- ZIP Game - NUOVO LAYOUT -->
                         <div class="zip-game-area hidden" id="zipGameArea">
                             <h2 style="text-align: center; margin-bottom: 10px;"><i class="fas fa-bullseye"></i> GIOCO DELLA ZIP</h2>
                             
-                            <div class="zip-chain-container">
-                                <div class="chain-word revealed" id="zipFirstWord"></div>
-                                <div class="chain-word hidden-word" id="zipSecondWord"></div>
-                                <div class="chain-word hidden-word" id="zipThirdWord"></div>
-                                <div class="chain-word revealed" id="zipFourthWord"></div>
-                            </div>
-                            
-                            <div class="zip-prize" id="zipPrize">
-                                <i class="fas fa-trophy"></i> Premio in palio: <span id="prizeValue">15.000</span> punti!
-                            </div>
-
-                            <div class="zip-timer hidden" id="zipTimer">
-                                <i class="fas fa-clock"></i> Tempo rimanente: <span id="zipTimeLeft">20</span> secondi
+                            <div class="zip-layout">
+                                <!-- Timer a sinistra -->
+                                <div class="zip-timer-container">
+                                    <div class="zip-timer" id="zipTimer">
+                                        <i class="fas fa-clock"></i> Tempo rimanente: <span id="zipTimeLeft">20</span> secondi
+                                    </div>
+                                </div>
+                                
+                                <!-- Catena ZIP al centro -->
+                                <div class="zip-chain-center">
+                                    <div class="zip-chain-container">
+                                        <div class="chain-word revealed" id="zipFirstWord"></div>
+                                        <div class="chain-word hidden-word" id="zipSecondWord"></div>
+                                        <div class="chain-word hidden-word" id="zipThirdWord"></div>
+                                        <div class="chain-word revealed" id="zipFourthWord"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Premio a destra -->
+                                <div class="zip-prize-container">
+                                    <div class="zip-prize" id="zipPrize">
+                                        <i class="fas fa-trophy"></i> Premio in palio: <span id="prizeValue">15.000</span> punti!
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="message" id="zipMessage">
@@ -1322,6 +1389,9 @@
         let scoreB = 0;
         let currentTeam = 'A';
         let introMusic = new Audio('intro-music.mp3');
+        let wrongAnswerSound = new Audio('Reazione a Catena Soundtrack – Parola Sbagliata.mp4');
+        let wordAppearanceSound = new Audio('Reazione a Catena Soundtrack – Apparizione parola.mp4');
+        let correctWordSound = new Audio('Reazione a Catena Soundtrack – Parola esatta.mp4');
         let musicTimeout;
         
         // Elementi DOM principali
@@ -1580,6 +1650,10 @@
             letterBox.classList.add('revealed', 'pulse');
             revealedLetters.push(currentWord[position]);
             
+            // Riproduci il suono di apparizione parola
+            wordAppearanceSound.currentTime = 0;
+            wordAppearanceSound.play();
+            
             setTimeout(() => {
                 letterBox.classList.remove('pulse');
             }, 500);
@@ -1598,6 +1672,10 @@
         }
 
         function handleCorrectAnswer() {
+            // Riproduci il suono di parola esatta
+            correctWordSound.currentTime = 0;
+            correctWordSound.play();
+            
             document.getElementById('message').textContent = `Esatto! La parola è "${currentWord}". +€2.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             revealAllLetters();
             updateScore(currentTeam, 2000);
@@ -1885,7 +1963,7 @@
         // CATENA CON 7 PAROLE - PRIMA CATENA CON ZIP DA 15.000, SECONDA DA 20.000
         const chainList = [
             {
-                words: ["CAMPAGNA", "TRATTORE", "CARBURANTE", "STAZIONE", "BIGLIETTO", "TEATRO", "SPETTACOLO"],
+                words: ["CAPITOLO", "VOCE", "S", "ROTOLO", "PANCIA", "M", "TASCA"],
                 zip: {
                     first: "CAPO",
                     second: "STAZIONE", 
@@ -1947,7 +2025,7 @@
             
             revealedLettersPerWord = [];
             for (let i = 0; i < currentChain.words.length; i++) {
-                revealedLettersPerWord[i] = [];
+                revealedLettersPerWord[i] = [0]; // Solo la prima lettera inizialmente
             }
             
             for (let i = 0; i < currentChain.words.length; i++) {
@@ -1960,12 +2038,10 @@
                     chainWord.classList.add('revealed');
                 } else {
                     const word = currentChain.words[i];
-                    let displayText = word.charAt(0) + '_'.repeat(word.length - 2) + word.charAt(word.length - 1);
+                    // Mostra solo la prima lettera inizialmente
+                    let displayText = word.charAt(0);
                     chainWord.textContent = displayText;
                     chainWord.classList.add('hidden-word');
-                    
-                    revealedLettersPerWord[i].push(0);
-                    revealedLettersPerWord[i].push(word.length - 1);
                 }
                 
                 chainContainer.appendChild(chainWord);
@@ -2079,6 +2155,10 @@
         }
 
         function handleThirdCorrectAnswer() {
+            // Riproduci il suono di parola esatta
+            correctWordSound.currentTime = 0;
+            correctWordSound.play();
+            
             const currentChain = chainList[thirdCurrentRound - 1];
             const correctWord = currentChain.words[currentHiddenWordIndex];
             
@@ -2087,6 +2167,7 @@
             wordElement.classList.remove('hidden-word');
             wordElement.classList.add('revealed');
             wordElement.classList.remove('current-word');
+            wordElement.classList.remove('wrong-answer');
             
             document.getElementById('thirdMessage').textContent = `Esatto! La parola è "${correctWord}". +€3.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             updateScore(currentTeam, 3000);
@@ -2111,36 +2192,39 @@
         }
 
         function handleThirdWrongAnswer() {
-            revealAdditionalLetter();
-            currentTeam = currentTeam === 'A' ? 'B' : 'A';
-            updateActiveTeam();
+            // Riproduci il suono di parola sbagliata
+            wrongAnswerSound.play();
             
-            document.getElementById('thirdMessage').textContent = `Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            document.getElementById('thirdAnswerControls').classList.add('hidden');
-            document.getElementById('thirdBuzzer').disabled = false;
+            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+            wordElement.classList.add('wrong-answer');
             
-            highlightCurrentWord();
-            startChainTimer();
+            setTimeout(() => {
+                revealAdditionalLetter();
+                currentTeam = currentTeam === 'A' ? 'B' : 'A';
+                updateActiveTeam();
+                
+                document.getElementById('thirdMessage').textContent = `Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+                document.getElementById('thirdAnswerControls').classList.add('hidden');
+                document.getElementById('thirdBuzzer').disabled = false;
+                
+                highlightCurrentWord();
+                startChainTimer();
+            }, 1000);
         }
 
         function revealAdditionalLetter() {
             const currentChain = chainList[thirdCurrentRound - 1];
             const word = currentChain.words[currentHiddenWordIndex];
-            const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
             
-            const unrevealedPositions = [];
-            for (let i = 0; i < word.length; i++) {
-                if (!revealedLettersPerWord[currentHiddenWordIndex].includes(i)) {
-                    unrevealedPositions.push(i);
-                }
-            }
-            
-            if (unrevealedPositions.length > 0) {
-                const randomIndex = Math.floor(Math.random() * unrevealedPositions.length);
-                const position = unrevealedPositions[randomIndex];
-                
-                revealedLettersPerWord[currentHiddenWordIndex].push(position);
+            // Aggiungi la prossima lettera disponibile
+            const nextLetterIndex = revealedLettersPerWord[currentHiddenWordIndex].length;
+            if (nextLetterIndex < word.length) {
+                revealedLettersPerWord[currentHiddenWordIndex].push(nextLetterIndex);
                 updateWordDisplay(currentHiddenWordIndex);
+                
+                // Riproduci il suono di apparizione parola
+                wordAppearanceSound.currentTime = 0;
+                wordAppearanceSound.play();
             }
         }
 
@@ -2154,13 +2238,14 @@
                 if (revealedLettersPerWord[wordIndex].includes(i)) {
                     displayText += word.charAt(i);
                 } else {
-                    displayText += '_';
+                    // Non mostrare trattini, solo lettere rivelate
+                    break;
                 }
             }
             
             wordElement.textContent = displayText;
             
-            if (displayText.indexOf('_') === -1) {
+            if (displayText.length === word.length) {
                 wordElement.classList.remove('hidden-word');
                 wordElement.classList.add('revealed');
             }
@@ -2248,8 +2333,9 @@
             const zipData = currentChain.zip;
             
             document.getElementById('zipFirstWord').textContent = zipData.first;
-            document.getElementById('zipSecondWord').textContent = zipData.second.charAt(0) + '_'.repeat(zipData.second.length - 2) + zipData.second.charAt(zipData.second.length - 1);
-            document.getElementById('zipThirdWord').textContent = zipData.third.charAt(0) + '_'.repeat(zipData.third.length - 2) + zipData.third.charAt(zipData.third.length - 1);
+            // Per la ZIP, mostra solo la prima lettera delle parole nascoste
+            document.getElementById('zipSecondWord').textContent = zipData.second.charAt(0);
+            document.getElementById('zipThirdWord').textContent = zipData.third.charAt(0);
             document.getElementById('zipFourthWord').textContent = zipData.fourth;
             
             document.getElementById('zipMessage').textContent = `Hai completato la catena! La ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent} ha 5 secondi extra per la ZIP!`;
