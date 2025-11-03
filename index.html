@@ -541,6 +541,11 @@
             border-left: 4px solid var(--secondary);
         }
         
+        .chain-word.current-word {
+            box-shadow: 0 0 15px rgba(253, 187, 45, 0.8);
+            transform: scale(1.05);
+        }
+        
         .chain-direction {
             display: flex;
             justify-content: center;
@@ -714,6 +719,60 @@
             animation: scorePop 0.5s ease-in-out;
         }
 
+        /* Schermata sigla */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            color: white;
+        }
+        
+        .intro-title {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
+        
+        .intro-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 80%;
+        }
+        
+        .intro-btn {
+            padding: 15px 30px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            background: linear-gradient(135deg, var(--accent), #f39c12);
+            color: var(--dark);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .intro-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
         @media (max-width: 768px) {
             .game-layout, .third-game-layout {
                 flex-direction: column;
@@ -735,6 +794,15 @@
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
         <h2>Caricamento in corso...</h2>
+    </div>
+    
+    <!-- Schermata sigla -->
+    <div class="intro-screen hidden" id="introScreen">
+        <h1 class="intro-title">LAUREATA A CATENA</h1>
+        <p class="intro-subtitle">Più difficile della tesi (ma più divertente)</p>
+        <button class="intro-btn" id="introBtn">
+            <i class="fas fa-play-circle"></i> INIZIA IL GIOCO
+        </button>
     </div>
     
     <!-- Schermata di setup -->
@@ -999,7 +1067,7 @@
                         </div>
 
                         <div class="zip-timer hidden" id="zipTimer">
-                            <i class="fas fa-clock"></i> Tempo rimanente: <span id="zipTimeLeft">10</span> secondi
+                            <i class="fas fa-clock"></i> Tempo rimanente: <span id="zipTimeLeft">20</span> secondi
                         </div>
                         
                         <div class="message" id="zipMessage">
@@ -1046,6 +1114,7 @@
         
         // Elementi DOM principali
         const loadingScreen = document.getElementById('loadingScreen');
+        const introScreen = document.getElementById('introScreen');
         const setupScreen = document.getElementById('setupScreen');
         const gameScreen = document.getElementById('gameScreen');
         const secondGameScreen = document.getElementById('secondGameScreen');
@@ -1055,8 +1124,14 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
-                setupScreen.classList.remove('hidden');
+                introScreen.classList.remove('hidden');
             }, 2000);
+        });
+
+        // Gestione sigla iniziale
+        document.getElementById('introBtn').addEventListener('click', () => {
+            introScreen.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
         });
 
         // Gestione setup squadre
@@ -1643,6 +1718,7 @@
             for (let i = 0; i < currentChain.words.length; i++) {
                 const chainWord = document.createElement('div');
                 chainWord.className = 'chain-word';
+                chainWord.id = `chain-word-${i}`;
                 
                 if (i === 0 || i === currentChain.words.length - 1) {
                     chainWord.textContent = currentChain.words[i];
@@ -1652,7 +1728,6 @@
                     let displayText = word.charAt(0) + '_'.repeat(word.length - 2) + word.charAt(word.length - 1);
                     chainWord.textContent = displayText;
                     chainWord.classList.add('hidden-word');
-                    chainWord.id = `chain-word-${i}`;
                     
                     revealedLettersPerWord[i].push(0);
                     revealedLettersPerWord[i].push(word.length - 1);
@@ -1747,11 +1822,11 @@
 
         function highlightCurrentWord() {
             document.querySelectorAll('.chain-word').forEach(word => {
-                word.classList.remove('glow');
+                word.classList.remove('current-word');
             });
             
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
-            if (wordElement) wordElement.classList.add('glow');
+            if (wordElement) wordElement.classList.add('current-word');
         }
 
         function handleThirdBuzzer() {
@@ -1774,7 +1849,7 @@
             wordElement.textContent = correctWord;
             wordElement.classList.remove('hidden-word');
             wordElement.classList.add('revealed');
-            wordElement.classList.remove('glow');
+            wordElement.classList.remove('current-word');
             
             document.getElementById('thirdMessage').textContent = `Esatto! La parola è "${correctWord}". +€3.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             updateScore(currentTeam, 3000);
@@ -1899,6 +1974,7 @@
             
             const currentChain = chainList[thirdCurrentRound - 1];
             
+            // Trova la prossima parola nascosta nella nuova direzione
             if (currentChainDirection === 'top') {
                 for (let i = 1; i < currentChain.words.length - 1; i++) {
                     const wordElement = document.getElementById(`chain-word-${i}`);
@@ -1945,10 +2021,13 @@
 
         function handlePlayZip() {
             document.getElementById('zipOptions').classList.add('hidden');
-            document.getElementById('zipMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
+            document.getElementById('zipMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, indovina le due parole mancanti! Hai 20 secondi!`;
             
             document.getElementById('zipAnsweringPlayer').textContent = `Risponde: ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             document.getElementById('zipAnswerControls').classList.remove('hidden');
+            
+            // Nascondi i controlli superiori durante la ZIP
+            document.querySelector('.controls').classList.add('hidden');
             
             startZipTimer();
         }
@@ -1959,7 +2038,7 @@
             document.getElementById('zipMessage').textContent = `Hai passato la mano! Adesso tocca a ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent} giocare la ZIP.`;
             
             setTimeout(() => {
-                document.getElementById('zipMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, indovina le due parole mancanti! Hai 10 secondi!`;
+                document.getElementById('zipMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, indovina le due parole mancanti! Hai 20 secondi!`;
                 document.getElementById('zipAnsweringPlayer').textContent = `Risponde: ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
                 document.getElementById('zipAnswerControls').classList.remove('hidden');
                 startZipTimer();
@@ -1967,11 +2046,11 @@
         }
 
         let zipTimerInterval;
-        let zipTimeLeft = 10;
+        let zipTimeLeft = 20;
 
         function startZipTimer() {
             document.getElementById('zipTimer').classList.remove('hidden');
-            zipTimeLeft = 10;
+            zipTimeLeft = 20;
             document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
             
             zipTimerInterval = setInterval(() => {
@@ -2018,6 +2097,9 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
+            // Ripristina i controlli superiori
+            document.querySelector('.controls').classList.remove('hidden');
+            
             if (thirdCurrentRound >= thirdTotalRounds) {
                 document.getElementById('thirdNextBtn').disabled = false;
             } else {
@@ -2049,6 +2131,9 @@
             document.getElementById('zipThirdWord').classList.add('revealed');
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
+            
+            // Ripristina i controlli superiori
+            document.querySelector('.controls').classList.remove('hidden');
             
             if (thirdCurrentRound >= thirdTotalRounds) {
                 document.getElementById('thirdNextBtn').disabled = false;
