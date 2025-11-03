@@ -28,6 +28,8 @@
             --transition: all 0.3s ease;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             --glow: 0 0 15px rgba(253, 187, 45, 0.6);
+            --team-a-glow: 0 0 20px rgba(46, 204, 113, 0.7);
+            --team-b-glow: 0 0 20px rgba(52, 152, 219, 0.7);
         }
         
         body {
@@ -94,12 +96,19 @@
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
+            transition: var(--transition);
         }
         
-        .team-sidebar.active {
-            background: linear-gradient(135deg, rgba(253, 187, 45, 0.3), rgba(178, 31, 31, 0.2));
-            box-shadow: var(--glow);
-            border: 2px solid var(--accent);
+        .team-sidebar.active-a {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            box-shadow: var(--team-a-glow);
+            border: 2px solid var(--success);
+        }
+        
+        .team-sidebar.active-b {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.2));
+            box-shadow: var(--team-b-glow);
+            border: 2px solid var(--info);
         }
         
         .team-name {
@@ -110,6 +119,17 @@
             text-align: center;
             min-height: 40px;
             padding: 5px;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a .team-name {
+            color: var(--success);
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
+        }
+        
+        .team-sidebar.active-b .team-name {
+            color: var(--info);
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
         }
         
         .score {
@@ -119,6 +139,17 @@
             margin: 8px 0;
             text-align: center;
             width: 100%;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a .score {
+            color: var(--success);
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
+        }
+        
+        .team-sidebar.active-b .score {
+            color: var(--info);
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
         }
         
         .players-list {
@@ -128,6 +159,15 @@
             padding: 6px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a .players-list {
+            background: rgba(46, 204, 113, 0.2);
+        }
+        
+        .team-sidebar.active-b .players-list {
+            background: rgba(52, 152, 219, 0.2);
         }
         
         .player-item {
@@ -137,6 +177,15 @@
             border-radius: 5px;
             font-size: 0.8rem;
             text-align: center;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a .player-item {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .team-sidebar.active-b .player-item {
+            background: rgba(52, 152, 219, 0.3);
         }
         
         .game-center {
@@ -533,31 +582,31 @@
             padding: 8px;
         }
         
-        /* CATENA VERTICALE CON 7 PAROLE */
+        /* CATENA VERTICALE CON 7 PAROLE - PIÙ LUNGA */
         .chain-container {
             width: 100%;
             max-width: 500px;
             margin: 10px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 12px;
-            padding: 12px;
-            max-height: 50vh;
+            padding: 15px;
+            max-height: 60vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
         
         .chain-word {
-            padding: 12px;
+            padding: 15px;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
-            min-height: 50px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            font-size: clamp(1rem, 2vw, 1.2rem);
             transition: var(--transition);
             border-left: 4px solid transparent;
         }
@@ -1146,7 +1195,7 @@
                     <div class="chain-display-section">
                         <div class="round-info" id="thirdRoundInfo"><i class="fas fa-link"></i> Catena: 1/2</div>
                         
-                        <!-- CATENA VERTICALE CON 7 PAROLE -->
+                        <!-- CATENA VERTICALE CON 7 PAROLE - PIÙ LUNGA -->
                         <div class="chain-container" id="chainContainer">
                             <!-- Le parole verranno aggiunte dinamicamente -->
                         </div>
@@ -1374,12 +1423,21 @@
         }
 
         function updateActiveTeam() {
-            document.getElementById('teamASidebar').classList.toggle('active', currentTeam === 'A');
-            document.getElementById('teamBSidebar').classList.toggle('active', currentTeam === 'B');
-            document.getElementById('secondTeamASidebar').classList.toggle('active', currentTeam === 'A');
-            document.getElementById('secondTeamBSidebar').classList.toggle('active', currentTeam === 'B');
-            document.getElementById('thirdTeamASidebar').classList.toggle('active', currentTeam === 'A');
-            document.getElementById('thirdTeamBSidebar').classList.toggle('active', currentTeam === 'B');
+            // Rimuovi tutte le classi attive
+            document.querySelectorAll('.team-sidebar').forEach(sidebar => {
+                sidebar.classList.remove('active-a', 'active-b');
+            });
+            
+            // Aggiungi la classe corretta
+            if (currentTeam === 'A') {
+                document.getElementById('teamASidebar').classList.add('active-a');
+                document.getElementById('secondTeamASidebar').classList.add('active-a');
+                document.getElementById('thirdTeamASidebar').classList.add('active-a');
+            } else {
+                document.getElementById('teamBSidebar').classList.add('active-b');
+                document.getElementById('secondTeamBSidebar').classList.add('active-b');
+                document.getElementById('thirdTeamBSidebar').classList.add('active-b');
+            }
         }
 
         function updateScore(team, points) {
@@ -1960,6 +2018,7 @@
             
             revealAdditionalLetter();
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             document.getElementById('thirdBuzzer').disabled = false;
@@ -2024,6 +2083,7 @@
         function handleThirdWrongAnswer() {
             revealAdditionalLetter();
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
             
             document.getElementById('thirdMessage').textContent = `Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             document.getElementById('thirdAnswerControls').classList.add('hidden');
@@ -2182,6 +2242,7 @@
 
         function handlePassZip() {
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
             document.getElementById('zipOptions').classList.add('hidden');
             document.getElementById('zipMessage').textContent = `Hai passato la mano! Adesso tocca a ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent} giocare la ZIP.`;
             
@@ -2226,6 +2287,7 @@
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
+            updateActiveTeam();
             document.getElementById('zipAnsweringPlayer').textContent = `Risponde: ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             
             setTimeout(() => {
