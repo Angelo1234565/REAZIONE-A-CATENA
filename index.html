@@ -582,7 +582,7 @@
             padding: 8px;
         }
         
-        /* CATENA VERTICALE CON 7 PAROLE - PIÙ LUNGA */
+        /* CATENA VERTICALE CON 7 PAROLE - ALZATA PER VISIBILITÀ */
         .chain-container {
             width: 100%;
             max-width: 500px;
@@ -590,23 +590,23 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 12px;
             padding: 15px;
-            max-height: 60vh;
+            max-height: 75vh; /* Aumentato per mostrare tutte le 7 parole */
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px; /* Ridotto per far entrare più parole */
         }
         
         .chain-word {
-            padding: 15px;
+            padding: 12px; /* Ridotto per far entrare più parole */
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
-            min-height: 60px;
+            min-height: 50px; /* Ridotto per far entrare più parole */
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem); /* Leggermente ridotto */
             transition: var(--transition);
             border-left: 4px solid transparent;
         }
@@ -959,6 +959,17 @@
             .chain-controls-section {
                 width: 100%;
             }
+            
+            /* Per mobile, riduci ulteriormente la catena */
+            .chain-container {
+                max-height: 60vh;
+            }
+            
+            .chain-word {
+                padding: 8px;
+                min-height: 40px;
+                font-size: clamp(0.8rem, 1.6vw, 1rem);
+            }
         }
     </style>
 </head>
@@ -1193,9 +1204,7 @@
                 <div class="chain-game-container">
                     <!-- Sezione catena verticale -->
                     <div class="chain-display-section">
-                        <div class="round-info" id="thirdRoundInfo"><i class="fas fa-link"></i> Catena: 1/2</div>
-                        
-                        <!-- CATENA VERTICALE CON 7 PAROLE - PIÙ LUNGA -->
+                        <!-- CATENA VERTICALE CON 7 PAROLE - ALZATA -->
                         <div class="chain-container" id="chainContainer">
                             <!-- Le parole verranno aggiunte dinamicamente -->
                         </div>
@@ -1878,7 +1887,6 @@
         function initThirdGame() {
             resetThirdGame();
             updateActiveTeam();
-            document.getElementById('thirdRoundInfo').textContent = `Catena: ${thirdCurrentRound}/${thirdTotalRounds}`;
             document.getElementById('thirdMessage').textContent = `Scegli da che direzione iniziare la catena!`;
             
             createChainDisplay();
@@ -2369,7 +2377,6 @@
                 return;
             }
             
-            document.getElementById('thirdRoundInfo').textContent = `Catena: ${thirdCurrentRound}/${thirdTotalRounds}`;
             resetThirdGame();
             initThirdGame();
         }
