@@ -57,7 +57,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 20px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
@@ -66,8 +66,8 @@
         
         header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--accent);
             flex-shrink: 0;
             position: relative;
@@ -86,8 +86,8 @@
         }
         
         h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 10px;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 8px;
             color: var(--accent);
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
             font-weight: 800;
@@ -107,8 +107,8 @@
         }
         
         h2 {
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            margin: 10px 0;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            margin: 8px 0;
             color: var(--light);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             font-weight: 500;
@@ -118,17 +118,18 @@
         .game-layout {
             display: flex;
             flex: 1;
-            gap: 15px;
-            height: calc(100% - 150px);
+            gap: 10px;
+            height: calc(100% - 120px);
+            overflow: hidden;
         }
         
         .team-sidebar {
-            width: 200px; /* MODIFICATO: da 180px a 200px per evitare tagli */
+            width: 160px;
             display: flex;
             flex-direction: column;
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.1), rgba(26, 42, 108, 0.2));
-            padding: 15px;
-            border-radius: 15px;
+            padding: 10px;
+            border-radius: 12px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             position: relative;
             overflow: hidden;
@@ -154,24 +155,24 @@
         }
         
         .team-name {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--accent);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             text-align: center;
         }
         
         .score {
-            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: bold;
             color: var(--accent);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 10px 0;
+            margin: 8px 0;
             position: relative;
             display: inline-block;
             text-align: center;
@@ -189,21 +190,21 @@
         }
         
         .players-list {
-            margin-top: 10px;
+            margin-top: 8px;
             flex: 1;
             overflow-y: auto;
-            padding: 8px;
+            padding: 6px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             border: 1px solid rgba(253, 187, 45, 0.3);
         }
         
         .player-item {
-            padding: 6px;
-            margin-bottom: 6px;
+            padding: 5px;
+            margin-bottom: 5px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: center;
         }
         
@@ -218,20 +219,20 @@
             align-items: center;
             justify-content: flex-start;
             overflow: hidden;
-            padding: 10px;
-            min-width: 0; /* Importante per evitare overflow */
+            padding: 8px;
+            min-width: 0;
         }
         
         .game-mode {
             text-align: center;
-            margin-bottom: 15px;
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin-bottom: 12px;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             color: var(--accent);
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            padding: 8px 15px;
+            padding: 6px 12px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+            border-radius: 8px;
             border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
@@ -239,10 +240,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             flex-grow: 1;
             overflow: hidden;
-            padding: 10px;
+            padding: 8px;
             width: 100%;
             max-width: 100%;
         }
@@ -250,29 +251,29 @@
         .word-grid {
             display: flex;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             max-width: 100%;
             overflow: hidden;
-            padding: 12px;
+            padding: 10px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
+            border-radius: 12px;
             border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
         .letter-box {
-            width: clamp(50px, 7vw, 65px);
-            height: clamp(50px, 7vw, 65px);
-            border: 3px solid var(--accent);
+            width: clamp(40px, 6vw, 55px);
+            height: clamp(40px, 6vw, 55px);
+            border: 2px solid var(--accent);
             margin: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
             font-weight: bold;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 12px;
+            border-radius: 10px;
             transition: var(--transition);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             position: relative;
@@ -304,15 +305,15 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 12px;
             flex-shrink: 0;
             flex-wrap: wrap;
         }
         
         button {
-            padding: 10px 16px;
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            padding: 8px 14px;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
             font-weight: bold;
             border: none;
             border-radius: 50px;
@@ -347,8 +348,8 @@
         .buzzer {
             background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
-            font-size: clamp(1rem, 2.2vw, 1.2rem);
-            padding: 12px 24px;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            padding: 10px 20px;
             box-shadow: 0 8px 15px rgba(231, 76, 60, 0.4);
         }
         
@@ -385,20 +386,20 @@
         .correct-btn {
             background: linear-gradient(135deg, var(--success), #27ae60);
             color: white;
-            padding: 8px 16px;
+            padding: 6px 12px;
         }
         
         .wrong-btn {
             background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
-            padding: 8px 16px;
+            padding: 6px 12px;
         }
         
         .next-game-btn {
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
-            font-size: clamp(1rem, 1.8vw, 1.2rem);
-            padding: 12px 20px;
+            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+            padding: 10px 16px;
         }
         
         .next-game-btn:hover {
@@ -407,25 +408,25 @@
         }
         
         .round-info {
-            font-size: clamp(1rem, 2.2vw, 1.3rem);
-            margin: 12px 0;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            margin: 10px 0;
             text-align: center;
             color: var(--accent);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             font-weight: bold;
-            padding: 8px 15px;
+            padding: 6px 12px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+            border-radius: 8px;
             border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
         .message {
             text-align: center;
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-            margin: 12px 0;
-            min-height: 40px;
-            padding: 12px;
-            border-radius: 12px;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            margin: 10px 0;
+            min-height: 35px;
+            padding: 10px;
+            border-radius: 10px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border: 2px solid rgba(253, 187, 45, 0.3);
             font-weight: 600;
@@ -462,15 +463,15 @@
         .team-setup {
             display: flex;
             justify-content: space-between;
-            margin: 20px 0;
-            gap: 15px;
+            margin: 15px 0;
+            gap: 10px;
         }
         
         .team-input {
             flex: 1;
-            padding: 15px;
+            padding: 12px;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
+            border-radius: 12px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             position: relative;
             overflow: hidden;
@@ -488,22 +489,22 @@
         }
         
         .team-input h3 {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: var(--accent);
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         input {
-            padding: 10px;
-            margin: 8px 0;
+            padding: 8px;
+            margin: 6px 0;
             width: 100%;
             border: none;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            border-radius: 8px;
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             background: rgba(255, 255, 255, 0.9);
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
@@ -524,28 +525,28 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            margin-top: 12px;
+            gap: 10px;
+            margin-top: 10px;
         }
         
         .player-name {
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             color: var(--accent);
-            margin-top: 8px;
+            margin-top: 6px;
             font-weight: bold;
-            padding: 6px 12px;
+            padding: 5px 10px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid rgba(253, 187, 45, 0.3);
         }
         
         .game-completed {
             text-align: center;
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 12px;
+            padding: 12px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 15px;
-            border: 3px solid var(--success);
+            border-radius: 12px;
+            border: 2px solid var(--success);
             position: relative;
             overflow: hidden;
         }
@@ -585,10 +586,10 @@
         .quartina-container {
             width: 100%;
             max-width: 100%;
-            margin: 12px auto;
+            margin: 10px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 12px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             position: relative;
             overflow: hidden;
@@ -606,18 +607,18 @@
         }
         
         .quartina-line {
-            margin: 10px 0;
-            padding: 12px;
+            margin: 8px 0;
+            padding: 10px;
             background: rgba(0, 0, 0, 0.4);
-            border-radius: 12px;
-            min-height: 45px;
+            border-radius: 10px;
+            min-height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
             transition: var(--transition);
-            border-left: 5px solid transparent;
+            border-left: 4px solid transparent;
             position: relative;
             overflow: hidden;
             word-wrap: break-word;
@@ -636,39 +637,39 @@
         
         .quartina-line.revealed {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
-            border-left: 5px solid var(--accent);
-            transform: translateX(5px);
+            border-left: 4px solid var(--accent);
+            transform: translateX(4px);
         }
         
         .player-buzzers {
             display: flex;
             justify-content: space-between;
-            margin: 15px 0;
-            gap: 12px;
+            margin: 12px 0;
+            gap: 10px;
         }
         
         .team-buzzers {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
         
         .player-buzzer {
-            padding: 10px;
+            padding: 8px;
             background: linear-gradient(135deg, var(--info), #2980b9);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         .player-buzzer:hover {
@@ -693,31 +694,31 @@
         .quartina-controls {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 12px;
         }
         
         .quartina-points {
             text-align: center;
-            margin: 12px 0;
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            margin: 10px 0;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
             color: var(--accent);
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            padding: 8px 12px;
+            padding: 6px 10px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+            border-radius: 8px;
             border: 2px solid rgba(253, 187, 45, 0.3);
         }
         
         .correct-answer {
             text-align: center;
-            margin: 12px 0;
-            padding: 12px;
+            margin: 10px 0;
+            padding: 10px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 12px;
+            border-radius: 10px;
             border: 2px solid var(--success);
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             position: relative;
             overflow: hidden;
         }
@@ -737,10 +738,10 @@
         .chain-container {
             width: 100%;
             max-width: 100%;
-            margin: 12px auto;
+            margin: 10px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 12px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             position: relative;
             overflow: hidden;
@@ -758,18 +759,18 @@
         }
         
         .chain-word {
-            margin: 10px 0;
-            padding: 12px;
+            margin: 8px 0;
+            padding: 10px;
             background: rgba(0, 0, 0, 0.4);
-            border-radius: 12px;
-            min-height: 50px;
+            border-radius: 10px;
+            min-height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             transition: var(--transition);
-            border-left: 5px solid transparent;
+            border-left: 4px solid transparent;
             position: relative;
             overflow: hidden;
             word-wrap: break-word;
@@ -788,42 +789,42 @@
         
         .chain-word.revealed {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
-            border-left: 5px solid var(--accent);
-            transform: translateX(5px);
+            border-left: 4px solid var(--accent);
+            transform: translateX(4px);
         }
         
         .chain-word.hidden-word {
             background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
-            border-left: 5px solid var(--secondary);
+            border-left: 4px solid var(--secondary);
         }
         
         .chain-word.hidden-word.revealed {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
-            border-left: 5px solid var(--accent);
+            border-left: 4px solid var(--accent);
         }
         
         .chain-direction {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 12px;
+            margin: 12px 0;
         }
         
         .direction-btn {
-            padding: 10px 20px;
+            padding: 8px 16px;
             background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         .direction-btn:hover {
@@ -840,10 +841,10 @@
         .zip-container {
             width: 100%;
             max-width: 100%;
-            margin: 15px auto;
+            margin: 12px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 12px;
             border: 2px solid rgba(253, 187, 45, 0.3);
             position: relative;
             overflow: hidden;
@@ -863,25 +864,25 @@
         .zip-options {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 12px;
+            margin: 12px 0;
         }
         
         .zip-btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             background: linear-gradient(135deg, #f1c40f, #f39c12);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         .zip-btn:hover {
@@ -892,12 +893,12 @@
         
         .zip-prize {
             text-align: center;
-            margin: 15px 0;
-            padding: 15px;
+            margin: 12px 0;
+            padding: 12px;
             background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
-            border-radius: 12px;
+            border-radius: 10px;
             border: 2px solid var(--success);
-            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
             font-weight: bold;
             position: relative;
             overflow: hidden;
@@ -917,12 +918,12 @@
         /* Timer per la ZIP */
         .zip-timer {
             text-align: center;
-            margin: 15px 0;
-            padding: 12px;
+            margin: 12px 0;
+            padding: 10px;
             background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
-            border-radius: 12px;
+            border-radius: 10px;
             border: 2px solid var(--danger);
-            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             font-weight: bold;
             color: var(--accent);
             position: relative;
@@ -958,7 +959,7 @@
         .intro-video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Fa sì che il video copra tutto lo schermo */
+            object-fit: cover;
             position: absolute;
             top: 0;
             left: 0;
@@ -966,15 +967,15 @@
         
         .play-intro-btn {
             position: absolute;
-            bottom: 40px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 15px 30px;
+            padding: 12px 24px;
             background: linear-gradient(135deg, var(--accent), #f39c12);
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             transition: var(--transition);
@@ -983,7 +984,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .play-intro-btn:hover {
@@ -1007,13 +1008,13 @@
         }
         
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: var(--accent);
             animation: spin 1s ease-in-out infinite;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         @keyframes spin {
@@ -1028,31 +1029,31 @@
         /* TIMER PER LA MUSICA */
         .music-timer {
             position: fixed;
-            top: 15px;
-            right: 15px;
+            top: 10px;
+            right: 10px;
             background: rgba(0, 0, 0, 0.8);
             color: var(--accent);
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             font-weight: bold;
             z-index: 1000;
             border: 2px solid var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         /* TIMER PER IL TERZO GIOCO */
         .chain-timer {
             text-align: center;
-            margin: 15px 0;
-            padding: 12px;
+            margin: 12px 0;
+            padding: 10px;
             background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(192, 57, 43, 0.2));
-            border-radius: 12px;
+            border-radius: 10px;
             border: 2px solid var(--danger);
-            font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             font-weight: bold;
             color: var(--accent);
             position: relative;
@@ -1073,25 +1074,25 @@
         /* MANUALE ISTRUZIONI */
         .instructions {
             position: fixed;
-            bottom: 15px;
-            right: 15px;
+            bottom: 10px;
+            right: 10px;
             background: rgba(0, 0, 0, 0.8);
             color: var(--accent);
-            padding: 12px 15px;
-            border-radius: 10px;
-            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
-            max-width: 300px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+            max-width: 250px;
             border: 2px solid var(--accent);
             z-index: 1000;
         }
         
         .instructions h3 {
-            margin-bottom: 8px;
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            margin-bottom: 6px;
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         .instructions ul {
@@ -1100,10 +1101,10 @@
         }
         
         .instructions li {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             display: flex;
             align-items: flex-start;
-            gap: 6px;
+            gap: 5px;
         }
         
         .instructions li i {
@@ -1114,10 +1115,10 @@
         /* NUOVO STILE PER IL LIBRICINO ISTRUZIONI */
         .instructions-book {
             position: fixed;
-            bottom: 15px;
-            left: 15px;
-            width: 60px;
-            height: 60px;
+            bottom: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--accent), #f39c12);
             border-radius: 50%;
             display: flex;
@@ -1135,7 +1136,7 @@
         }
         
         .instructions-book i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: white;
         }
         
@@ -1151,16 +1152,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
         }
         
         .instructions-content {
-            max-width: 800px;
+            max-width: 700px;
             width: 100%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             border: 3px solid var(--accent);
             position: relative;
@@ -1174,38 +1175,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNpYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
             z-index: -1;
         }
         
         .instructions-header {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 2px solid var(--accent);
         }
         
         .instructions-header h2 {
             color: var(--accent);
-            font-size: clamp(1.5rem, 3vw, 2.2rem);
-            margin-bottom: 10px;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            margin-bottom: 8px;
         }
         
         .instructions-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .instructions-section h3 {
             color: var(--accent);
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
-            margin-bottom: 10px;
+            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .instructions-section p {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.5;
         }
         
@@ -1215,32 +1216,32 @@
         }
         
         .instructions-section li {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             align-items: flex-start;
-            gap: 8px;
+            gap: 6px;
         }
         
         .instructions-section li i {
             color: var(--accent);
-            margin-top: 4px;
+            margin-top: 3px;
         }
         
         .close-instructions {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 10px;
+            right: 10px;
             background: var(--danger);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: var(--transition);
         }
         
@@ -1254,15 +1255,15 @@
             .game-layout {
                 flex-direction: column;
                 height: auto;
-                gap: 10px;
+                gap: 8px;
             }
             
             .team-sidebar {
                 width: 100%;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
                 flex-direction: row;
                 align-items: center;
-                padding: 10px;
+                padding: 8px;
             }
             
             .team-sidebar.active {
@@ -1271,83 +1272,26 @@
             
             .team-name {
                 margin-bottom: 0;
-                margin-right: 10px;
+                margin-right: 8px;
                 flex: 1;
             }
             
             .score {
-                margin: 0 10px;
-                font-size: clamp(1.8rem, 3.5vw, 2.2rem);
+                margin: 0 8px;
+                font-size: clamp(1.5rem, 3vw, 1.8rem);
             }
             
             .players-list {
-                display: none; /* Nascondi la lista dei giocatori su schermi piccoli per risparmiare spazio */
+                display: none;
             }
             
             .game-center {
-                order: -1; /* Metti l'area di gioco in cima */
-                margin-bottom: 10px;
+                order: -1;
+                margin-bottom: 8px;
             }
             
-            .game-screen {
-                padding: 10px;
-            }
-            
-            .letter-box {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .team-input {
-                padding: 12px;
-            }
-            
-            .quartina-container {
-                padding: 12px;
-            }
-            
-            .quartina-line {
-                padding: 10px;
-                min-height: 40px;
-                font-size: clamp(0.8rem, 1.6vw, 1rem);
-            }
-            
-            .player-buzzers {
-                flex-direction: column;
-            }
-            
-            .chain-direction {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .zip-options {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            button {
-                padding: 8px 12px;
-            }
-            
-            .instructions {
-                max-width: 250px;
-                padding: 10px;
-            }
-            
-            .instructions-content {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
             .game-screen {
                 padding: 8px;
-            }
-            
-            .team-setup {
-                flex-direction: column;
             }
             
             .letter-box {
@@ -1356,35 +1300,41 @@
                 font-size: 1rem;
             }
             
-            .team-sidebar {
+            .team-input {
+                padding: 10px;
+            }
+            
+            .quartina-container {
+                padding: 10px;
+            }
+            
+            .quartina-line {
                 padding: 8px;
+                min-height: 35px;
+                font-size: clamp(0.7rem, 1.4vw, 0.9rem);
             }
             
-            .team-name {
-                font-size: 1rem;
+            .player-buzzers {
+                flex-direction: column;
             }
             
-            .score {
-                font-size: 1.5rem;
+            .chain-direction {
+                flex-direction: column;
+                gap: 6px;
             }
             
-            .controls {
-                gap: 8px;
+            .zip-options {
+                flex-direction: column;
+                gap: 6px;
             }
             
             button {
                 padding: 6px 10px;
-                font-size: 0.8rem;
-            }
-            
-            .buzzer {
-                padding: 8px 16px;
             }
             
             .instructions {
                 max-width: 200px;
                 padding: 8px;
-                font-size: 0.7rem;
             }
             
             .instructions-content {
@@ -1392,18 +1342,69 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .game-screen {
+                padding: 5px;
+            }
+            
+            .team-setup {
+                flex-direction: column;
+            }
+            
+            .letter-box {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .team-sidebar {
+                padding: 6px;
+            }
+            
+            .team-name {
+                font-size: 0.9rem;
+            }
+            
+            .score {
+                font-size: 1.3rem;
+            }
+            
+            .controls {
+                gap: 6px;
+            }
+            
+            button {
+                padding: 5px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .buzzer {
+                padding: 6px 12px;
+            }
+            
+            .instructions {
+                max-width: 180px;
+                padding: 6px;
+                font-size: 0.6rem;
+            }
+            
+            .instructions-content {
+                padding: 12px;
+            }
+        }
+
         /* NUOVI STILI PER LA SELEZIONE SQUADRE */
         .player-selection {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 6px;
+            margin-top: 6px;
         }
         
         .player-input {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .player-input input {
@@ -1415,14 +1416,14 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .add-player-btn:hover {
@@ -1435,14 +1436,14 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
         
         .remove-player-btn:hover {
@@ -1451,12 +1452,12 @@
         }
         
         .player-list {
-            margin-top: 8px;
-            max-height: 120px;
+            margin-top: 6px;
+            max-height: 100px;
             overflow-y: auto;
-            padding: 8px;
+            padding: 6px;
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid rgba(253, 187, 45, 0.3);
         }
         
@@ -1464,10 +1465,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px;
-            margin-bottom: 4px;
+            padding: 5px;
+            margin-bottom: 3px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+            border-radius: 4px;
         }
         
         .player-item:last-child {
@@ -1475,7 +1476,7 @@
         }
         
         .player-name-display {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
         
         /* Stili per l'animazione del punteggio */
@@ -1494,19 +1495,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 6px;
         }
         
         .logo-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: var(--accent);
             text-shadow: 0 0 10px rgba(253, 187, 45, 0.7);
         }
         
         /* Stili per le icone nei pulsanti */
         .btn-icon {
-            font-size: 1.1em;
+            font-size: 1em;
         }
     </style>
 </head>
@@ -1636,7 +1637,7 @@
                 </div>
             </div>
             
-            <button class="start-btn" id="startGameBtn" style="font-size: clamp(1.1rem, 2vw, 1.3rem); padding: 12px 24px; margin-top: 15px;">
+            <button class="start-btn" id="startGameBtn" style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); padding: 10px 20px; margin-top: 12px;">
                 <i class="fas fa-play-circle btn-icon"></i> INIZIA IL GIOCO
             </button>
         </div>
@@ -1683,7 +1684,7 @@
                     
                     <div class="answer-controls hidden" id="answerControls">
                         <div class="player-name" id="answeringPlayer"></div>
-                        <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; gap: 8px;">
                             <button class="correct-btn" id="correctBtn"><i class="fas fa-check btn-icon"></i> ESATTA</button>
                             <button class="wrong-btn" id="wrongBtn"><i class="fas fa-times btn-icon"></i> ERRATA</button>
                         </div>
@@ -1691,7 +1692,7 @@
                     
                     <div class="game-completed hidden" id="gameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
-                        <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 10px 0;">Hai completato tutte le 8 parole di Reazione a Catena</p>
+                        <p style="font-size: clamp(0.8rem, 1.6vw, 1rem); margin: 8px 0;">Hai completato tutte le 8 parole di Reazione a Catena</p>
                         <button class="next-game-btn" id="nextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Quando, Dove, Come, Perché →</button>
                     </div>
                 </div>
@@ -1773,7 +1774,7 @@
                     
                     <div class="answer-controls hidden" id="secondAnswerControls">
                         <div class="player-name" id="secondAnsweringPlayer"></div>
-                        <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; gap: 8px;">
                             <button class="correct-btn" id="secondCorrectBtn"><i class="fas fa-check btn-icon"></i> ESATTA</button>
                             <button class="wrong-btn" id="secondWrongBtn"><i class="fas fa-times btn-icon"></i> ERRATA</button>
                         </div>
@@ -1785,7 +1786,7 @@
                     
                     <div class="game-completed hidden" id="secondGameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
-                        <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 10px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
+                        <p style="font-size: clamp(0.8rem, 1.6vw, 1rem); margin: 8px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
                         <button class="next-game-btn" id="secondNextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Una tira l'altra →</button>
                     </div>
                 </div>
@@ -1852,7 +1853,7 @@
                     
                     <div class="answer-controls hidden" id="thirdAnswerControls">
                         <div class="player-name" id="thirdAnsweringPlayer"></div>
-                        <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; gap: 8px;">
                             <button class="correct-btn" id="thirdCorrectBtn"><i class="fas fa-check btn-icon"></i> ESATTA</button>
                             <button class="wrong-btn" id="thirdWrongBtn"><i class="fas fa-times btn-icon"></i> ERRATA</button>
                         </div>
@@ -1866,7 +1867,7 @@
                     
                     <!-- ZIP Game -->
                     <div class="zip-container hidden" id="zipContainer">
-                        <h2 style="text-align: center; margin-bottom: 12px;"><i class="fas fa-bullseye"></i> GIOCO DELLA ZIP</h2>
+                        <h2 style="text-align: center; margin-bottom: 10px;"><i class="fas fa-bullseye"></i> GIOCO DELLA ZIP</h2>
                         
                         <div class="chain-container">
                             <div class="chain-word revealed" id="zipFirstWord">
@@ -1902,7 +1903,7 @@
                         
                         <div class="answer-controls hidden" id="zipAnswerControls">
                             <div class="player-name" id="zipAnsweringPlayer"></div>
-                            <div style="display: flex; gap: 10px;">
+                            <div style="display: flex; gap: 8px;">
                                 <button class="correct-btn" id="zipCorrectBtn"><i class="fas fa-check btn-icon"></i> ESATTA</button>
                                 <button class="wrong-btn" id="zipWrongBtn"><i class="fas fa-times btn-icon"></i> ERRATA</button>
                             </div>
@@ -1915,7 +1916,7 @@
                     
                     <div class="game-completed hidden" id="thirdGameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
-                        <p style="font-size: clamp(0.9rem, 1.8vw, 1.1rem); margin: 10px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
+                        <p style="font-size: clamp(0.8rem, 1.6vw, 1rem); margin: 8px 0;">Hai completato tutte le catene di "Una tira l'altra"</p>
                         <button class="next-game-btn" id="thirdNextGameBtn"><i class="fas fa-home btn-icon"></i> Torna al Menu Principale</button>
                     </div>
                 </div>
@@ -2086,14 +2087,14 @@
         let letterInterval;
         let gameStarted = false;
         let currentRound = 1;
-        let totalRounds = 8; // MODIFICATO: da 12 a 8
+        let totalRounds = 8;
         let scoreA = 0;
         let scoreB = 0;
         let currentTeam = 'A';
         let answeringPlayer = '';
-        let musicPlayed = false; // Variabile per controllare se la musica è già stata riprodotta
+        let musicPlayed = false;
         
-        // Lista di parole LUNGHE e complesse (sempre nello stesso ordine) - MODIFICATO: da 12 a 8 parole
+        // Lista di parole LUNGHE e complesse (sempre nello stesso ordine)
         const wordList = [
             'AUTOMOBILE', 'TELEVISIONE', 'COMPUTER', 'BIBLIOTECA', 
             'GIARDINO', 'ELEFANTE', 'CANGURO', 'DINOSAURO'
@@ -2106,7 +2107,7 @@
         let currentQuartinaStep = 0;
         let currentAnsweringPlayer = '';
         let currentAnsweringTeam = '';
-        let quartinaPoints = 8000; // MODIFICATO: da 20 a 8000
+        let quartinaPoints = 8000;
         let musicTimeout;
         let musicTimerInterval;
         
@@ -2146,43 +2147,43 @@
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         let thirdTotalRounds = 2;
-        let currentChainDirection = ''; // 'top' o 'bottom'
+        let currentChainDirection = '';
         let currentChainPosition = 0;
         let currentHiddenWordIndex = 0;
         let zipGameActive = false;
         let zipPlayingTeam = '';
-        let revealedLettersPerWord = []; // Tiene traccia delle lettere rivelate per ogni parola
-        let currentRevealedLetters = []; // Lettere rivelate per la parola corrente
+        let revealedLettersPerWord = [];
+        let currentRevealedLetters = [];
         let zipTimerInterval;
         let zipTimeLeft = 10;
         let chainTimerInterval;
-        let chainTimeLeft = 20; // MODIFICATO: timer di 20 secondi
+        let chainTimeLeft = 20;
         
-        // MODIFICATO: Lista di catene per Una tira l'altra con parole realistiche da Reazione a Catena
- const chainList = [
-    {
-        words: ["CAMPAGNA", "TRATTORE", "CARBURANTE", "STAZIONE", "BIGLIETTO", "TEATRO", "SPETTACOLO"],
-        zip: {
-            first: "CAPO",
-            second: "STAZIONE", 
-            third: "CENTRALE",  
-            fourth: "OPERATIVA",
-            answer: "CAPO STAZIONE CENTRALE OPERATIVA",
-            prize: 15000
-        }
-    },
-    {
-        words: ["MONTAGNA", "FUNIVIA", "PANORAMA", "FOTOGRAFIA", "RICORDO", "VIAGGIO", "AVVENTURA"],
-        zip: {
-            first: "ONDA",
-            second: "RADIO", 
-            third: "AMATORE",  
-            fourth: "SPORTIVO",
-            answer: "ONDA RADIO AMATORE SPORTIVO",
-            prize: 20000
-        }
-    }
-];
+        // Lista di catene per Una tira l'altra
+        const chainList = [
+            {
+                words: ["CAMPAGNA", "TRATTORE", "CARBURANTE", "STAZIONE", "BIGLIETTO", "TEATRO", "SPETTACOLO"],
+                zip: {
+                    first: "CAPO",
+                    second: "STAZIONE", 
+                    third: "CENTRALE",  
+                    fourth: "OPERATIVA",
+                    answer: "CAPO STAZIONE CENTRALE OPERATIVA",
+                    prize: 15000
+                }
+            },
+            {
+                words: ["MONTAGNA", "FUNIVIA", "PANORAMA", "FOTOGRAFIA", "RICORDO", "VIAGGIO", "AVVENTURA"],
+                zip: {
+                    first: "ONDA",
+                    second: "RADIO", 
+                    third: "AMATORE",  
+                    fourth: "SPORTIVO",
+                    answer: "ONDA RADIO AMATORE SPORTIVO",
+                    prize: 20000
+                }
+            }
+        ];
         
         // Elementi DOM
         const setupScreen = document.getElementById('setupScreen');
@@ -2365,8 +2366,6 @@
             updatePlayersInSidebars();
             roundInfoElement.textContent = `📝 Parola: ${currentRound}/${totalRounds}`;
             message.textContent = `🎯 Inizia la ${displayTeamA.textContent}!`;
-            
-            // NON riprodurre la musica qui - verrà riprodotta solo quando inizia il primo gioco
         }
         
         // Reset del gioco Caccia alla Parola
@@ -2453,9 +2452,9 @@
         
         // Gestisce una risposta corretta
         function handleCorrectAnswer() {
-            message.textContent = `✅ Esatto! La parola è "${currentWord}". +€2.000 per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`; // MODIFICATO: da +10 punti a +€2.000
+            message.textContent = `✅ Esatto! La parola è "${currentWord}". +€2.000 per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
             revealAllLetters();
-            updateScore(currentTeam, 2000); // MODIFICATO: da 10 a 2000
+            updateScore(currentTeam, 2000);
             nextBtn.disabled = false;
             answerControls.classList.add('hidden');
             
@@ -2577,7 +2576,7 @@
             initSecondGame();
         }
         
-        // RIPRODUCI LA MUSICA INTRODUTTIVA - MODIFICATA PER PARTIRE QUANDO SI CLICCA SU "INIZIA IL GIOCO"
+        // RIPRODUCI LA MUSICA INTRODUTTIVA
         function playIntroMusic() {
             // Assicurati che la musica sia ferma prima di iniziare
             skipMusic();
@@ -2633,7 +2632,7 @@
             updatePlayersInSidebars();
             secondRoundInfo.textContent = `📋 Quartina: ${secondCurrentRound}/${secondTotalRounds}`;
             secondMessage.textContent = "🎯 Premi 'INIZIA QUARTINA' per iniziare il gioco!";
-            quartinaPoints = 8000; // MODIFICATO: da 20 a 8000
+            quartinaPoints = 8000;
             updateQuartinaPointsDisplay();
             
             secondStartBtn.disabled = false;
@@ -2686,7 +2685,7 @@
             
             revealQuartinaStep();
             secondMessage.textContent = `🔍 Indovina a cosa si riferisce la quartina! Tocca alla ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}`;
-            quartinaPoints = 8000; // MODIFICATO: da 40 a 8000
+            quartinaPoints = 8000;
             updateQuartinaPointsDisplay();
             
             // Mostra i buzzer delle squadre
@@ -2701,15 +2700,13 @@
             revealQuartinaStep();
             
             if (currentQuartinaStep === 1) {
-                quartinaPoints = 4000; // MODIFICATO: da 30 a 4000
+                quartinaPoints = 4000;
             } else if (currentQuartinaStep === 2) {
-                quartinaPoints = 4000; // MODIFICATO: da 20 a 4000
+                quartinaPoints = 4000;
             } else if (currentQuartinaStep === 3) {
-                quartinaPoints = 4000; // MODIFICATO: da 10 a 4000
+                quartinaPoints = 4000;
                 secondNextBtn.disabled = true;
                 secondNextQuartinaBtn.disabled = false;
-                // MODIFICATO: non mostrare più automaticamente la risposta corretta
-                // secondMessage.textContent = "⏰ Quartina completata! Nessuno ha indovinato.";
             }
             updateQuartinaPointsDisplay();
         }
@@ -3061,8 +3058,8 @@
         function completeChain() {
             stopChainTimer();
             
-            thirdMessage.textContent = `🎉 Catena completata! +€3.000 bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`; // MODIFICATO: da 25 a 3000
-            updateScore(currentTeam, 3000); // MODIFICATO: da 25 a 3000
+            thirdMessage.textContent = `🎉 Catena completata! +€3.000 bonus per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 3000);
             
             thirdBuzzer.disabled = true;
             thirdAnswerControls.classList.add('hidden');
@@ -3091,8 +3088,8 @@
             wordElement.classList.add('revealed');
             wordElement.classList.remove('glow');
             
-            thirdMessage.textContent = `✅ Esatto! La parola è "${correctWord}". +€3.000 per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`; // MODIFICATO: da 15 a 3000
-            updateScore(currentTeam, 3000); // MODIFICATO: da 15 a 3000
+            thirdMessage.textContent = `✅ Esatto! La parola è "${correctWord}". +€3.000 per la ${currentTeam === 'A' ? displayTeamA.textContent : displayTeamB.textContent}!`;
+            updateScore(currentTeam, 3000);
             
             // La squadra mantiene il turno
             thirdAnswerControls.classList.add('hidden');
