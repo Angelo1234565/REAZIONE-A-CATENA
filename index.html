@@ -674,13 +674,30 @@
             flex-wrap: wrap;
         }
         
-        .zip-container {
+        /* ZIP GAME - MODIFICATO PER ESSERE CENTRALE */
+        .zip-game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            overflow: hidden;
+            padding: 8px;
             width: 100%;
-            max-width: 100%;
-            margin: 12px auto;
+        }
+        
+        .zip-chain-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 10px auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 12px;
-            padding: 12px;
+            padding: 15px;
+            max-height: 75vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
         
         .zip-prize {
@@ -1212,42 +1229,12 @@
                         <div class="chain-timer hidden" id="chainTimer">
                             <i class="fas fa-clock"></i> Tempo rimanente: <span id="chainTimeLeft">20</span> secondi
                         </div>
-                    </div>
-                    
-                    <!-- Sezione controlli a destra -->
-                    <div class="chain-controls-section">
-                        <div class="message" id="thirdMessage"><i class="fas fa-bullseye"></i> Scegli da che direzione iniziare la catena!</div>
                         
-                        <div class="chain-direction" id="chainDirection">
-                            <button class="direction-btn" id="topDirectionBtn"><i class="fas fa-arrow-down"></i> Dall'alto</button>
-                            <button class="direction-btn" id="bottomDirectionBtn"><i class="fas fa-arrow-up"></i> Dal basso</button>
-                        </div>
-                        
-                        <div class="chain-main-controls">
-                            <button class="start-btn" id="thirdStartBtn"><i class="fas fa-rocket"></i> INIZIA CATENA</button>
-                            <button class="buzzer" id="thirdBuzzer"><i class="fas fa-fire"></i> BUZZER</button>
-                            <button class="next-btn" id="thirdNextBtn"><i class="fas fa-forward"></i> PROSSIMA CATENA</button>
-                        </div>
-                        
-                        <div class="answer-controls hidden" id="thirdAnswerControls">
-                            <div class="player-name" id="thirdAnsweringPlayer"></div>
-                            <div style="display: flex; gap: 8px;">
-                                <button class="correct-btn" id="thirdCorrectBtn"><i class="fas fa-check"></i> ESATTA</button>
-                                <button class="wrong-btn" id="thirdWrongBtn"><i class="fas fa-times"></i> ERRATA</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Opzioni per cambiare direzione -->
-                        <div class="chain-direction hidden" id="directionOptions">
-                            <button class="direction-btn" id="continueDirectionBtn"><i class="fas fa-redo"></i> Continua</button>
-                            <button class="direction-btn" id="changeDirectionBtn"><i class="fas fa-exchange-alt"></i> Cambia direzione</button>
-                        </div>
-                        
-                        <!-- ZIP Game -->
-                        <div class="zip-container hidden" id="zipContainer">
+                        <!-- ZIP Game - ORA CENTRALE -->
+                        <div class="zip-game-area hidden" id="zipGameArea">
                             <h2 style="text-align: center; margin-bottom: 10px;"><i class="fas fa-bullseye"></i> GIOCO DELLA ZIP</h2>
                             
-                            <div class="chain-container">
+                            <div class="zip-chain-container">
                                 <div class="chain-word revealed" id="zipFirstWord"></div>
                                 <div class="chain-word hidden-word" id="zipSecondWord"></div>
                                 <div class="chain-word hidden-word" id="zipThirdWord"></div>
@@ -1282,6 +1269,36 @@
                             <div class="correct-answer hidden" id="zipCorrectAnswer">
                                 <strong><i class="fas fa-bullseye"></i> Risposta corretta:</strong> <span id="zipAnswerText"></span>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sezione controlli a destra -->
+                    <div class="chain-controls-section">
+                        <div class="message" id="thirdMessage"><i class="fas fa-bullseye"></i> Scegli da che direzione iniziare la catena!</div>
+                        
+                        <div class="chain-direction" id="chainDirection">
+                            <button class="direction-btn" id="topDirectionBtn"><i class="fas fa-arrow-down"></i> Dall'alto</button>
+                            <button class="direction-btn" id="bottomDirectionBtn"><i class="fas fa-arrow-up"></i> Dal basso</button>
+                        </div>
+                        
+                        <div class="chain-main-controls">
+                            <button class="start-btn" id="thirdStartBtn"><i class="fas fa-rocket"></i> INIZIA CATENA</button>
+                            <button class="buzzer" id="thirdBuzzer"><i class="fas fa-fire"></i> BUZZER</button>
+                            <button class="next-btn" id="thirdNextBtn"><i class="fas fa-forward"></i> PROSSIMA CATENA</button>
+                        </div>
+                        
+                        <div class="answer-controls hidden" id="thirdAnswerControls">
+                            <div class="player-name" id="thirdAnsweringPlayer"></div>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="correct-btn" id="thirdCorrectBtn"><i class="fas fa-check"></i> ESATTA</button>
+                                <button class="wrong-btn" id="thirdWrongBtn"><i class="fas fa-times"></i> ERRATA</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Opzioni per cambiare direzione -->
+                        <div class="chain-direction hidden" id="directionOptions">
+                            <button class="direction-btn" id="continueDirectionBtn"><i class="fas fa-redo"></i> Continua</button>
+                            <button class="direction-btn" id="changeDirectionBtn"><i class="fas fa-exchange-alt"></i> Cambia direzione</button>
                         </div>
                         
                         <div class="game-completed hidden" id="thirdGameCompleted">
@@ -1865,7 +1882,7 @@
         let chainTimerInterval;
         let chainTimeLeft = 20;
         
-        // CATENA CON 7 PAROLE COME RICHIESTO
+        // CATENA CON 7 PAROLE - PRIMA CATENA CON ZIP DA 15.000, SECONDA DA 20.000
         const chainList = [
             {
                 words: ["CAMPAGNA", "TRATTORE", "CARBURANTE", "STAZIONE", "BIGLIETTO", "TEATRO", "SPETTACOLO"],
@@ -1907,12 +1924,17 @@
             chainTimeLeft = 20;
             
             document.getElementById('chainDirection').classList.remove('hidden');
-            document.getElementById('zipContainer').classList.add('hidden');
+            document.getElementById('zipGameArea').classList.add('hidden');
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             document.getElementById('zipAnswerControls').classList.add('hidden');
             document.getElementById('zipCorrectAnswer').classList.add('hidden');
             document.getElementById('directionOptions').classList.add('hidden');
             document.getElementById('chainTimer').classList.add('hidden');
+            document.getElementById('zipTimer').classList.add('hidden');
+            
+            // Mostra la catena e nascondi la ZIP
+            document.getElementById('chainContainer').classList.remove('hidden');
+            document.getElementById('zipGameArea').classList.add('hidden');
             
             // Ripristina i controlli principali
             document.querySelector('.chain-main-controls').classList.remove('hidden');
@@ -2215,8 +2237,9 @@
         }
 
         function startZipGame() {
+            // Nascondi la catena e mostra la ZIP al centro
             document.getElementById('chainContainer').classList.add('hidden');
-            document.getElementById('zipContainer').classList.remove('hidden');
+            document.getElementById('zipGameArea').classList.remove('hidden');
             
             // Nascondi i controlli principali durante la ZIP
             document.querySelector('.chain-main-controls').classList.add('hidden');
@@ -2316,16 +2339,14 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
-            // Ripristina i controlli principali
-            document.querySelector('.chain-main-controls').classList.remove('hidden');
-            
-            if (thirdCurrentRound >= thirdTotalRounds) {
-                document.getElementById('thirdNextBtn').disabled = false;
-            } else {
-                setTimeout(() => {
+            // Dopo 3 secondi, passa alla prossima catena o completa il gioco
+            setTimeout(() => {
+                if (thirdCurrentRound >= thirdTotalRounds) {
+                    completeThirdGame();
+                } else {
                     nextChain();
-                }, 3000);
-            }
+                }
+            }, 3000);
         }
 
         function handleZipWrong() {
@@ -2351,16 +2372,14 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
-            // Ripristina i controlli principali
-            document.querySelector('.chain-main-controls').classList.remove('hidden');
-            
-            if (thirdCurrentRound >= thirdTotalRounds) {
-                document.getElementById('thirdNextBtn').disabled = false;
-            } else {
-                setTimeout(() => {
+            // Dopo 3 secondi, passa alla prossima catena o completa il gioco
+            setTimeout(() => {
+                if (thirdCurrentRound >= thirdTotalRounds) {
+                    completeThirdGame();
+                } else {
                     nextChain();
-                }, 3000);
-            }
+                }
+            }, 3000);
         }
 
         function nextChain() {
@@ -2370,8 +2389,13 @@
                 return;
             }
             
-            resetThirdGame();
-            initThirdGame();
+            document.getElementById('thirdMessage').textContent = `Preparati per la prossima catena!`;
+            
+            // Reset del gioco per la nuova catena
+            setTimeout(() => {
+                resetThirdGame();
+                initThirdGame();
+            }, 2000);
         }
 
         function completeThirdGame() {
