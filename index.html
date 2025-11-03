@@ -479,6 +479,35 @@
             font-size: clamp(0.8rem, 1.4vw, 0.9rem);
         }
         
+        /* CORREZIONE: Pulsanti diretti per il secondo gioco */
+        .direct-answer-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            gap: 10px;
+        }
+        
+        .direct-answer-btn {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .direct-answer-btn:hover {
+            transform: scale(1.05);
+        }
+        
         /* CORREZIONE 3: Layout migliorato per Una tira l'altra */
         .third-game-layout {
             display: flex;
@@ -626,6 +655,23 @@
             font-size: clamp(0.9rem, 1.8vw, 1.1rem);
             font-weight: bold;
             color: var(--accent);
+        }
+
+        /* CORREZIONE: Controlli spostati per Una tira l'altra */
+        .chain-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .chain-main-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
         }
 
         /* Schermata di caricamento */
@@ -942,27 +988,20 @@
                     
                     <div class="message" id="secondMessage">Premi "INIZIA QUARTINA" per iniziare il gioco!</div>
                     
-                    <div class="player-buzzers" id="secondPlayerBuzzers">
-                        <div class="team-buzzers">
-                            <button class="player-buzzer" id="secondBuzzerA"><i class="fas fa-users"></i> BUZZER</button>
-                        </div>
-                        <div class="team-buzzers">
-                            <button class="player-buzzer" id="secondBuzzerB"><i class="fas fa-users"></i> BUZZER</button>
-                        </div>
+                    <!-- CORREZIONE: Pulsanti diretti per le squadre -->
+                    <div class="direct-answer-buttons hidden" id="directAnswerButtons">
+                        <button class="direct-answer-btn" id="directAnswerA">
+                            <i class="fas fa-check"></i> ESATTA - <span id="teamANameDirect">Squadra A</span>
+                        </button>
+                        <button class="direct-answer-btn" id="directAnswerB">
+                            <i class="fas fa-check"></i> ESATTA - <span id="teamBNameDirect">Squadra B</span>
+                        </button>
                     </div>
                     
                     <div class="controls">
                         <button class="start-btn" id="secondStartBtn"><i class="fas fa-rocket"></i> INIZIA QUARTINA</button>
                         <button class="next-btn" id="secondNextBtn"><i class="fas fa-forward"></i> PROSSIMA AFFERMAZIONE</button>
                         <button class="next-btn" id="secondNextQuartinaBtn"><i class="fas fa-clipboard-list"></i> PROSSIMA QUARTINA</button>
-                    </div>
-                    
-                    <div class="answer-controls hidden" id="secondAnswerControls">
-                        <div class="player-name" id="secondAnsweringPlayer"></div>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="correct-btn" id="secondCorrectBtn"><i class="fas fa-check"></i> ESATTA</button>
-                            <button class="wrong-btn" id="secondWrongBtn"><i class="fas fa-times"></i> ERRATA</button>
-                        </div>
                     </div>
                     
                     <div class="correct-answer hidden" id="correctAnswerDisplay">
@@ -1031,24 +1070,27 @@
                         <button class="direction-btn" id="bottomDirectionBtn"><i class="fas fa-arrow-up"></i> Dal basso</button>
                     </div>
                     
-                    <div class="controls">
-                        <button class="start-btn" id="thirdStartBtn"><i class="fas fa-rocket"></i> INIZIA CATENA</button>
-                        <button class="buzzer" id="thirdBuzzer"><i class="fas fa-fire"></i> BUZZER</button>
-                        <button class="next-btn" id="thirdNextBtn"><i class="fas fa-forward"></i> PROSSIMA CATENA</button>
-                    </div>
-                    
-                    <div class="answer-controls hidden" id="thirdAnswerControls">
-                        <div class="player-name" id="thirdAnsweringPlayer"></div>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="correct-btn" id="thirdCorrectBtn"><i class="fas fa-check"></i> ESATTA</button>
-                            <button class="wrong-btn" id="thirdWrongBtn"><i class="fas fa-times"></i> ERRATA</button>
+                    <!-- CORREZIONE: Controlli spostati per non oscurare la catena -->
+                    <div class="chain-controls">
+                        <div class="chain-main-controls">
+                            <button class="start-btn" id="thirdStartBtn"><i class="fas fa-rocket"></i> INIZIA CATENA</button>
+                            <button class="buzzer" id="thirdBuzzer"><i class="fas fa-fire"></i> BUZZER</button>
+                            <button class="next-btn" id="thirdNextBtn"><i class="fas fa-forward"></i> PROSSIMA CATENA</button>
                         </div>
-                    </div>
-                    
-                    <!-- Opzioni per cambiare direzione -->
-                    <div class="chain-direction hidden" id="directionOptions">
-                        <button class="direction-btn" id="continueDirectionBtn"><i class="fas fa-redo"></i> Continua</button>
-                        <button class="direction-btn" id="changeDirectionBtn"><i class="fas fa-exchange-alt"></i> Cambia direzione</button>
+                        
+                        <div class="answer-controls hidden" id="thirdAnswerControls">
+                            <div class="player-name" id="thirdAnsweringPlayer"></div>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="correct-btn" id="thirdCorrectBtn"><i class="fas fa-check"></i> ESATTA</button>
+                                <button class="wrong-btn" id="thirdWrongBtn"><i class="fas fa-times"></i> ERRATA</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Opzioni per cambiare direzione -->
+                        <div class="chain-direction hidden" id="directionOptions">
+                            <button class="direction-btn" id="continueDirectionBtn"><i class="fas fa-redo"></i> Continua</button>
+                            <button class="direction-btn" id="changeDirectionBtn"><i class="fas fa-exchange-alt"></i> Cambia direzione</button>
+                        </div>
                     </div>
                     
                     <!-- ZIP Game -->
@@ -1473,16 +1515,19 @@
             document.getElementById('secondMessage').textContent = "Premi 'INIZIA QUARTINA' per iniziare il gioco!";
             quartinaPoints = 8000;
             updateQuartinaPointsDisplay();
+            
+            // Aggiorna nomi squadre nei pulsanti diretti
+            document.getElementById('teamANameDirect').textContent = document.getElementById('teamAName').value;
+            document.getElementById('teamBNameDirect').textContent = document.getElementById('teamBName').value;
         }
 
         function resetSecondGame() {
             secondGameStarted = false;
             currentQuartinaStep = 0;
             resetQuartinaDisplay();
-            document.getElementById('secondAnswerControls').classList.add('hidden');
+            document.getElementById('directAnswerButtons').classList.add('hidden');
             document.getElementById('correctAnswerDisplay').classList.add('hidden');
             document.getElementById('secondNextQuartinaBtn').disabled = true;
-            document.getElementById('secondPlayerBuzzers').classList.add('hidden');
         }
 
         function resetQuartinaDisplay() {
@@ -1505,10 +1550,8 @@
         document.getElementById('secondStartBtn').addEventListener('click', startSecondGameRound);
         document.getElementById('secondNextBtn').addEventListener('click', revealNextQuartinaStep);
         document.getElementById('secondNextQuartinaBtn').addEventListener('click', nextQuartina);
-        document.getElementById('secondCorrectBtn').addEventListener('click', handleSecondCorrectAnswer);
-        document.getElementById('secondWrongBtn').addEventListener('click', handleSecondWrongAnswer);
-        document.getElementById('secondBuzzerA').addEventListener('click', () => handleSecondBuzzer('A'));
-        document.getElementById('secondBuzzerB').addEventListener('click', () => handleSecondBuzzer('B'));
+        document.getElementById('directAnswerA').addEventListener('click', () => handleDirectAnswer('A'));
+        document.getElementById('directAnswerB').addEventListener('click', () => handleDirectAnswer('B'));
         document.getElementById('secondNextGameBtn').addEventListener('click', startThirdGame);
         document.getElementById('secondNextGameBtnCenter').addEventListener('click', startThirdGame);
 
@@ -1522,11 +1565,11 @@
             document.getElementById('secondNextQuartinaBtn').disabled = true;
             
             revealQuartinaStep();
-            document.getElementById('secondMessage').textContent = `Indovina a cosa si riferisce la quartina! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+            document.getElementById('secondMessage').textContent = `Indovina a cosa si riferisce la quartina!`;
             quartinaPoints = 8000;
             updateQuartinaPointsDisplay();
             
-            document.getElementById('secondPlayerBuzzers').classList.remove('hidden');
+            document.getElementById('directAnswerButtons').classList.remove('hidden');
         }
 
         function revealNextQuartinaStep() {
@@ -1571,37 +1614,18 @@
             }
         }
 
-        function handleSecondBuzzer(team) {
+        function handleDirectAnswer(team) {
+            const currentQuartina = quartineList[secondCurrentRound - 1];
             const teamName = team === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent;
             
-            document.getElementById('secondAnsweringPlayer').textContent = `Risponde: ${teamName}`;
-            document.getElementById('secondMessage').textContent = `${teamName}, qual è la risposta?`;
-            
-            document.getElementById('secondBuzzerA').disabled = true;
-            document.getElementById('secondBuzzerB').disabled = true;
-            document.getElementById('secondAnswerControls').classList.remove('hidden');
-        }
-
-        function handleSecondCorrectAnswer() {
-            const currentQuartina = quartineList[secondCurrentRound - 1];
-            const teamName = document.getElementById('secondAnsweringPlayer').textContent.replace('Risponde: ', '');
-            
             document.getElementById('secondMessage').textContent = `Esatto! La risposta è "${currentQuartina.risposta}". +€${quartinaPoints.toLocaleString()} per ${teamName}!`;
-            updateScore(currentTeam, quartinaPoints);
+            updateScore(team, quartinaPoints);
             
             revealAllQuartinaSteps();
             document.getElementById('secondNextQuartinaBtn').disabled = false;
-            document.getElementById('secondAnswerControls').classList.add('hidden');
+            document.getElementById('directAnswerButtons').classList.add('hidden');
             document.getElementById('correctAnswerText').textContent = currentQuartina.risposta;
             document.getElementById('correctAnswerDisplay').classList.remove('hidden');
-            document.getElementById('secondPlayerBuzzers').classList.add('hidden');
-        }
-
-        function handleSecondWrongAnswer() {
-            document.getElementById('secondMessage').textContent = "Risposta errata! La quartina continua...";
-            document.getElementById('secondAnswerControls').classList.add('hidden');
-            document.getElementById('secondBuzzerA').disabled = false;
-            document.getElementById('secondBuzzerB').disabled = false;
         }
 
         function revealAllQuartinaSteps() {
@@ -1703,6 +1727,9 @@
             document.getElementById('zipCorrectAnswer').classList.add('hidden');
             document.getElementById('directionOptions').classList.add('hidden');
             document.getElementById('chainTimer').classList.add('hidden');
+            
+            // Ripristina i controlli principali
+            document.querySelector('.chain-main-controls').classList.remove('hidden');
         }
 
         function createChainDisplay() {
@@ -1790,15 +1817,23 @@
             chainTimeLeft = 20;
             document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
             
+            // CORREZIONE: Timer fluido e lineare
+            let lastTime = Date.now();
             chainTimerInterval = setInterval(() => {
-                chainTimeLeft--;
-                document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
+                const now = Date.now();
+                const delta = now - lastTime;
+                lastTime = now;
+                
+                chainTimeLeft -= delta / 1000;
                 
                 if (chainTimeLeft <= 0) {
+                    chainTimeLeft = 0;
                     clearInterval(chainTimerInterval);
                     handleChainTimeExpired();
                 }
-            }, 1000);
+                
+                document.getElementById('chainTimeLeft').textContent = Math.ceil(chainTimeLeft);
+            }, 100);
         }
 
         function stopChainTimer() {
@@ -2002,6 +2037,9 @@
             document.getElementById('chainContainer').classList.add('hidden');
             document.getElementById('zipContainer').classList.remove('hidden');
             
+            // CORREZIONE: Nascondi i controlli principali durante la ZIP
+            document.querySelector('.chain-main-controls').classList.add('hidden');
+            
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
@@ -2025,9 +2063,6 @@
             
             document.getElementById('zipAnsweringPlayer').textContent = `Risponde: ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             document.getElementById('zipAnswerControls').classList.remove('hidden');
-            
-            // Nascondi i controlli superiori durante la ZIP
-            document.querySelector('.controls').classList.add('hidden');
             
             startZipTimer();
         }
@@ -2053,15 +2088,23 @@
             zipTimeLeft = 20;
             document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
             
+            // CORREZIONE: Timer fluido e lineare per la ZIP
+            let lastTime = Date.now();
             zipTimerInterval = setInterval(() => {
-                zipTimeLeft--;
-                document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
+                const now = Date.now();
+                const delta = now - lastTime;
+                lastTime = now;
+                
+                zipTimeLeft -= delta / 1000;
                 
                 if (zipTimeLeft <= 0) {
+                    zipTimeLeft = 0;
                     clearInterval(zipTimerInterval);
                     handleZipTimeExpired();
                 }
-            }, 1000);
+                
+                document.getElementById('zipTimeLeft').textContent = Math.ceil(zipTimeLeft);
+            }, 100);
         }
 
         function handleZipTimeExpired() {
@@ -2097,8 +2140,8 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
-            // Ripristina i controlli superiori
-            document.querySelector('.controls').classList.remove('hidden');
+            // CORREZIONE: Ripristina i controlli principali
+            document.querySelector('.chain-main-controls').classList.remove('hidden');
             
             if (thirdCurrentRound >= thirdTotalRounds) {
                 document.getElementById('thirdNextBtn').disabled = false;
@@ -2132,8 +2175,8 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
-            // Ripristina i controlli superiori
-            document.querySelector('.controls').classList.remove('hidden');
+            // CORREZIONE: Ripristina i controlli principali
+            document.querySelector('.chain-main-controls').classList.remove('hidden');
             
             if (thirdCurrentRound >= thirdTotalRounds) {
                 document.getElementById('thirdNextBtn').disabled = false;
