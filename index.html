@@ -123,8 +123,9 @@
             overflow: hidden;
         }
         
+        /* CORREZIONE 1: Aumentata la larghezza delle sidebar per evitare il taglio dei numeri */
         .team-sidebar {
-            width: 160px;
+            width: 180px; /* Aumentata da 160px */
             display: flex;
             flex-direction: column;
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.1), rgba(26, 42, 108, 0.2));
@@ -165,10 +166,15 @@
             justify-content: center;
             gap: 6px;
             text-align: center;
+            /* CORREZIONE: Aggiunto per evitare il taglio del testo */
+            min-height: 40px;
+            padding: 5px;
+            word-break: break-word;
         }
         
         .score {
-            font-size: clamp(1.5rem, 3vw, 2rem);
+            /* CORREZIONE: Ridotto il font-size per evitare il taglio dei numeri */
+            font-size: clamp(1.3rem, 2.8vw, 1.8rem);
             font-weight: bold;
             color: var(--accent);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -1166,6 +1172,9 @@
             border: 3px solid var(--accent);
             position: relative;
             overflow: hidden;
+            /* CORREZIONE 3: Aggiunto per permettere lo scrolling */
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .instructions-content::before {
@@ -1692,7 +1701,8 @@
                     
                     <div class="game-completed hidden" id="gameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
-                        <p style="font-size: clamp(0.8rem, 1.6vw, 1rem); margin: 8px 0;">Hai completato tutte le 8 parole di Reazione a Catena</p>
+                        <!-- CORREZIONE 2: Nascosto il testo quando appare il pulsante -->
+                        <p class="hidden" style="font-size: clamp(0.8rem, 1.6vw, 1rem); margin: 8px 0;">Hai completato tutte le 8 parole di Reazione a Catena</p>
                         <button class="next-game-btn" id="nextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Quando, Dove, Come, Perché →</button>
                     </div>
                 </div>
@@ -1786,7 +1796,8 @@
                     
                     <div class="game-completed hidden" id="secondGameCompleted">
                         <h2><i class="fas fa-trophy"></i> Gioco Completato!</h2>
-                        <p style="font-size: clamp(0.8rem, 1.6vw, 1rem); margin: 8px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
+                        <!-- CORREZIONE 2: Nascosto il testo quando appare il pulsante -->
+                        <p class="hidden" style="font-size: clamp(0.8rem, 1.6vw, 1rem); margin: 8px 0;">Hai completato tutte le 4 quartine di Reazione a Catena</p>
                         <button class="next-game-btn" id="secondNextGameBtn"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Una tira l'altra →</button>
                     </div>
                 </div>
