@@ -148,9 +148,9 @@
             z-index: -1;
         }
         
+        /* CORREZIONE 1: Rimosso l'effetto di ingrandimento e mantenuto solo l'evidenziazione */
         .team-sidebar.active {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.3), rgba(178, 31, 31, 0.2));
-            transform: scale(1.02);
             box-shadow: var(--glow);
             border: 2px solid var(--accent);
         }
@@ -411,6 +411,33 @@
         .next-game-btn:hover {
             background: linear-gradient(135deg, #8e44ad, #7d3c98);
             transform: translateY(-3px);
+        }
+        
+        /* CORREZIONE 2: Nuovo stile per il pulsante di passaggio al gioco successivo */
+        .next-game-btn-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            transition: transform 0.5s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+        }
+        
+        .next-game-btn-center.show {
+            transform: translate(-50%, -50%) scale(1);
         }
         
         .round-info {
@@ -740,7 +767,32 @@
             z-index: -1;
         }
         
-        /* STILI PER IL TERZO GIOCO (Una tira l'altra) */
+        /* STILI PER IL TERZO GIOCO (Una tira l'altra) - CORREZIONE 3 */
+        .third-game-layout {
+            display: flex;
+            flex: 1;
+            height: calc(100% - 120px);
+            overflow: hidden;
+            gap: 10px;
+        }
+        
+        .third-teams-container {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .third-chain-container {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            padding: 8px;
+        }
+        
         .chain-container {
             width: 100%;
             max-width: 100%;
@@ -1073,7 +1125,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYGNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
             z-index: -1;
         }
 
@@ -1348,6 +1400,21 @@
             
             .instructions-content {
                 padding: 15px;
+            }
+            
+            /* CORREZIONE 3: Layout per mobile nel terzo gioco */
+            .third-game-layout {
+                flex-direction: column;
+            }
+            
+            .third-teams-container {
+                width: 100%;
+                flex-direction: row;
+                height: auto;
+            }
+            
+            .third-chain-container {
+                width: 100%;
             }
         }
 
@@ -1717,6 +1784,9 @@
                 </div>
             </div>
         </div>
+        
+        <!-- CORREZIONE 2: Pulsante di passaggio al gioco successivo centrato -->
+        <button class="next-game-btn-center hidden" id="nextGameBtnCenter"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Quando, Dove, Come, Perché →</button>
     </div>
 
     <!-- Schermata del secondo gioco (Quando, Dove, Come, Perché) -->
@@ -1812,6 +1882,9 @@
                 </div>
             </div>
         </div>
+        
+        <!-- CORREZIONE 2: Pulsante di passaggio al gioco successivo centrato -->
+        <button class="next-game-btn-center hidden" id="secondNextGameBtnCenter"><i class="fas fa-gamepad btn-icon"></i> Passa al Gioco Successivo: Una tira l'altra →</button>
     </div>
 
     <!-- Schermata del terzo gioco (Una tira l'altra) -->
@@ -1825,19 +1898,31 @@
             <div class="game-mode" id="thirdGameMode"><i class="fas fa-bullseye"></i> Una tira l'altra</div>
         </header>
         
-        <!-- LAYOUT MIGLIORATO CON SIDEBAR LATERALI PIÙ COMPATTE -->
-        <div class="game-layout">
-            <!-- Sidebar Squadra A -->
-            <div class="team-sidebar" id="thirdTeamASidebar">
-                <div class="team-name" id="thirdDisplayTeamA">Squadra A</div>
-                <div class="score" id="thirdScoreA">€0</div>
-                <div class="players-list" id="thirdTeamAPlayersList">
-                    <!-- Lista giocatori Squadra A -->
+        <!-- CORREZIONE 3: Layout modificato per Una tira l'altra -->
+        <div class="third-game-layout">
+            <!-- Container squadre a sinistra -->
+            <div class="third-teams-container">
+                <!-- Squadra A sopra -->
+                <div class="team-sidebar" id="thirdTeamASidebar">
+                    <div class="team-name" id="thirdDisplayTeamA">Squadra A</div>
+                    <div class="score" id="thirdScoreA">€0</div>
+                    <div class="players-list" id="thirdTeamAPlayersList">
+                        <!-- Lista giocatori Squadra A -->
+                    </div>
+                </div>
+                
+                <!-- Squadra B sotto -->
+                <div class="team-sidebar" id="thirdTeamBSidebar">
+                    <div class="team-name" id="thirdDisplayTeamB">Squadra B</div>
+                    <div class="score" id="thirdScoreB">€0</div>
+                    <div class="players-list" id="thirdTeamBPlayersList">
+                        <!-- Lista giocatori Squadra B -->
+                    </div>
                 </div>
             </div>
             
-            <!-- Area centrale di gioco -->
-            <div class="game-center">
+            <!-- Container catena a destra -->
+            <div class="third-chain-container">
                 <div class="game-area">
                     <div class="chain-container" id="chainContainer">
                         <!-- Le parole della catena verranno aggiunte qui dinamicamente -->
@@ -1932,16 +2017,10 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Sidebar Squadra B -->
-            <div class="team-sidebar" id="thirdTeamBSidebar">
-                <div class="team-name" id="thirdDisplayTeamB">Squadra B</div>
-                <div class="score" id="thirdScoreB">€0</div>
-                <div class="players-list" id="thirdTeamBPlayersList">
-                    <!-- Lista giocatori Squadra B -->
-                </div>
-            </div>
         </div>
+        
+        <!-- CORREZIONE 2: Pulsante di passaggio al gioco successivo centrato -->
+        <button class="next-game-btn-center hidden" id="thirdNextGameBtnCenter"><i class="fas fa-home btn-icon"></i> Torna al Menu Principale</button>
     </div>
 
     <!-- Elemento audio nascosto per la canzone -->
@@ -2216,6 +2295,11 @@
         const answeringPlayerElement = document.getElementById('answeringPlayer');
         const gameCompleted = document.getElementById('gameCompleted');
         const nextGameBtn = document.getElementById('nextGameBtn');
+        
+        // CORREZIONE 2: Nuovi elementi per i pulsanti centrati
+        const nextGameBtnCenter = document.getElementById('nextGameBtnCenter');
+        const secondNextGameBtnCenter = document.getElementById('secondNextGameBtnCenter');
+        const thirdNextGameBtnCenter = document.getElementById('thirdNextGameBtnCenter');
         
         // Elementi per i nomi delle squadre
         const teamANameInput = document.getElementById('teamAName');
@@ -2518,6 +2602,11 @@
             buzzer.disabled = true;
             nextBtn.disabled = true;
             gameCompleted.classList.remove('hidden');
+            
+            // CORREZIONE 2: Mostra il pulsante centrato dopo un breve ritardo
+            setTimeout(() => {
+                nextGameBtnCenter.classList.add('show');
+            }, 1000);
             
             // Ferma la musica
             skipMusic();
@@ -2827,6 +2916,11 @@
             secondNextBtn.disabled = true;
             secondNextQuartinaBtn.disabled = true;
             secondGameCompleted.classList.remove('hidden');
+            
+            // CORREZIONE 2: Mostra il pulsante centrato dopo un breve ritardo
+            setTimeout(() => {
+                secondNextGameBtnCenter.classList.add('show');
+            }, 1000);
         }
         
         // Passa al terzo gioco
@@ -3461,6 +3555,11 @@
             thirdBuzzer.disabled = true;
             thirdNextBtn.disabled = true;
             thirdGameCompleted.classList.remove('hidden');
+            
+            // CORREZIONE 2: Mostra il pulsante centrato dopo un breve ritardo
+            setTimeout(() => {
+                thirdNextGameBtnCenter.classList.add('show');
+            }, 1000);
         }
         
         // Torna al menu principale
@@ -3507,6 +3606,11 @@
         correctBtn.addEventListener('click', handleCorrectAnswer);
         wrongBtn.addEventListener('click', handleWrongAnswer);
         nextGameBtn.addEventListener('click', startSecondGame);
+        
+        // CORREZIONE 2: Event listener per il pulsante centrato
+        nextGameBtnCenter.addEventListener('click', startSecondGame);
+        secondNextGameBtnCenter.addEventListener('click', startThirdGame);
+        thirdNextGameBtnCenter.addEventListener('click', backToMainMenu);
         
         secondStartBtn.addEventListener('click', startSecondGameRound);
         secondNextBtn.addEventListener('click', revealNextQuartinaStep);
