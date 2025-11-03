@@ -1305,6 +1305,7 @@
         let scoreB = 0;
         let currentTeam = 'A';
         let introMusic = new Audio('intro-music.mp3');
+        let musicTimeout;
         
         // Elementi DOM principali
         const videoScreen = document.getElementById('videoScreen');
@@ -1389,8 +1390,14 @@
         }
 
         function startMainGame() {
-            // Riproduci la sigla audio
+            // Riproduci la sigla audio per 15 secondi
             introMusic.play();
+            
+            // Ferma la musica dopo 15 secondi
+            musicTimeout = setTimeout(() => {
+                introMusic.pause();
+                introMusic.currentTime = 0;
+            }, 15000);
             
             // Aggiorna nomi squadre
             document.getElementById('displayTeamA').textContent = document.getElementById('teamAName').value;
@@ -1996,23 +2003,16 @@
             chainTimeLeft = 20;
             document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
             
-            // Timer fluido e lineare
-            let lastTime = Date.now();
+            // Timer corretto che conta 20 secondi reali
             chainTimerInterval = setInterval(() => {
-                const now = Date.now();
-                const delta = now - lastTime;
-                lastTime = now;
-                
-                chainTimeLeft -= delta / 1000;
+                chainTimeLeft--;
+                document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
                 
                 if (chainTimeLeft <= 0) {
-                    chainTimeLeft = 0;
                     clearInterval(chainTimerInterval);
                     handleChainTimeExpired();
                 }
-                
-                document.getElementById('chainTimeLeft').textContent = Math.ceil(chainTimeLeft);
-            }, 100);
+            }, 1000); // 1 secondo reale
         }
 
         function stopChainTimer() {
@@ -2270,23 +2270,16 @@
             zipTimeLeft = 20;
             document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
             
-            // Timer fluido e lineare per la ZIP
-            let lastTime = Date.now();
+            // Timer corretto che conta 20 secondi reali
             zipTimerInterval = setInterval(() => {
-                const now = Date.now();
-                const delta = now - lastTime;
-                lastTime = now;
-                
-                zipTimeLeft -= delta / 1000;
+                zipTimeLeft--;
+                document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
                 
                 if (zipTimeLeft <= 0) {
-                    zipTimeLeft = 0;
                     clearInterval(zipTimerInterval);
                     handleZipTimeExpired();
                 }
-                
-                document.getElementById('zipTimeLeft').textContent = Math.ceil(zipTimeLeft);
-            }, 100);
+            }, 1000); // 1 secondo reale
         }
 
         function handleZipTimeExpired() {
@@ -2407,6 +2400,11 @@
             scoreA = 0;
             scoreB = 0;
             currentTeam = 'A';
+            
+            // Ferma la musica se sta ancora suonando
+            clearTimeout(musicTimeout);
+            introMusic.pause();
+            introMusic.currentTime = 0;
             
             // Aggiorna display
             updateScores();
