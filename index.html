@@ -479,17 +479,16 @@
             font-size: clamp(0.8rem, 1.4vw, 0.9rem);
         }
         
-        /* CORREZIONE: Pulsanti diretti per il secondo gioco */
-        .direct-answer-buttons {
+        /* CORREZIONE: Pulsanti diretti per il secondo gioco nelle sidebar */
+        .direct-answer-buttons-sidebar {
             display: flex;
-            justify-content: space-between;
-            margin: 12px 0;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
+            margin: 8px 0;
         }
         
-        .direct-answer-btn {
-            flex: 1;
-            padding: 12px;
+        .direct-answer-btn-sidebar {
+            padding: 10px;
             background: linear-gradient(135deg, var(--success), #27ae60);
             color: white;
             border: none;
@@ -497,14 +496,14 @@
             cursor: pointer;
             font-weight: bold;
             transition: var(--transition);
-            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
         
-        .direct-answer-btn:hover {
+        .direct-answer-btn-sidebar:hover {
             transform: scale(1.05);
         }
         
@@ -955,9 +954,14 @@
         </header>
         
         <div class="game-layout">
-            <!-- Sidebar Squadra A -->
+            <!-- Sidebar Squadra A con pulsante risposta -->
             <div class="team-sidebar" id="secondTeamASidebar">
                 <div class="team-name" id="secondDisplayTeamA">Squadra A</div>
+                <div class="direct-answer-buttons-sidebar hidden" id="directAnswerButtonsA">
+                    <button class="direct-answer-btn-sidebar" id="directAnswerA">
+                        <i class="fas fa-check"></i> ESATTA
+                    </button>
+                </div>
                 <div class="score" id="secondScoreA">€0</div>
                 <div class="players-list" id="secondTeamAPlayersList"></div>
             </div>
@@ -988,16 +992,6 @@
                     
                     <div class="message" id="secondMessage">Premi "INIZIA QUARTINA" per iniziare il gioco!</div>
                     
-                    <!-- CORREZIONE: Pulsanti diretti per le squadre -->
-                    <div class="direct-answer-buttons hidden" id="directAnswerButtons">
-                        <button class="direct-answer-btn" id="directAnswerA">
-                            <i class="fas fa-check"></i> ESATTA - <span id="teamANameDirect">Squadra A</span>
-                        </button>
-                        <button class="direct-answer-btn" id="directAnswerB">
-                            <i class="fas fa-check"></i> ESATTA - <span id="teamBNameDirect">Squadra B</span>
-                        </button>
-                    </div>
-                    
                     <div class="controls">
                         <button class="start-btn" id="secondStartBtn"><i class="fas fa-rocket"></i> INIZIA QUARTINA</button>
                         <button class="next-btn" id="secondNextBtn"><i class="fas fa-forward"></i> PROSSIMA AFFERMAZIONE</button>
@@ -1015,9 +1009,14 @@
                 </div>
             </div>
             
-            <!-- Sidebar Squadra B -->
+            <!-- Sidebar Squadra B con pulsante risposta -->
             <div class="team-sidebar" id="secondTeamBSidebar">
                 <div class="team-name" id="secondDisplayTeamB">Squadra B</div>
+                <div class="direct-answer-buttons-sidebar hidden" id="directAnswerButtonsB">
+                    <button class="direct-answer-btn-sidebar" id="directAnswerB">
+                        <i class="fas fa-check"></i> ESATTA
+                    </button>
+                </div>
                 <div class="score" id="secondScoreB">€0</div>
                 <div class="players-list" id="secondTeamBPlayersList"></div>
             </div>
@@ -1515,17 +1514,14 @@
             document.getElementById('secondMessage').textContent = "Premi 'INIZIA QUARTINA' per iniziare il gioco!";
             quartinaPoints = 8000;
             updateQuartinaPointsDisplay();
-            
-            // Aggiorna nomi squadre nei pulsanti diretti
-            document.getElementById('teamANameDirect').textContent = document.getElementById('teamAName').value;
-            document.getElementById('teamBNameDirect').textContent = document.getElementById('teamBName').value;
         }
 
         function resetSecondGame() {
             secondGameStarted = false;
             currentQuartinaStep = 0;
             resetQuartinaDisplay();
-            document.getElementById('directAnswerButtons').classList.add('hidden');
+            document.getElementById('directAnswerButtonsA').classList.add('hidden');
+            document.getElementById('directAnswerButtonsB').classList.add('hidden');
             document.getElementById('correctAnswerDisplay').classList.add('hidden');
             document.getElementById('secondNextQuartinaBtn').disabled = true;
         }
@@ -1569,7 +1565,8 @@
             quartinaPoints = 8000;
             updateQuartinaPointsDisplay();
             
-            document.getElementById('directAnswerButtons').classList.remove('hidden');
+            document.getElementById('directAnswerButtonsA').classList.remove('hidden');
+            document.getElementById('directAnswerButtonsB').classList.remove('hidden');
         }
 
         function revealNextQuartinaStep() {
@@ -1623,7 +1620,8 @@
             
             revealAllQuartinaSteps();
             document.getElementById('secondNextQuartinaBtn').disabled = false;
-            document.getElementById('directAnswerButtons').classList.add('hidden');
+            document.getElementById('directAnswerButtonsA').classList.add('hidden');
+            document.getElementById('directAnswerButtonsB').classList.add('hidden');
             document.getElementById('correctAnswerText').textContent = currentQuartina.risposta;
             document.getElementById('correctAnswerDisplay').classList.remove('hidden');
         }
@@ -1679,9 +1677,10 @@
         let chainTimerInterval;
         let chainTimeLeft = 20;
         
+        // Catena ridotta come richiesto
         const chainList = [
             {
-                words: ["CAMPAGNA", "TRATTORE", "CARBURANTE", "STAZIONE", "BIGLIETTO", "TEATRO", "SPETTACOLO"],
+                words: ["CAMPAGNA", "TRATTORE", "CARBURANTE", "STAZIONE", "TEATRO"],
                 zip: {
                     first: "CAPO",
                     second: "STAZIONE", 
@@ -1692,7 +1691,7 @@
                 }
             },
             {
-                words: ["MONTAGNA", "FUNIVIA", "PANORAMA", "FOTOGRAFIA", "RICORDO", "VIAGGIO", "AVVENTURA"],
+                words: ["MONTAGNA", "FUNIVIA", "PANORAMA", "FOTOGRAFIA", "AVVENTURA"],
                 zip: {
                     first: "ONDA",
                     second: "RADIO", 
