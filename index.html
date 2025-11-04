@@ -404,6 +404,7 @@
             justify-content: center;
         }
         
+        /* MIGLIORAMENTI GRAFICA SELEZIONE PERSONAGGI */
         .team-setup {
             display: flex;
             justify-content: space-between;
@@ -854,6 +855,7 @@
             to { transform: rotate(360deg); }
         }
 
+        /* MIGLIORAMENTI GRAFICA SELEZIONE PLAYER */
         .player-selection {
             display: flex;
             flex-direction: column;
@@ -1414,6 +1416,13 @@
         let scoreA = 0;
         let scoreB = 0;
         let currentTeam = 'A';
+        let introMusic = new Audio('intro-music.mp3');
+        let wrongAnswerSound = new Audio('Reazione a Catena Soundtrack – Parola Sbagliata.mp4');
+        let wordAppearanceSound = new Audio('Reazione a Catena Soundtrack – Apparizione parola.mp4');
+        let correctWordSound = new Audio('Reazione a Catena Soundtrack – Parola esatta.mp4');
+        let moneySound = new Audio('Reazione a Catena Soundtrack – Suono effetto soldi.mp4');
+        let gongSound = new Audio('Reazione a Catena Soundtrack – Gong.mp4');
+        let musicTimeout;
         
         // Elementi DOM principali
         const videoScreen = document.getElementById('videoScreen');
@@ -1431,9 +1440,7 @@
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
                 videoScreen.classList.remove('hidden');
-                // introVideo.play(); // Commentato per testing
-                videoScreen.classList.add('hidden');
-                introScreen.classList.remove('hidden');
+                introVideo.play();
             }, 2000);
         });
 
@@ -1500,6 +1507,15 @@
         }
 
         function startMainGame() {
+            // Riproduci la sigla audio per 15 secondi
+            introMusic.play();
+            
+            // Ferma la musica dopo 15 secondi
+            musicTimeout = setTimeout(() => {
+                introMusic.pause();
+                introMusic.currentTime = 0;
+            }, 15000);
+            
             // Aggiorna nomi squadre
             document.getElementById('displayTeamA').textContent = document.getElementById('teamAName').value;
             document.getElementById('displayTeamB').textContent = document.getElementById('teamBName').value;
@@ -1558,6 +1574,10 @@
         }
 
         function updateScore(team, points) {
+            // Riproduci il suono dei soldi
+            moneySound.currentTime = 0;
+            moneySound.play();
+            
             if (team === 'A') {
                 scoreA += points;
             } else {
@@ -1570,6 +1590,9 @@
                 document.querySelectorAll('#scoreB, #secondScoreB, #thirdScoreB');
             
             scoreElements.forEach(el => {
+                // Salva il testo originale
+                const originalText = el.textContent;
+                
                 // Aggiungi animazione
                 const animation = document.createElement('div');
                 animation.className = 'score-animation';
@@ -1678,6 +1701,10 @@
             letterBox.classList.add('revealed', 'pulse');
             revealedLetters.push(currentWord[position]);
             
+            // Riproduci il suono di apparizione parola
+            wordAppearanceSound.currentTime = 0;
+            wordAppearanceSound.play();
+            
             setTimeout(() => {
                 letterBox.classList.remove('pulse');
             }, 500);
@@ -1696,6 +1723,10 @@
         }
 
         function handleCorrectAnswer() {
+            // Riproduci il suono di parola esatta
+            correctWordSound.currentTime = 0;
+            correctWordSound.play();
+            
             document.getElementById('message').textContent = `Esatto! La parola è "${currentWord}". +€2.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             revealAllLetters();
             updateScore(currentTeam, 2000);
@@ -1707,6 +1738,10 @@
         }
 
         function handleWrongAnswer() {
+            // Riproduci il suono di parola sbagliata
+            wrongAnswerSound.currentTime = 0;
+            wrongAnswerSound.play();
+            
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
             updateActiveTeam();
             
@@ -1746,6 +1781,11 @@
             document.getElementById('buzzer').disabled = true;
             document.getElementById('nextBtn').disabled = true;
             document.getElementById('gameCompleted').classList.remove('hidden');
+            
+            // Nascondi elementi per far spazio al pulsante
+            document.querySelector('.word-grid').classList.add('hidden');
+            document.querySelector('.round-info').classList.add('hidden');
+            document.querySelector('.message').classList.add('hidden');
             
             setTimeout(() => {
                 document.getElementById('nextGameBtnCenter').classList.add('show');
@@ -1949,6 +1989,11 @@
             document.getElementById('secondNextQuartinaBtn').disabled = true;
             document.getElementById('secondGameCompleted').classList.remove('hidden');
             
+            // Nascondi elementi per far spazio al pulsante
+            document.querySelector('.quartina-container').classList.add('hidden');
+            document.querySelector('.quartina-points').classList.add('hidden');
+            document.querySelector('.message').classList.add('hidden');
+            
             setTimeout(() => {
                 document.getElementById('secondNextGameBtnCenter').classList.add('show');
             }, 1000);
@@ -1960,13 +2005,13 @@
             initThirdGame();
         }
 
-        // GIOCO 3: Una tira l'altra - COMPLETO E FUNZIONANTE
+        // GIOCO 3: Una tira l'altra - CORRETTO DEFINITIVO
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         const thirdTotalRounds = 2;
         let currentChainDirection = '';
-        let currentHiddenWordIndex = -1;
-        let chainWordsState = [];
+        let currentHiddenWordIndex = 0;
+        let revealedLettersPerWord = [];
         let chainTimerInterval;
         let chainTimeLeft = 20;
         
@@ -2006,8 +2051,8 @@
         function resetThirdGame() {
             thirdGameStarted = false;
             currentChainDirection = '';
-            currentHiddenWordIndex = -1;
-            chainWordsState = [];
+            currentHiddenWordIndex = 0;
+            revealedLettersPerWord = [];
             chainTimeLeft = 20;
             
             document.getElementById('chainDirection').classList.remove('hidden');
@@ -2019,11 +2064,12 @@
             document.getElementById('chainTimer').classList.add('hidden');
             document.getElementById('zipTimer').classList.add('hidden');
             
+            // Mostra la catena e nascondi la ZIP
             document.getElementById('chainContainer').classList.remove('hidden');
+            document.getElementById('zipGameArea').classList.add('hidden');
+            
+            // Ripristina i controlli principali
             document.querySelector('.chain-main-controls').classList.remove('hidden');
-            document.getElementById('thirdStartBtn').disabled = true;
-            document.getElementById('thirdBuzzer').disabled = true;
-            document.getElementById('thirdNextBtn').disabled = true;
         }
 
         function createChainDisplay() {
@@ -2031,41 +2077,37 @@
             chainContainer.innerHTML = '';
             const currentChain = chainList[thirdCurrentRound - 1];
             
-            chainWordsState = [];
+            revealedLettersPerWord = [];
+            for (let i = 0; i < currentChain.words.length; i++) {
+                revealedLettersPerWord[i] = []; // Nessuna lettera rivelata inizialmente
+            }
             
             for (let i = 0; i < currentChain.words.length; i++) {
-                chainWordsState[i] = {
-                    revealed: false,
-                    lettersRevealed: 0,
-                    word: currentChain.words[i]
-                };
-                
                 const chainWord = document.createElement('div');
                 chainWord.className = 'chain-word';
                 chainWord.id = `chain-word-${i}`;
                 
+                // La prima e l'ultima parola sono sempre visibili
                 if (i === 0 || i === currentChain.words.length - 1) {
                     chainWord.textContent = currentChain.words[i];
                     chainWord.classList.add('revealed');
-                    chainWordsState[i].revealed = true;
-                    chainWordsState[i].lettersRevealed = currentChain.words[i].length;
                 } else {
+                    // Le parole intermedie sono nascoste
                     chainWord.textContent = '?';
                     chainWord.classList.add('completely-hidden');
-                    chainWordsState[i].revealed = false;
-                    chainWordsState[i].lettersRevealed = 0;
                 }
                 
                 chainContainer.appendChild(chainWord);
             }
             
+            // Animazione a fisarmonica - rivelazione progressiva
             setTimeout(() => {
                 const words = document.querySelectorAll('.chain-word');
                 words.forEach((word, index) => {
                     setTimeout(() => {
                         word.style.transform = 'scaleY(1)';
                         word.style.opacity = '1';
-                    }, index * 200);
+                    }, index * 200); // Ritardo progressivo
                 });
             }, 500);
         }
@@ -2106,26 +2148,36 @@
             document.getElementById('thirdBuzzer').disabled = false;
             document.getElementById('thirdNextBtn').disabled = true;
             
+            // Imposta la prima parola nascosta in base alla direzione
             if (currentChainDirection === 'top') {
-                currentHiddenWordIndex = 1;
+                currentHiddenWordIndex = 1; // Seconda parola (dopo CHIAVE)
             } else {
-                currentHiddenWordIndex = chainList[thirdCurrentRound - 1].words.length - 2;
+                currentHiddenWordIndex = chainList[thirdCurrentRound - 1].words.length - 2; // Penultima parola (prima di STORIA)
             }
             
+            // Rivelare la prima lettera della parola corrente
             revealFirstLetter(currentHiddenWordIndex);
+            
             highlightCurrentWord();
             document.getElementById('thirdMessage').textContent = `Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+            
             startChainTimer();
         }
 
         function revealFirstLetter(wordIndex) {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const word = currentChain.words[wordIndex];
             const wordElement = document.getElementById(`chain-word-${wordIndex}`);
-            chainWordsState[wordIndex].lettersRevealed = 1;
             
-            const currentWord = chainWordsState[wordIndex].word;
-            wordElement.textContent = currentWord.charAt(0);
+            // Rivelare solo la prima lettera
+            revealedLettersPerWord[wordIndex] = [0];
+            wordElement.textContent = word.charAt(0);
             wordElement.classList.remove('completely-hidden');
             wordElement.classList.add('hidden-word');
+            
+            // Riproduci il suono di apparizione parola
+            wordAppearanceSound.currentTime = 0;
+            wordAppearanceSound.play();
         }
 
         function startChainTimer() {
@@ -2133,6 +2185,7 @@
             chainTimeLeft = 20;
             document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
             
+            // Timer corretto che conta 20 secondi reali
             clearInterval(chainTimerInterval);
             chainTimerInterval = setInterval(() => {
                 chainTimeLeft--;
@@ -2142,7 +2195,7 @@
                     clearInterval(chainTimerInterval);
                     handleChainTimeExpired();
                 }
-            }, 1000);
+            }, 1000); // 1 secondo reale
         }
 
         function stopChainTimer() {
@@ -2151,6 +2204,10 @@
         }
 
         function handleChainTimeExpired() {
+            // Riproduci il suono del gong
+            gongSound.currentTime = 0;
+            gongSound.play();
+            
             document.getElementById('chainTimer').classList.add('hidden');
             document.getElementById('thirdMessage').textContent = `Tempo scaduto! La parola passa alla ${currentTeam === 'A' ? document.getElementById('displayTeamB').textContent : document.getElementById('displayTeamA').textContent} e viene aggiunta una lettera!`;
             
@@ -2186,33 +2243,57 @@
             document.getElementById('thirdAnswerControls').classList.remove('hidden');
         }
 
+        // FUNZIONE CORRETTA - ORA CONTROLLA CORRETTAMENTE SE CI SONO ALTRE PAROLE NASCOSTE
         function handleThirdCorrectAnswer() {
-            const correctWord = chainWordsState[currentHiddenWordIndex].word;
+            // Riproduci il suono di parola esatta
+            correctWordSound.currentTime = 0;
+            correctWordSound.play();
+            
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const correctWord = currentChain.words[currentHiddenWordIndex];
+            
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
-            
             wordElement.textContent = correctWord;
-            wordElement.classList.remove('hidden-word', 'completely-hidden');
+            wordElement.classList.remove('hidden-word');
             wordElement.classList.add('revealed');
-            wordElement.classList.remove('current-word', 'wrong-answer');
-            
-            chainWordsState[currentHiddenWordIndex].revealed = true;
-            chainWordsState[currentHiddenWordIndex].lettersRevealed = correctWord.length;
+            wordElement.classList.remove('current-word');
+            wordElement.classList.remove('wrong-answer');
             
             document.getElementById('thirdMessage').textContent = `Esatto! La parola è "${correctWord}". +€3.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             updateScore(currentTeam, 3000);
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
+            // CORREZIONE: Controlla se ci sono altre parole nascoste
             const hasMoreHiddenWords = checkForMoreHiddenWords();
             
             if (hasMoreHiddenWords) {
+                // Ci sono ancora parole nascoste, mostra le opzioni di direzione
                 showDirectionOptions();
             } else {
+                // Non ci sono più parole nascoste, passa alla ZIP
                 completeChain();
             }
         }
 
+        // FUNZIONE AGGIUNTA: Controlla se ci sono altre parole nascoste
+        function checkForMoreHiddenWords() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            
+            for (let i = 1; i < currentChain.words.length - 1; i++) {
+                const wordElement = document.getElementById(`chain-word-${i}`);
+                if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    return true; // Trovata una parola ancora nascosta
+                }
+            }
+            
+            return false; // Tutte le parole sono state rivelate
+        }
+
         function handleThirdWrongAnswer() {
+            // Riproduci il suono di parola sbagliata
+            wrongAnswerSound.play();
+            
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
             wordElement.classList.add('wrong-answer');
             
@@ -2231,101 +2312,42 @@
         }
 
         function revealAdditionalLetter() {
-            const currentWord = chainWordsState[currentHiddenWordIndex].word;
-            const currentRevealedCount = chainWordsState[currentHiddenWordIndex].lettersRevealed;
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const word = currentChain.words[currentHiddenWordIndex];
             
-            if (currentRevealedCount < currentWord.length) {
-                chainWordsState[currentHiddenWordIndex].lettersRevealed++;
+            // Aggiungi la prossima lettera disponibile
+            const nextLetterIndex = revealedLettersPerWord[currentHiddenWordIndex].length;
+            if (nextLetterIndex < word.length) {
+                revealedLettersPerWord[currentHiddenWordIndex].push(nextLetterIndex);
                 updateWordDisplay(currentHiddenWordIndex);
+                
+                // Riproduci il suono di apparizione parola
+                wordAppearanceSound.currentTime = 0;
+                wordAppearanceSound.play();
             }
         }
 
         function updateWordDisplay(wordIndex) {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            const word = currentChain.words[wordIndex];
             const wordElement = document.getElementById(`chain-word-${wordIndex}`);
-            const currentWord = chainWordsState[wordIndex].word;
-            const revealedCount = chainWordsState[wordIndex].lettersRevealed;
             
             let displayText = '';
-            for (let i = 0; i < revealedCount; i++) {
-                displayText += currentWord.charAt(i);
+            for (let i = 0; i < word.length; i++) {
+                if (revealedLettersPerWord[wordIndex].includes(i)) {
+                    displayText += word.charAt(i);
+                } else {
+                    // Non mostrare trattini, solo lettere rivelate
+                    break;
+                }
             }
             
             wordElement.textContent = displayText;
             
-            if (revealedCount === currentWord.length) {
+            if (displayText.length === word.length) {
                 wordElement.classList.remove('hidden-word');
                 wordElement.classList.add('revealed');
-                chainWordsState[wordIndex].revealed = true;
             }
-        }
-
-        function checkForMoreHiddenWords() {
-            const currentChain = chainList[thirdCurrentRound - 1];
-            
-            for (let i = 1; i < currentChain.words.length - 1; i++) {
-                if (!chainWordsState[i].revealed) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function showDirectionOptions() {
-            document.getElementById('thirdMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, vuoi continuare nella stessa direzione o cambiare?`;
-            document.getElementById('directionOptions').classList.remove('hidden');
-        }
-
-        function continueDirection() {
-            document.getElementById('directionOptions').classList.add('hidden');
-            
-            if (currentChainDirection === 'top') {
-                for (let i = currentHiddenWordIndex + 1; i < chainList[thirdCurrentRound - 1].words.length - 1; i++) {
-                    if (!chainWordsState[i].revealed) {
-                        currentHiddenWordIndex = i;
-                        break;
-                    }
-                }
-            } else {
-                for (let i = currentHiddenWordIndex - 1; i > 0; i--) {
-                    if (!chainWordsState[i].revealed) {
-                        currentHiddenWordIndex = i;
-                        break;
-                    }
-                }
-            }
-            
-            revealFirstLetter(currentHiddenWordIndex);
-            highlightCurrentWord();
-            document.getElementById('thirdMessage').textContent = `Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            startChainTimer();
-        }
-
-        function changeDirection() {
-            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
-            document.getElementById('directionOptions').classList.add('hidden');
-            
-            const currentChain = chainList[thirdCurrentRound - 1];
-            
-            if (currentChainDirection === 'top') {
-                for (let i = 1; i < currentChain.words.length - 1; i++) {
-                    if (!chainWordsState[i].revealed) {
-                        currentHiddenWordIndex = i;
-                        break;
-                    }
-                }
-            } else {
-                for (let i = currentChain.words.length - 2; i > 0; i--) {
-                    if (!chainWordsState[i].revealed) {
-                        currentHiddenWordIndex = i;
-                        break;
-                    }
-                }
-            }
-            
-            revealFirstLetter(currentHiddenWordIndex);
-            highlightCurrentWord();
-            document.getElementById('thirdMessage').textContent = `Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            startChainTimer();
         }
 
         function completeChain() {
@@ -2338,20 +2360,80 @@
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             document.getElementById('directionOptions').classList.add('hidden');
             
+            // Solo ora che tutte le parole sono state rivelate, passare alla ZIP
             setTimeout(() => {
                 startZipGame();
             }, 2000);
         }
 
+        function showDirectionOptions() {
+            document.getElementById('thirdMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, vuoi continuare nella stessa direzione o cambiare?`;
+            document.getElementById('directionOptions').classList.remove('hidden');
+        }
+
+        function continueDirection() {
+            document.getElementById('directionOptions').classList.add('hidden');
+            
+            if (currentChainDirection === 'top') {
+                currentHiddenWordIndex++;
+            } else {
+                currentHiddenWordIndex--;
+            }
+            
+            // Rivelare la prima lettera della nuova parola
+            revealFirstLetter(currentHiddenWordIndex);
+            
+            highlightCurrentWord();
+            document.getElementById('thirdMessage').textContent = `Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+            startChainTimer();
+        }
+
+        function changeDirection() {
+            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
+            document.getElementById('directionOptions').classList.add('hidden');
+            
+            const currentChain = chainList[thirdCurrentRound - 1];
+            
+            // Trova la prossima parola nascosta nella nuova direzione
+            if (currentChainDirection === 'top') {
+                for (let i = 1; i < currentChain.words.length - 1; i++) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            } else {
+                for (let i = currentChain.words.length - 2; i > 0; i--) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            }
+            
+            // Rivelare la prima lettera della nuova parola
+            revealFirstLetter(currentHiddenWordIndex);
+            
+            highlightCurrentWord();
+            document.getElementById('thirdMessage').textContent = `Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+            startChainTimer();
+        }
+
         function startZipGame() {
+            // Nascondi la catena e mostra la ZIP al centro
             document.getElementById('chainContainer').classList.add('hidden');
             document.getElementById('zipGameArea').classList.remove('hidden');
+            
+            // Nascondi i controlli principali durante la ZIP
             document.querySelector('.chain-main-controls').classList.add('hidden');
             
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
             document.getElementById('zipFirstWord').textContent = zipData.first;
+            // Per la ZIP, mostra solo la prima lettera delle parole nascoste
             document.getElementById('zipSecondWord').textContent = zipData.second.charAt(0);
             document.getElementById('zipThirdWord').textContent = zipData.third.charAt(0);
             document.getElementById('zipFourthWord').textContent = zipData.fourth;
@@ -2397,6 +2479,7 @@
             zipTimeLeft = 20;
             document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
             
+            // Timer corretto che conta 20 secondi reali
             clearInterval(zipTimerInterval);
             zipTimerInterval = setInterval(() => {
                 zipTimeLeft--;
@@ -2406,7 +2489,7 @@
                     clearInterval(zipTimerInterval);
                     handleZipTimeExpired();
                 }
-            }, 1000);
+            }, 1000); // 1 secondo reale
         }
 
         function handleZipTimeExpired() {
@@ -2443,6 +2526,7 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
+            // Dopo 3 secondi, passa alla prossima catena o completa il gioco
             setTimeout(() => {
                 if (thirdCurrentRound >= thirdTotalRounds) {
                     completeThirdGame();
@@ -2475,6 +2559,7 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
+            // Dopo 3 secondi, passa alla prossima catena o completa il gioco
             setTimeout(() => {
                 if (thirdCurrentRound >= thirdTotalRounds) {
                     completeThirdGame();
@@ -2493,6 +2578,7 @@
             
             document.getElementById('thirdMessage').textContent = `Preparati per la prossima catena!`;
             
+            // Reset del gioco per la nuova catena
             setTimeout(() => {
                 resetThirdGame();
                 initThirdGame();
@@ -2505,6 +2591,9 @@
             document.getElementById('thirdBuzzer').disabled = true;
             document.getElementById('thirdNextBtn').disabled = true;
             document.getElementById('thirdGameCompleted').classList.remove('hidden');
+            
+            document.querySelector('.chain-container').classList.add('hidden');
+            document.querySelector('.message').classList.add('hidden');
             
             setTimeout(() => {
                 document.getElementById('thirdNextGameBtnCenter').classList.add('show');
@@ -2522,6 +2611,11 @@
             scoreA = 0;
             scoreB = 0;
             currentTeam = 'A';
+            
+            // Ferma la musica se sta ancora suonando
+            clearTimeout(musicTimeout);
+            introMusic.pause();
+            introMusic.currentTime = 0;
             
             // Aggiorna display
             updateScores();
