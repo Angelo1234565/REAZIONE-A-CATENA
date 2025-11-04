@@ -1422,6 +1422,17 @@
         let correctWordSound = new Audio('Reazione a Catena Soundtrack – Parola esatta.mp4');
         let moneySound = new Audio('Reazione a Catena Soundtrack – Suono effetto soldi.mp4');
         let gongSound = new Audio('Reazione a Catena Soundtrack – Gong.mp4');
+        
+        // NUOVI AUDIO PER LE CATENE
+        let firstChainBackground = new Audio('Reazione a catena - Sottofondo prima catena.mp4');
+        let secondChainBackground = new Audio('Reazione a catena - Sottofondo seconda.mp4');
+        
+        // Configurazione audio di sottofondo
+        firstChainBackground.volume = 0.3; // Volume basso come sottofondo
+        secondChainBackground.volume = 0.3;
+        firstChainBackground.loop = true; // Riproduzione in loop
+        secondChainBackground.loop = true;
+        
         let musicTimeout;
         
         // Elementi DOM principali
@@ -2005,7 +2016,7 @@
             initThirdGame();
         }
 
-        // GIOCO 3: Una tira l'altra - SISTEMATO DEFINITIVAMENTE
+        // GIOCO 3: Una tira l'altra - CORRETTO DEFINITIVAMENTE
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         const thirdTotalRounds = 2;
@@ -2161,6 +2172,12 @@
             highlightCurrentWord();
             document.getElementById('thirdMessage').textContent = `Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             
+            // AVVIA IL SOTTOFONDO MUSICALE PER LA PRIMA CATENA
+            if (thirdCurrentRound === 1) {
+                firstChainBackground.currentTime = 0;
+                firstChainBackground.play();
+            }
+            
             startChainTimer();
         }
 
@@ -2243,7 +2260,6 @@
             document.getElementById('thirdAnswerControls').classList.remove('hidden');
         }
 
-        // FUNZIONE CORRETTA - ORA CONTROLLA CORRETTAMENTE SE CI SONO ALTRE PAROLE NASCOSTE
         function handleThirdCorrectAnswer() {
             // Riproduci il suono di parola esatta
             correctWordSound.currentTime = 0;
@@ -2264,7 +2280,7 @@
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
-            // CORREZIONE: Controlla se ci sono altre parole nascoste
+            // CORREZIONE: Controlla se ci sono altre parole nascoste - MODIFICATO
             const hasMoreHiddenWords = checkForMoreHiddenWords();
             
             if (hasMoreHiddenWords) {
@@ -2276,13 +2292,15 @@
             }
         }
 
-        // FUNZIONE AGGIUNTA: Controlla se ci sono altre parole nascoste
+        // FUNZIONE CORRETTA: Controlla se ci sono altre parole nascoste
         function checkForMoreHiddenWords() {
             const currentChain = chainList[thirdCurrentRound - 1];
             
             for (let i = 1; i < currentChain.words.length - 1; i++) {
                 const wordElement = document.getElementById(`chain-word-${i}`);
-                if (wordElement && wordElement.classList.contains('hidden-word')) {
+                // Controlla se la parola NON è rivelata (né revealed né completamente visibile)
+                if (wordElement && !wordElement.classList.contains('revealed') && 
+                    wordElement.textContent !== currentChain.words[i]) {
                     return true; // Trovata una parola ancora nascosta
                 }
             }
@@ -2360,6 +2378,15 @@
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             document.getElementById('directionOptions').classList.add('hidden');
             
+            // INTERROMPI IL SOTTOFONDO MUSICALE DELLA CATENA
+            if (thirdCurrentRound === 1) {
+                firstChainBackground.pause();
+                firstChainBackground.currentTime = 0;
+            } else if (thirdCurrentRound === 2) {
+                secondChainBackground.pause();
+                secondChainBackground.currentTime = 0;
+            }
+            
             // Solo ora che tutte le parole sono state rivelate, passare alla ZIP
             setTimeout(() => {
                 startZipGame();
@@ -2382,7 +2409,8 @@
                 // Dall'alto: cerca la prossima parola nascosta verso il basso
                 for (let i = currentHiddenWordIndex + 1; i < currentChain.words.length - 1; i++) {
                     const wordElement = document.getElementById(`chain-word-${i}`);
-                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    if (wordElement && !wordElement.classList.contains('revealed') && 
+                        wordElement.textContent !== currentChain.words[i]) {
                         nextWordIndex = i;
                         break;
                     }
@@ -2391,7 +2419,8 @@
                 // Dal basso: cerca la prossima parola nascosta verso l'alto
                 for (let i = currentHiddenWordIndex - 1; i > 0; i--) {
                     const wordElement = document.getElementById(`chain-word-${i}`);
-                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    if (wordElement && !wordElement.classList.contains('revealed') && 
+                        wordElement.textContent !== currentChain.words[i]) {
                         nextWordIndex = i;
                         break;
                     }
@@ -2424,7 +2453,8 @@
                 // Dall'alto: cerca la prima parola nascosta dall'inizio
                 for (let i = 1; i < currentChain.words.length - 1; i++) {
                     const wordElement = document.getElementById(`chain-word-${i}`);
-                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    if (wordElement && !wordElement.classList.contains('revealed') && 
+                        wordElement.textContent !== currentChain.words[i]) {
                         nextWordIndex = i;
                         break;
                     }
@@ -2433,7 +2463,8 @@
                 // Dal basso: cerca la prima parola nascosta dalla fine
                 for (let i = currentChain.words.length - 2; i > 0; i--) {
                     const wordElement = document.getElementById(`chain-word-${i}`);
-                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    if (wordElement && !wordElement.classList.contains('revealed') && 
+                        wordElement.textContent !== currentChain.words[i]) {
                         nextWordIndex = i;
                         break;
                     }
@@ -2609,6 +2640,12 @@
             
             document.getElementById('thirdMessage').textContent = `Preparati per la prossima catena!`;
             
+            // AVVIA IL SOTTOFONDO PER LA SECONDA CATENA
+            if (thirdCurrentRound === 2) {
+                secondChainBackground.currentTime = 0;
+                secondChainBackground.play();
+            }
+            
             // Reset del gioco per la nuova catena
             setTimeout(() => {
                 resetThirdGame();
@@ -2643,10 +2680,14 @@
             scoreB = 0;
             currentTeam = 'A';
             
-            // Ferma la musica se sta ancora suonando
+            // Ferma tutti i suoni
             clearTimeout(musicTimeout);
             introMusic.pause();
             introMusic.currentTime = 0;
+            firstChainBackground.pause();
+            firstChainBackground.currentTime = 0;
+            secondChainBackground.pause();
+            secondChainBackground.currentTime = 0;
             
             // Aggiorna display
             updateScores();
