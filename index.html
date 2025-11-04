@@ -2287,7 +2287,7 @@
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
-            // Verifica se ci sono ancora parole nascoste
+            // CORREZIONE: Verifica se TUTTE le parole nascoste sono state rivelate
             if (checkAllWordsRevealed()) {
                 completeChain();
                 return;
@@ -2357,14 +2357,20 @@
             }
         }
 
+        // CORREZIONE: Questa funzione ora verifica correttamente che TUTTE le parole nascoste siano state rivelate
         function checkAllWordsRevealed() {
             const currentChain = chainList[thirdCurrentRound - 1];
+            
+            // Controlla tutte le parole intermedie (dalla 1 alla 5, escludendo la prima e l'ultima)
             for (let i = 1; i < currentChain.words.length - 1; i++) {
                 const wordElement = document.getElementById(`chain-word-${i}`);
+                // Se una parola intermedia non è ancora stata rivelata completamente, ritorna false
                 if (wordElement && wordElement.classList.contains('hidden-word')) {
                     return false;
                 }
             }
+            
+            // Se tutte le parole intermedie sono state rivelate, ritorna true
             return true;
         }
 
