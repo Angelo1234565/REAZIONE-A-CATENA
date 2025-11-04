@@ -1,4 +1,765 @@
-
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laureata a Catena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --dark: #0d1426;
+            --light: #f8f9fa;
+            --card-bg: rgba(13, 20, 38, 0.92);
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            --glow: 0 0 15px rgba(253, 187, 45, 0.6);
+            --team-a-glow: 0 0 20px rgba(46, 204, 113, 0.7);
+            --team-b-glow: 0 0 20px rgba(52, 152, 219, 0.7);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 0;
+        }
+        
+        .game-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            overflow-y: auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            flex-shrink: 0;
+        }
+        
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 8px;
+            color: var(--accent);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+        }
+        
+        h2 {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            margin: 8px 0;
+            color: var(--light);
+        }
+        
+        .game-layout {
+            display: flex;
+            flex: 1;
+            gap: 10px;
+            height: calc(100% - 120px);
+            overflow: hidden;
+        }
+        
+        .team-sidebar {
+            width: 180px;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.1), rgba(26, 42, 108, 0.2));
+            padding: 10px;
+            border-radius: 12px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            box-shadow: var(--team-a-glow);
+            border: 2px solid var(--success);
+        }
+        
+        .team-sidebar.active-b {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.2));
+            box-shadow: var(--team-b-glow);
+            border: 2px solid var(--info);
+        }
+        
+        .team-name {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--accent);
+            text-align: center;
+            min-height: 40px;
+            padding: 5px;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a .team-name {
+            color: var(--success);
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
+        }
+        
+        .team-sidebar.active-b .team-name {
+            color: var(--info);
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+        }
+        
+        .score {
+            font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+            font-weight: bold;
+            color: var(--accent);
+            margin: 8px 0;
+            text-align: center;
+            width: 100%;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .score-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 8px;
+            animation: moneyFlow 1.5s ease-out;
+            z-index: 1;
+        }
+        
+        @keyframes moneyFlow {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            80% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+        }
+        
+        .team-sidebar.active-a .score {
+            color: var(--success);
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
+        }
+        
+        .team-sidebar.active-b .score {
+            color: var(--info);
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+        }
+        
+        .players-list {
+            margin-top: 8px;
+            flex: 1;
+            overflow-y: auto;
+            padding: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a .players-list {
+            background: rgba(46, 204, 113, 0.2);
+        }
+        
+        .team-sidebar.active-b .players-list {
+            background: rgba(52, 152, 219, 0.2);
+        }
+        
+        .player-item {
+            padding: 5px;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            font-size: 0.8rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .team-sidebar.active-a .player-item {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .team-sidebar.active-b .player-item {
+            background: rgba(52, 152, 219, 0.3);
+        }
+        
+        .game-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            padding: 8px;
+        }
+        
+        .game-mode {
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            color: var(--accent);
+            font-weight: bold;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            overflow: hidden;
+            padding: 8px;
+            width: 100%;
+        }
+        
+        .word-grid {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 6px;
+            max-width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+        
+        .letter-box {
+            width: clamp(40px, 6vw, 55px);
+            height: clamp(40px, 6vw, 55px);
+            border: 2px solid var(--accent);
+            margin: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            font-weight: bold;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        
+        .letter-box.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(253, 187, 45, 0.2));
+            transform: scale(1.1);
+            box-shadow: var(--glow);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 8px 14px;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .buzzer {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            color: white;
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            padding: 10px 20px;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, var(--info), #2980b9);
+            color: white;
+        }
+        
+        .correct-btn {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            padding: 6px 12px;
+        }
+        
+        .wrong-btn {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+            color: white;
+            padding: 6px 12px;
+        }
+        
+        .next-game-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+            padding: 10px 16px;
+        }
+        
+        .next-game-btn-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.5s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .next-game-btn-center.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .round-info {
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            margin: 10px 0;
+            text-align: center;
+            color: var(--accent);
+            font-weight: bold;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .message {
+            text-align: center;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            margin: 10px 0;
+            min-height: 35px;
+            padding: 10px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .setup-screen {
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .team-setup {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            gap: 20px;
+        }
+        
+        .team-input {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+            border-radius: 16px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .team-input:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+            border-color: rgba(253, 187, 45, 0.6);
+        }
+        
+        .team-input h3 {
+            margin-bottom: 15px;
+            color: var(--accent);
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(253, 187, 45, 0.2);
+        }
+        
+        input {
+            padding: 12px;
+            margin: 8px 0;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(253, 187, 45, 0.5);
+            transform: scale(1.02);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .answer-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .player-name {
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+            color: var(--accent);
+            margin-top: 6px;
+            font-weight: bold;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+        }
+        
+        .game-completed {
+            text-align: center;
+            margin-top: 12px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 12px;
+            border: 2px solid var(--success);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        .quartina-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 10px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 12px;
+            padding: 12px;
+        }
+        
+        .quartina-line {
+            margin: 8px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+        
+        .quartina-line.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.2), rgba(253, 187, 45, 0.1));
+            border-left: 4px solid var(--accent);
+            transform: translateX(4px);
+        }
+        
+        .quartina-points {
+            text-align: center;
+            margin: 10px 0;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            color: var(--accent);
+            font-weight: bold;
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .correct-answer {
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--success);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+        }
+        
+        .direct-answer-buttons-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        
+        .direct-answer-btn-sidebar {
+            padding: 10px;
+            background: linear-gradient(135deg, var(--success), #27ae60);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .third-game-layout {
+            display: flex;
+            flex: 1;
+            height: calc(100% - 120px);
+            overflow: hidden;
+            gap: 10px;
+        }
+        
+        .third-teams-container {
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .third-chain-container {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow: hidden;
+            padding: 8px;
+        }
+        
+        .chain-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 10px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 12px;
+            padding: 15px;
+            max-height: 75vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .chain-word {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+            transform-origin: top;
+            transform: scaleY(0);
+            opacity: 0;
+        }
+        
+        .chain-word.revealed {
+            background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(253, 187, 45, 0.2));
+            border-left: 4px solid var(--accent);
+            color: #fff;
+            transform: scaleY(1);
+            opacity: 1;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+        
+        .chain-word.hidden-word {
+            background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
+            border-left: 4px solid var(--secondary);
+            color: #fff;
+            transform: scaleY(1);
+            opacity: 1;
+        }
+        
+        .chain-word.completely-hidden {
+            background: linear-gradient(135deg, rgba(178, 31, 31, 0.5), rgba(178, 31, 31, 0.4));
+            border-left: 4px solid var(--secondary);
+            color: transparent;
+            text-shadow: none;
+        }
+        
+        .chain-word.current-word {
+            box-shadow: 0 0 15px rgba(253, 187, 45, 0.8);
+            transform: scale(1.05);
+        }
+        
+        .chain-word.wrong-answer {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.4), rgba(192, 57, 43, 0.3));
+            border-left: 4px solid var(--danger);
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .chain-controls-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+        
+        .chain-direction {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        
+        .direction-btn {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .direction-btn.active {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+        }
+        
+        .chain-main-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .zip-game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            overflow: hidden;
+            padding: 8px;
+            width: 100%;
+        }
+        
+        .zip-chain-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 10px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 12px;
+            padding: 15px;
+            max-height: 75vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .zip-prize {
+            text-align: center;
+            margin: 12px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-radius: 10px;
+            border: 2px solid var(--success);
+            font-size: clamp(0.9rem, 1.6vw, 1rem);
+            font-weight: bold;
+        }
+        
+        .zip-options {
+            display: flex;
+            justify-content: center;
             gap: 12px;
             margin: 12px 0;
         }
@@ -93,7 +854,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* MIGLIORAMENTI GRAFICA SELEZIONE PLAYER */
         .player-selection {
             display: flex;
             flex-direction: column;
@@ -654,13 +1414,6 @@
         let scoreA = 0;
         let scoreB = 0;
         let currentTeam = 'A';
-        let introMusic = new Audio('intro-music.mp3');
-        let wrongAnswerSound = new Audio('Reazione a Catena Soundtrack – Parola Sbagliata.mp4');
-        let wordAppearanceSound = new Audio('Reazione a Catena Soundtrack – Apparizione parola.mp4');
-        let correctWordSound = new Audio('Reazione a Catena Soundtrack – Parola esatta.mp4');
-        let moneySound = new Audio('Reazione a Catena Soundtrack – Suono effetto soldi.mp4');
-        let gongSound = new Audio('Reazione a Catena Soundtrack – Gong.mp4');
-        let musicTimeout;
         
         // Elementi DOM principali
         const videoScreen = document.getElementById('videoScreen');
@@ -678,7 +1431,9 @@
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
                 videoScreen.classList.remove('hidden');
-                introVideo.play();
+                // introVideo.play(); // Commentato per testing
+                videoScreen.classList.add('hidden');
+                introScreen.classList.remove('hidden');
             }, 2000);
         });
 
@@ -745,15 +1500,6 @@
         }
 
         function startMainGame() {
-            // Riproduci la sigla audio per 15 secondi
-            introMusic.play();
-            
-            // Ferma la musica dopo 15 secondi
-            musicTimeout = setTimeout(() => {
-                introMusic.pause();
-                introMusic.currentTime = 0;
-            }, 15000);
-            
             // Aggiorna nomi squadre
             document.getElementById('displayTeamA').textContent = document.getElementById('teamAName').value;
             document.getElementById('displayTeamB').textContent = document.getElementById('teamBName').value;
@@ -812,10 +1558,6 @@
         }
 
         function updateScore(team, points) {
-            // Riproduci il suono dei soldi
-            moneySound.currentTime = 0;
-            moneySound.play();
-            
             if (team === 'A') {
                 scoreA += points;
             } else {
@@ -828,9 +1570,6 @@
                 document.querySelectorAll('#scoreB, #secondScoreB, #thirdScoreB');
             
             scoreElements.forEach(el => {
-                // Salva il testo originale
-                const originalText = el.textContent;
-                
                 // Aggiungi animazione
                 const animation = document.createElement('div');
                 animation.className = 'score-animation';
@@ -939,10 +1678,6 @@
             letterBox.classList.add('revealed', 'pulse');
             revealedLetters.push(currentWord[position]);
             
-            // Riproduci il suono di apparizione parola
-            wordAppearanceSound.currentTime = 0;
-            wordAppearanceSound.play();
-            
             setTimeout(() => {
                 letterBox.classList.remove('pulse');
             }, 500);
@@ -961,10 +1696,6 @@
         }
 
         function handleCorrectAnswer() {
-            // Riproduci il suono di parola esatta
-            correctWordSound.currentTime = 0;
-            correctWordSound.play();
-            
             document.getElementById('message').textContent = `Esatto! La parola è "${currentWord}". +€2.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             revealAllLetters();
             updateScore(currentTeam, 2000);
@@ -976,10 +1707,6 @@
         }
 
         function handleWrongAnswer() {
-            // Riproduci il suono di parola sbagliata
-            wrongAnswerSound.currentTime = 0;
-            wrongAnswerSound.play();
-            
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
             updateActiveTeam();
             
@@ -1019,11 +1746,6 @@
             document.getElementById('buzzer').disabled = true;
             document.getElementById('nextBtn').disabled = true;
             document.getElementById('gameCompleted').classList.remove('hidden');
-            
-            // Nascondi elementi per far spazio al pulsante
-            document.querySelector('.word-grid').classList.add('hidden');
-            document.querySelector('.round-info').classList.add('hidden');
-            document.querySelector('.message').classList.add('hidden');
             
             setTimeout(() => {
                 document.getElementById('nextGameBtnCenter').classList.add('show');
@@ -1227,11 +1949,6 @@
             document.getElementById('secondNextQuartinaBtn').disabled = true;
             document.getElementById('secondGameCompleted').classList.remove('hidden');
             
-            // Nascondi elementi per far spazio al pulsante
-            document.querySelector('.quartina-container').classList.add('hidden');
-            document.querySelector('.quartina-points').classList.add('hidden');
-            document.querySelector('.message').classList.add('hidden');
-            
             setTimeout(() => {
                 document.getElementById('secondNextGameBtnCenter').classList.add('show');
             }, 1000);
@@ -1243,13 +1960,13 @@
             initThirdGame();
         }
 
-        // GIOCO 3: Una tira l'altra - CORRETTO DEFINITIVO
+        // GIOCO 3: Una tira l'altra - COMPLETO E FUNZIONANTE
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         const thirdTotalRounds = 2;
         let currentChainDirection = '';
-        let currentHiddenWordIndex = 0;
-        let revealedLettersPerWord = [];
+        let currentHiddenWordIndex = -1;
+        let chainWordsState = [];
         let chainTimerInterval;
         let chainTimeLeft = 20;
         
@@ -1289,8 +2006,8 @@
         function resetThirdGame() {
             thirdGameStarted = false;
             currentChainDirection = '';
-            currentHiddenWordIndex = 0;
-            revealedLettersPerWord = [];
+            currentHiddenWordIndex = -1;
+            chainWordsState = [];
             chainTimeLeft = 20;
             
             document.getElementById('chainDirection').classList.remove('hidden');
@@ -1302,12 +2019,11 @@
             document.getElementById('chainTimer').classList.add('hidden');
             document.getElementById('zipTimer').classList.add('hidden');
             
-            // Mostra la catena e nascondi la ZIP
             document.getElementById('chainContainer').classList.remove('hidden');
-            document.getElementById('zipGameArea').classList.add('hidden');
-            
-            // Ripristina i controlli principali
             document.querySelector('.chain-main-controls').classList.remove('hidden');
+            document.getElementById('thirdStartBtn').disabled = true;
+            document.getElementById('thirdBuzzer').disabled = true;
+            document.getElementById('thirdNextBtn').disabled = true;
         }
 
         function createChainDisplay() {
@@ -1315,37 +2031,41 @@
             chainContainer.innerHTML = '';
             const currentChain = chainList[thirdCurrentRound - 1];
             
-            revealedLettersPerWord = [];
-            for (let i = 0; i < currentChain.words.length; i++) {
-                revealedLettersPerWord[i] = []; // Nessuna lettera rivelata inizialmente
-            }
+            chainWordsState = [];
             
             for (let i = 0; i < currentChain.words.length; i++) {
+                chainWordsState[i] = {
+                    revealed: false,
+                    lettersRevealed: 0,
+                    word: currentChain.words[i]
+                };
+                
                 const chainWord = document.createElement('div');
                 chainWord.className = 'chain-word';
                 chainWord.id = `chain-word-${i}`;
                 
-                // La prima e l'ultima parola sono sempre visibili
                 if (i === 0 || i === currentChain.words.length - 1) {
                     chainWord.textContent = currentChain.words[i];
                     chainWord.classList.add('revealed');
+                    chainWordsState[i].revealed = true;
+                    chainWordsState[i].lettersRevealed = currentChain.words[i].length;
                 } else {
-                    // Le parole intermedie sono nascoste
                     chainWord.textContent = '?';
                     chainWord.classList.add('completely-hidden');
+                    chainWordsState[i].revealed = false;
+                    chainWordsState[i].lettersRevealed = 0;
                 }
                 
                 chainContainer.appendChild(chainWord);
             }
             
-            // Animazione a fisarmonica - rivelazione progressiva
             setTimeout(() => {
                 const words = document.querySelectorAll('.chain-word');
                 words.forEach((word, index) => {
                     setTimeout(() => {
                         word.style.transform = 'scaleY(1)';
                         word.style.opacity = '1';
-                    }, index * 200); // Ritardo progressivo
+                    }, index * 200);
                 });
             }, 500);
         }
@@ -1386,36 +2106,26 @@
             document.getElementById('thirdBuzzer').disabled = false;
             document.getElementById('thirdNextBtn').disabled = true;
             
-            // Imposta la prima parola nascosta in base alla direzione
             if (currentChainDirection === 'top') {
-                currentHiddenWordIndex = 1; // Seconda parola (dopo CHIAVE)
+                currentHiddenWordIndex = 1;
             } else {
-                currentHiddenWordIndex = chainList[thirdCurrentRound - 1].words.length - 2; // Penultima parola (prima di STORIA)
+                currentHiddenWordIndex = chainList[thirdCurrentRound - 1].words.length - 2;
             }
             
-            // Rivelare la prima lettera della parola corrente
             revealFirstLetter(currentHiddenWordIndex);
-            
             highlightCurrentWord();
             document.getElementById('thirdMessage').textContent = `Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            
             startChainTimer();
         }
 
         function revealFirstLetter(wordIndex) {
-            const currentChain = chainList[thirdCurrentRound - 1];
-            const word = currentChain.words[wordIndex];
             const wordElement = document.getElementById(`chain-word-${wordIndex}`);
+            chainWordsState[wordIndex].lettersRevealed = 1;
             
-            // Rivelare solo la prima lettera
-            revealedLettersPerWord[wordIndex] = [0];
-            wordElement.textContent = word.charAt(0);
+            const currentWord = chainWordsState[wordIndex].word;
+            wordElement.textContent = currentWord.charAt(0);
             wordElement.classList.remove('completely-hidden');
             wordElement.classList.add('hidden-word');
-            
-            // Riproduci il suono di apparizione parola
-            wordAppearanceSound.currentTime = 0;
-            wordAppearanceSound.play();
         }
 
         function startChainTimer() {
@@ -1423,7 +2133,6 @@
             chainTimeLeft = 20;
             document.getElementById('chainTimeLeft').textContent = chainTimeLeft;
             
-            // Timer corretto che conta 20 secondi reali
             clearInterval(chainTimerInterval);
             chainTimerInterval = setInterval(() => {
                 chainTimeLeft--;
@@ -1433,7 +2142,7 @@
                     clearInterval(chainTimerInterval);
                     handleChainTimeExpired();
                 }
-            }, 1000); // 1 secondo reale
+            }, 1000);
         }
 
         function stopChainTimer() {
@@ -1442,10 +2151,6 @@
         }
 
         function handleChainTimeExpired() {
-            // Riproduci il suono del gong
-            gongSound.currentTime = 0;
-            gongSound.play();
-            
             document.getElementById('chainTimer').classList.add('hidden');
             document.getElementById('thirdMessage').textContent = `Tempo scaduto! La parola passa alla ${currentTeam === 'A' ? document.getElementById('displayTeamB').textContent : document.getElementById('displayTeamA').textContent} e viene aggiunta una lettera!`;
             
@@ -1481,57 +2186,33 @@
             document.getElementById('thirdAnswerControls').classList.remove('hidden');
         }
 
-        // FUNZIONE CORRETTA - ORA CONTROLLA CORRETTAMENTE SE CI SONO ALTRE PAROLE NASCOSTE
         function handleThirdCorrectAnswer() {
-            // Riproduci il suono di parola esatta
-            correctWordSound.currentTime = 0;
-            correctWordSound.play();
-            
-            const currentChain = chainList[thirdCurrentRound - 1];
-            const correctWord = currentChain.words[currentHiddenWordIndex];
-            
+            const correctWord = chainWordsState[currentHiddenWordIndex].word;
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
+            
             wordElement.textContent = correctWord;
-            wordElement.classList.remove('hidden-word');
+            wordElement.classList.remove('hidden-word', 'completely-hidden');
             wordElement.classList.add('revealed');
-            wordElement.classList.remove('current-word');
-            wordElement.classList.remove('wrong-answer');
+            wordElement.classList.remove('current-word', 'wrong-answer');
+            
+            chainWordsState[currentHiddenWordIndex].revealed = true;
+            chainWordsState[currentHiddenWordIndex].lettersRevealed = correctWord.length;
             
             document.getElementById('thirdMessage').textContent = `Esatto! La parola è "${correctWord}". +€3.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             updateScore(currentTeam, 3000);
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
-            // CORREZIONE: Controlla se ci sono altre parole nascoste
             const hasMoreHiddenWords = checkForMoreHiddenWords();
             
             if (hasMoreHiddenWords) {
-                // Ci sono ancora parole nascoste, mostra le opzioni di direzione
                 showDirectionOptions();
             } else {
-                // Non ci sono più parole nascoste, passa alla ZIP
                 completeChain();
             }
         }
 
-        // FUNZIONE AGGIUNTA: Controlla se ci sono altre parole nascoste
-        function checkForMoreHiddenWords() {
-            const currentChain = chainList[thirdCurrentRound - 1];
-            
-            for (let i = 1; i < currentChain.words.length - 1; i++) {
-                const wordElement = document.getElementById(`chain-word-${i}`);
-                if (wordElement && wordElement.classList.contains('hidden-word')) {
-                    return true; // Trovata una parola ancora nascosta
-                }
-            }
-            
-            return false; // Tutte le parole sono state rivelate
-        }
-
         function handleThirdWrongAnswer() {
-            // Riproduci il suono di parola sbagliata
-            wrongAnswerSound.play();
-            
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
             wordElement.classList.add('wrong-answer');
             
@@ -1550,42 +2231,101 @@
         }
 
         function revealAdditionalLetter() {
-            const currentChain = chainList[thirdCurrentRound - 1];
-            const word = currentChain.words[currentHiddenWordIndex];
+            const currentWord = chainWordsState[currentHiddenWordIndex].word;
+            const currentRevealedCount = chainWordsState[currentHiddenWordIndex].lettersRevealed;
             
-            // Aggiungi la prossima lettera disponibile
-            const nextLetterIndex = revealedLettersPerWord[currentHiddenWordIndex].length;
-            if (nextLetterIndex < word.length) {
-                revealedLettersPerWord[currentHiddenWordIndex].push(nextLetterIndex);
+            if (currentRevealedCount < currentWord.length) {
+                chainWordsState[currentHiddenWordIndex].lettersRevealed++;
                 updateWordDisplay(currentHiddenWordIndex);
-                
-                // Riproduci il suono di apparizione parola
-                wordAppearanceSound.currentTime = 0;
-                wordAppearanceSound.play();
             }
         }
 
         function updateWordDisplay(wordIndex) {
-            const currentChain = chainList[thirdCurrentRound - 1];
-            const word = currentChain.words[wordIndex];
             const wordElement = document.getElementById(`chain-word-${wordIndex}`);
+            const currentWord = chainWordsState[wordIndex].word;
+            const revealedCount = chainWordsState[wordIndex].lettersRevealed;
             
             let displayText = '';
-            for (let i = 0; i < word.length; i++) {
-                if (revealedLettersPerWord[wordIndex].includes(i)) {
-                    displayText += word.charAt(i);
-                } else {
-                    // Non mostrare trattini, solo lettere rivelate
-                    break;
-                }
+            for (let i = 0; i < revealedCount; i++) {
+                displayText += currentWord.charAt(i);
             }
             
             wordElement.textContent = displayText;
             
-            if (displayText.length === word.length) {
+            if (revealedCount === currentWord.length) {
                 wordElement.classList.remove('hidden-word');
                 wordElement.classList.add('revealed');
+                chainWordsState[wordIndex].revealed = true;
             }
+        }
+
+        function checkForMoreHiddenWords() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            
+            for (let i = 1; i < currentChain.words.length - 1; i++) {
+                if (!chainWordsState[i].revealed) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function showDirectionOptions() {
+            document.getElementById('thirdMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, vuoi continuare nella stessa direzione o cambiare?`;
+            document.getElementById('directionOptions').classList.remove('hidden');
+        }
+
+        function continueDirection() {
+            document.getElementById('directionOptions').classList.add('hidden');
+            
+            if (currentChainDirection === 'top') {
+                for (let i = currentHiddenWordIndex + 1; i < chainList[thirdCurrentRound - 1].words.length - 1; i++) {
+                    if (!chainWordsState[i].revealed) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            } else {
+                for (let i = currentHiddenWordIndex - 1; i > 0; i--) {
+                    if (!chainWordsState[i].revealed) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            }
+            
+            revealFirstLetter(currentHiddenWordIndex);
+            highlightCurrentWord();
+            document.getElementById('thirdMessage').textContent = `Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+            startChainTimer();
+        }
+
+        function changeDirection() {
+            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
+            document.getElementById('directionOptions').classList.add('hidden');
+            
+            const currentChain = chainList[thirdCurrentRound - 1];
+            
+            if (currentChainDirection === 'top') {
+                for (let i = 1; i < currentChain.words.length - 1; i++) {
+                    if (!chainWordsState[i].revealed) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            } else {
+                for (let i = currentChain.words.length - 2; i > 0; i--) {
+                    if (!chainWordsState[i].revealed) {
+                        currentHiddenWordIndex = i;
+                        break;
+                    }
+                }
+            }
+            
+            revealFirstLetter(currentHiddenWordIndex);
+            highlightCurrentWord();
+            document.getElementById('thirdMessage').textContent = `Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+            startChainTimer();
         }
 
         function completeChain() {
@@ -1598,80 +2338,20 @@
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             document.getElementById('directionOptions').classList.add('hidden');
             
-            // Solo ora che tutte le parole sono state rivelate, passare alla ZIP
             setTimeout(() => {
                 startZipGame();
             }, 2000);
         }
 
-        function showDirectionOptions() {
-            document.getElementById('thirdMessage').textContent = `${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}, vuoi continuare nella stessa direzione o cambiare?`;
-            document.getElementById('directionOptions').classList.remove('hidden');
-        }
-
-        function continueDirection() {
-            document.getElementById('directionOptions').classList.add('hidden');
-            
-            if (currentChainDirection === 'top') {
-                currentHiddenWordIndex++;
-            } else {
-                currentHiddenWordIndex--;
-            }
-            
-            // Rivelare la prima lettera della nuova parola
-            revealFirstLetter(currentHiddenWordIndex);
-            
-            highlightCurrentWord();
-            document.getElementById('thirdMessage').textContent = `Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            startChainTimer();
-        }
-
-        function changeDirection() {
-            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
-            document.getElementById('directionOptions').classList.add('hidden');
-            
-            const currentChain = chainList[thirdCurrentRound - 1];
-            
-            // Trova la prossima parola nascosta nella nuova direzione
-            if (currentChainDirection === 'top') {
-                for (let i = 1; i < currentChain.words.length - 1; i++) {
-                    const wordElement = document.getElementById(`chain-word-${i}`);
-                    if (wordElement && wordElement.classList.contains('hidden-word')) {
-                        currentHiddenWordIndex = i;
-                        break;
-                    }
-                }
-            } else {
-                for (let i = currentChain.words.length - 2; i > 0; i--) {
-                    const wordElement = document.getElementById(`chain-word-${i}`);
-                    if (wordElement && wordElement.classList.contains('hidden-word')) {
-                        currentHiddenWordIndex = i;
-                        break;
-                    }
-                }
-            }
-            
-            // Rivelare la prima lettera della nuova parola
-            revealFirstLetter(currentHiddenWordIndex);
-            
-            highlightCurrentWord();
-            document.getElementById('thirdMessage').textContent = `Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            startChainTimer();
-        }
-
         function startZipGame() {
-            // Nascondi la catena e mostra la ZIP al centro
             document.getElementById('chainContainer').classList.add('hidden');
             document.getElementById('zipGameArea').classList.remove('hidden');
-            
-            // Nascondi i controlli principali durante la ZIP
             document.querySelector('.chain-main-controls').classList.add('hidden');
             
             const currentChain = chainList[thirdCurrentRound - 1];
             const zipData = currentChain.zip;
             
             document.getElementById('zipFirstWord').textContent = zipData.first;
-            // Per la ZIP, mostra solo la prima lettera delle parole nascoste
             document.getElementById('zipSecondWord').textContent = zipData.second.charAt(0);
             document.getElementById('zipThirdWord').textContent = zipData.third.charAt(0);
             document.getElementById('zipFourthWord').textContent = zipData.fourth;
@@ -1717,7 +2397,6 @@
             zipTimeLeft = 20;
             document.getElementById('zipTimeLeft').textContent = zipTimeLeft;
             
-            // Timer corretto che conta 20 secondi reali
             clearInterval(zipTimerInterval);
             zipTimerInterval = setInterval(() => {
                 zipTimeLeft--;
@@ -1727,7 +2406,7 @@
                     clearInterval(zipTimerInterval);
                     handleZipTimeExpired();
                 }
-            }, 1000); // 1 secondo reale
+            }, 1000);
         }
 
         function handleZipTimeExpired() {
@@ -1764,7 +2443,6 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
-            // Dopo 3 secondi, passa alla prossima catena o completa il gioco
             setTimeout(() => {
                 if (thirdCurrentRound >= thirdTotalRounds) {
                     completeThirdGame();
@@ -1797,7 +2475,6 @@
             
             document.getElementById('zipAnswerControls').classList.add('hidden');
             
-            // Dopo 3 secondi, passa alla prossima catena o completa il gioco
             setTimeout(() => {
                 if (thirdCurrentRound >= thirdTotalRounds) {
                     completeThirdGame();
@@ -1816,7 +2493,6 @@
             
             document.getElementById('thirdMessage').textContent = `Preparati per la prossima catena!`;
             
-            // Reset del gioco per la nuova catena
             setTimeout(() => {
                 resetThirdGame();
                 initThirdGame();
@@ -1829,9 +2505,6 @@
             document.getElementById('thirdBuzzer').disabled = true;
             document.getElementById('thirdNextBtn').disabled = true;
             document.getElementById('thirdGameCompleted').classList.remove('hidden');
-            
-            document.querySelector('.chain-container').classList.add('hidden');
-            document.querySelector('.message').classList.add('hidden');
             
             setTimeout(() => {
                 document.getElementById('thirdNextGameBtnCenter').classList.add('show');
@@ -1849,11 +2522,6 @@
             scoreA = 0;
             scoreB = 0;
             currentTeam = 'A';
-            
-            // Ferma la musica se sta ancora suonando
-            clearTimeout(musicTimeout);
-            introMusic.pause();
-            introMusic.currentTime = 0;
             
             // Aggiorna display
             updateScores();
