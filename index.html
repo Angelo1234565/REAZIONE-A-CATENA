@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* RESET E STILI BASE */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -41,7 +40,6 @@
             padding: 0;
         }
         
-        /* Schermate di gioco a tutto schermo */
         .game-screen {
             position: fixed;
             top: 0;
@@ -76,7 +74,6 @@
             color: var(--light);
         }
         
-        /* LAYOUT MIGLIORATO */
         .game-layout {
             display: flex;
             flex: 1;
@@ -482,7 +479,6 @@
             animation: pulse 0.5s ease-in-out;
         }
         
-        /* STILI PER IL SECONDO GIOCO */
         .quartina-container {
             width: 100%;
             max-width: 100%;
@@ -513,36 +509,6 @@
             transform: translateX(4px);
         }
         
-        .player-buzzers {
-            display: flex;
-            justify-content: space-between;
-            margin: 12px 0;
-            gap: 10px;
-        }
-        
-        .team-buzzers {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
-        .player-buzzer {
-            padding: 8px;
-            background: linear-gradient(135deg, var(--info), #2980b9);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: var(--transition);
-            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        
         .quartina-points {
             text-align: center;
             margin: 10px 0;
@@ -564,7 +530,6 @@
             font-size: clamp(0.8rem, 1.4vw, 0.9rem);
         }
         
-        /* CORREZIONE: Pulsanti diretti per il secondo gioco nelle sidebar */
         .direct-answer-buttons-sidebar {
             display: flex;
             flex-direction: column;
@@ -588,11 +553,6 @@
             gap: 6px;
         }
         
-        .direct-answer-btn-sidebar:hover {
-            transform: scale(1.05);
-        }
-        
-        /* LAYOUT MIGLIORATO PER UNA TIRA L'ALTRA */
         .third-game-layout {
             display: flex;
             flex: 1;
@@ -618,7 +578,6 @@
             padding: 8px;
         }
         
-        /* CATENA VERTICALE CON 7 PAROLE - ALZATA PER VISIBILITÀ */
         .chain-container {
             width: 100%;
             max-width: 500px;
@@ -626,27 +585,26 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 12px;
             padding: 15px;
-            max-height: 75vh; /* Aumentato per mostrare tutte le 7 parole */
+            max-height: 75vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px; /* Ridotto per far entrare più parole */
+            gap: 8px;
         }
         
-        /* NUOVO STILE PER LE PAROLE DELLA CATENA - COME NELLE IMMAGINI */
         .chain-word {
-            padding: 12px; /* Ridotto per far entrare più parole */
+            padding: 12px;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
-            min-height: 50px; /* Ridotto per far entrare più parole */
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: clamp(1.2rem, 2.2vw, 1.5rem); /* Leggermente aumentato */
-            font-weight: 700; /* Più grassetto */
-            color: white; /* Testo bianco */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Ombra per leggibilità */
+            font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             transition: var(--transition);
             border-left: 4px solid transparent;
             transform-origin: top;
@@ -657,7 +615,7 @@
         .chain-word.revealed {
             background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(253, 187, 45, 0.2));
             border-left: 4px solid var(--accent);
-            color: #fff; /* Bianco per leggibilità */
+            color: #fff;
             transform: scaleY(1);
             opacity: 1;
             transition: transform 0.5s ease-out, opacity 0.5s ease-out;
@@ -666,7 +624,7 @@
         .chain-word.hidden-word {
             background: linear-gradient(135deg, rgba(178, 31, 31, 0.3), rgba(178, 31, 31, 0.2));
             border-left: 4px solid var(--secondary);
-            color: #fff; /* Bianco per leggibilità */
+            color: #fff;
             transform: scaleY(1);
             opacity: 1;
         }
@@ -674,7 +632,7 @@
         .chain-word.completely-hidden {
             background: linear-gradient(135deg, rgba(178, 31, 31, 0.5), rgba(178, 31, 31, 0.4));
             border-left: 4px solid var(--secondary);
-            color: transparent; /* Testo completamente nascosto */
+            color: transparent;
             text-shadow: none;
         }
         
@@ -695,7 +653,6 @@
             75% { transform: translateX(5px); }
         }
         
-        /* CONTROLLI RIORGANIZZATI - A DESTRA DELLA CATENA */
         .chain-controls-area {
             display: flex;
             flex-direction: column;
@@ -743,7 +700,6 @@
             flex-wrap: wrap;
         }
         
-        /* ZIP GAME - MODIFICATO PER ESSERE CENTRALE */
         .zip-game-area {
             display: flex;
             flex-direction: column;
@@ -815,7 +771,6 @@
             color: var(--accent);
         }
 
-        /* NUOVO LAYOUT PER LA ZIP CON TIMER A SINISTRA E PREMIO A DESTRA */
         .zip-layout {
             display: flex;
             width: 100%;
@@ -849,7 +804,6 @@
             justify-content: center;
         }
 
-        /* Schermata di caricamento */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -879,7 +833,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Stili per la selezione giocatori */
         .player-selection {
             display: flex;
             flex-direction: column;
@@ -940,7 +893,6 @@
             animation: scorePop 0.5s ease-in-out;
         }
 
-        /* Schermata sigla */
         .intro-screen {
             position: fixed;
             top: 0;
@@ -994,7 +946,6 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
-        /* Schermata video sigla */
         .video-screen {
             position: fixed;
             top: 0;
@@ -1028,7 +979,6 @@
             z-index: 10;
         }
 
-        /* LAYOUT PER UNA TIRA L'ALTRA CON CATENA VERTICALE */
         .chain-game-container {
             display: flex;
             flex-direction: row;
@@ -1080,7 +1030,6 @@
                 width: 100%;
             }
             
-            /* Per mobile, riduci ulteriormente la catena */
             .chain-container {
                 max-height: 60vh;
             }
@@ -1098,7 +1047,6 @@
     </style>
 </head>
 <body>
-    <!-- Schermata video sigla -->
     <div class="video-screen hidden" id="videoScreen">
         <video id="introVideo" preload="auto">
             <source src="Sigla _Reazione a Catena_ 2024 (03-06-2024).mp4" type="video/mp4">
@@ -1107,13 +1055,11 @@
         <button class="skip-btn" id="skipVideoBtn">Salta</button>
     </div>
     
-    <!-- Schermata di caricamento -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
         <h2>Caricamento in corso...</h2>
     </div>
     
-    <!-- Schermata sigla -->
     <div class="intro-screen hidden" id="introScreen">
         <h1 class="intro-title">LAUREATA A CATENA</h1>
         <p class="intro-subtitle">Più difficile della tesi (ma più divertente)</p>
@@ -1122,7 +1068,6 @@
         </button>
     </div>
     
-    <!-- Schermata di setup -->
     <div class="game-screen hidden" id="setupScreen">
         <header>
             <h1>Laureata a Catena</h1>
@@ -1162,7 +1107,6 @@
         </div>
     </div>
     
-    <!-- Schermata di gioco principale (Caccia alla Parola) -->
     <div class="game-screen hidden" id="gameScreen">
         <header>
             <h1>Laureata a Catena</h1>
@@ -1170,14 +1114,12 @@
         </header>
         
         <div class="game-layout">
-            <!-- Sidebar Squadra A -->
             <div class="team-sidebar" id="teamASidebar">
                 <div class="team-name" id="displayTeamA">Squadra A</div>
                 <div class="score" id="scoreA">€0</div>
                 <div class="players-list" id="teamAPlayersList"></div>
             </div>
             
-            <!-- Area centrale di gioco -->
             <div class="game-center">
                 <div class="game-area">
                     <div class="word-grid" id="wordGrid"></div>
@@ -1207,7 +1149,6 @@
                 </div>
             </div>
             
-            <!-- Sidebar Squadra B -->
             <div class="team-sidebar" id="teamBSidebar">
                 <div class="team-name" id="displayTeamB">Squadra B</div>
                 <div class="score" id="scoreB">€0</div>
@@ -1218,7 +1159,6 @@
         <button class="next-game-btn-center hidden" id="nextGameBtnCenter"><i class="fas fa-gamepad"></i> Passa al Gioco Successivo: Quando, Dove, Come, Perché →</button>
     </div>
 
-    <!-- Schermata del secondo gioco (Quando, Dove, Come, Perché) -->
     <div class="game-screen hidden" id="secondGameScreen">
         <header>
             <h1>Laureata a Catena</h1>
@@ -1226,7 +1166,6 @@
         </header>
         
         <div class="game-layout">
-            <!-- Sidebar Squadra A con pulsante risposta -->
             <div class="team-sidebar" id="secondTeamASidebar">
                 <div class="team-name" id="secondDisplayTeamA">Squadra A</div>
                 <div class="direct-answer-buttons-sidebar hidden" id="directAnswerButtonsA">
@@ -1238,7 +1177,6 @@
                 <div class="players-list" id="secondTeamAPlayersList"></div>
             </div>
             
-            <!-- Area centrale di gioco -->
             <div class="game-center">
                 <div class="game-area">
                     <div class="quartina-container">
@@ -1281,7 +1219,6 @@
                 </div>
             </div>
             
-            <!-- Sidebar Squadra B con pulsante risposta -->
             <div class="team-sidebar" id="secondTeamBSidebar">
                 <div class="team-name" id="secondDisplayTeamB">Squadra B</div>
                 <div class="direct-answer-buttons-sidebar hidden" id="directAnswerButtonsB">
@@ -1297,25 +1234,20 @@
         <button class="next-game-btn-center hidden" id="secondNextGameBtnCenter"><i class="fas fa-gamepad"></i> Passa al Gioco Successivo: Una tira l'altra →</button>
     </div>
 
-    <!-- Schermata del terzo gioco (Una tira l'altra) -->
     <div class="game-screen hidden" id="thirdGameScreen">
         <header>
             <h1>Laureata a Catena</h1>
             <div class="game-mode" id="thirdGameMode"><i class="fas fa-bullseye"></i> Una tira l'altra</div>
         </header>
         
-        <!-- LAYOUT MIGLIORATO PER UNA TIRA L'ALTRA -->
         <div class="third-game-layout">
-            <!-- Container squadre a sinistra -->
             <div class="third-teams-container">
-                <!-- Squadra A sopra -->
                 <div class="team-sidebar" id="thirdTeamASidebar">
                     <div class="team-name" id="thirdDisplayTeamA">Squadra A</div>
                     <div class="score" id="thirdScoreA">€0</div>
                     <div class="players-list" id="thirdTeamAPlayersList"></div>
                 </div>
                 
-                <!-- Squadra B sotto -->
                 <div class="team-sidebar" id="thirdTeamBSidebar">
                     <div class="team-name" id="thirdDisplayTeamB">Squadra B</div>
                     <div class="score" id="thirdScoreB">€0</div>
@@ -1323,33 +1255,25 @@
                 </div>
             </div>
             
-            <!-- Container catena a destra -->
             <div class="third-chain-container">
                 <div class="chain-game-container">
-                    <!-- Sezione catena verticale -->
                     <div class="chain-display-section">
-                        <!-- CATENA VERTICALE CON 7 PAROLE - ALZATA -->
-                        <div class="chain-container" id="chainContainer">
-                            <!-- Le parole verranno aggiunte dinamicamente -->
-                        </div>
+                        <div class="chain-container" id="chainContainer"></div>
                         
                         <div class="chain-timer hidden" id="chainTimer">
                             <i class="fas fa-clock"></i> Tempo rimanente: <span id="chainTimeLeft">20</span> secondi
                         </div>
                         
-                        <!-- ZIP Game - NUOVO LAYOUT -->
                         <div class="zip-game-area hidden" id="zipGameArea">
                             <h2 style="text-align: center; margin-bottom: 10px;"><i class="fas fa-bullseye"></i> GIOCO DELLA ZIP</h2>
                             
                             <div class="zip-layout">
-                                <!-- Timer a sinistra -->
                                 <div class="zip-timer-container">
                                     <div class="zip-timer" id="zipTimer">
                                         <i class="fas fa-clock"></i> Tempo rimanente: <span id="zipTimeLeft">20</span> secondi
                                     </div>
                                 </div>
                                 
-                                <!-- Catena ZIP al centro -->
                                 <div class="zip-chain-center">
                                     <div class="zip-chain-container">
                                         <div class="chain-word revealed" id="zipFirstWord"></div>
@@ -1359,7 +1283,6 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Premio a destra -->
                                 <div class="zip-prize-container">
                                     <div class="zip-prize" id="zipPrize">
                                         <i class="fas fa-trophy"></i> Premio in palio: <span id="prizeValue">15.000</span> punti!
@@ -1390,7 +1313,6 @@
                         </div>
                     </div>
                     
-                    <!-- Sezione controlli a destra -->
                     <div class="chain-controls-section">
                         <div class="message" id="thirdMessage"><i class="fas fa-bullseye"></i> Scegli da che direzione iniziare la catena!</div>
                         
@@ -1413,7 +1335,6 @@
                             </div>
                         </div>
                         
-                        <!-- Opzioni per cambiare direzione -->
                         <div class="chain-direction hidden" id="directionOptions">
                             <button class="direction-btn" id="continueDirectionBtn"><i class="fas fa-redo"></i> Continua</button>
                             <button class="direction-btn" id="changeDirectionBtn"><i class="fas fa-exchange-alt"></i> Cambia direzione</button>
@@ -2028,7 +1949,7 @@
             initThirdGame();
         }
 
-        // GIOCO 3: Una tira l'altra
+        // GIOCO 3: Una tira l'altra - CORRETTO
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         const thirdTotalRounds = 2;
@@ -2038,7 +1959,6 @@
         let chainTimerInterval;
         let chainTimeLeft = 20;
         
-        // CATENA CON 7 PAROLE MIGLIORATA - PRIMA CATENA CON ZIP DA 15.000, SECONDA DA 20.000
         const chainList = [
             {
                 words: ["CHIAVE", "SERRATURA", "PORTA", "CASA", "FAMIGLIA", "TRADIZIONE", "STORIA"],
@@ -2287,7 +2207,8 @@
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
-            // CORREZIONE: Controlla se ci sono ancora parole nascoste nella catena
+            // CORREZIONE: SEMPRE mostrare le opzioni di direzione dopo aver indovinato una parola
+            // Solo quando non ci sono più parole nascoste si passa alla ZIP
             if (checkAllWordsRevealed()) {
                 completeChain();
                 return;
