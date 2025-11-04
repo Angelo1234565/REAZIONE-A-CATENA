@@ -2005,7 +2005,7 @@
             initThirdGame();
         }
 
-        // GIOCO 3: Una tira l'altra - CORRETTO DEFINITIVO
+        // GIOCO 3: Una tira l'altra - SISTEMATO DEFINITIVAMENTE
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         const thirdTotalRounds = 2;
@@ -2374,51 +2374,82 @@
         function continueDirection() {
             document.getElementById('directionOptions').classList.add('hidden');
             
+            // Trova la prossima parola nascosta nella stessa direzione
+            const currentChain = chainList[thirdCurrentRound - 1];
+            let nextWordIndex = -1;
+            
             if (currentChainDirection === 'top') {
-                currentHiddenWordIndex++;
+                // Dall'alto: cerca la prossima parola nascosta verso il basso
+                for (let i = currentHiddenWordIndex + 1; i < currentChain.words.length - 1; i++) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        nextWordIndex = i;
+                        break;
+                    }
+                }
             } else {
-                currentHiddenWordIndex--;
+                // Dal basso: cerca la prossima parola nascosta verso l'alto
+                for (let i = currentHiddenWordIndex - 1; i > 0; i--) {
+                    const wordElement = document.getElementById(`chain-word-${i}`);
+                    if (wordElement && wordElement.classList.contains('hidden-word')) {
+                        nextWordIndex = i;
+                        break;
+                    }
+                }
             }
             
-            // Rivelare la prima lettera della nuova parola
-            revealFirstLetter(currentHiddenWordIndex);
-            
-            highlightCurrentWord();
-            document.getElementById('thirdMessage').textContent = `Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            startChainTimer();
+            if (nextWordIndex !== -1) {
+                currentHiddenWordIndex = nextWordIndex;
+                revealFirstLetter(currentHiddenWordIndex);
+                highlightCurrentWord();
+                document.getElementById('thirdMessage').textContent = `Indovina la prossima parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+                startChainTimer();
+            } else {
+                // Se non ci sono più parole nascoste, completa la catena
+                completeChain();
+            }
         }
 
         function changeDirection() {
-            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
             document.getElementById('directionOptions').classList.add('hidden');
             
+            // Cambia direzione
+            currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
+            
             const currentChain = chainList[thirdCurrentRound - 1];
+            let nextWordIndex = -1;
             
             // Trova la prossima parola nascosta nella nuova direzione
             if (currentChainDirection === 'top') {
+                // Dall'alto: cerca la prima parola nascosta dall'inizio
                 for (let i = 1; i < currentChain.words.length - 1; i++) {
                     const wordElement = document.getElementById(`chain-word-${i}`);
                     if (wordElement && wordElement.classList.contains('hidden-word')) {
-                        currentHiddenWordIndex = i;
+                        nextWordIndex = i;
                         break;
                     }
                 }
             } else {
+                // Dal basso: cerca la prima parola nascosta dalla fine
                 for (let i = currentChain.words.length - 2; i > 0; i--) {
                     const wordElement = document.getElementById(`chain-word-${i}`);
                     if (wordElement && wordElement.classList.contains('hidden-word')) {
-                        currentHiddenWordIndex = i;
+                        nextWordIndex = i;
                         break;
                     }
                 }
             }
             
-            // Rivelare la prima lettera della nuova parola
-            revealFirstLetter(currentHiddenWordIndex);
-            
-            highlightCurrentWord();
-            document.getElementById('thirdMessage').textContent = `Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
-            startChainTimer();
+            if (nextWordIndex !== -1) {
+                currentHiddenWordIndex = nextWordIndex;
+                revealFirstLetter(currentHiddenWordIndex);
+                highlightCurrentWord();
+                document.getElementById('thirdMessage').textContent = `Hai cambiato direzione! Indovina la parola nascosta! Tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
+                startChainTimer();
+            } else {
+                // Se non ci sono più parole nascoste, completa la catena
+                completeChain();
+            }
         }
 
         function startZipGame() {
