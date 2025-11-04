@@ -1949,7 +1949,7 @@
             initThirdGame();
         }
 
-        // GIOCO 3: Una tira l'altra - CORRETTO
+        // GIOCO 3: Una tira l'altra - CORRETTO DEFINITIVO
         let thirdGameStarted = false;
         let thirdCurrentRound = 1;
         const thirdTotalRounds = 2;
@@ -2187,6 +2187,7 @@
             document.getElementById('thirdAnswerControls').classList.remove('hidden');
         }
 
+        // FUNZIONE CORRETTA DEFINITIVA - NON VA PIÙ DIRETTAMENTE ALLA ZIP
         function handleThirdCorrectAnswer() {
             // Riproduci il suono di parola esatta
             correctWordSound.currentTime = 0;
@@ -2207,15 +2208,23 @@
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
-            // CORREZIONE: SEMPRE mostrare le opzioni di direzione dopo aver indovinato una parola
-            // Solo quando non ci sono più parole nascoste si passa alla ZIP
-            if (checkAllWordsRevealed()) {
-                completeChain();
-                return;
+            // CORREZIONE DEFINITIVA: Controlla se ci sono altre parole nascoste
+            let foundHiddenWord = false;
+            for (let i = 1; i < currentChain.words.length - 1; i++) {
+                const wordElement = document.getElementById(`chain-word-${i}`);
+                if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    foundHiddenWord = true;
+                    break;
+                }
             }
             
-            // Se ci sono ancora parole nascoste, mostrare le opzioni di direzione
-            showDirectionOptions();
+            if (foundHiddenWord) {
+                // Ci sono ancora parole nascoste, mostra le opzioni di direzione
+                showDirectionOptions();
+            } else {
+                // Non ci sono più parole nascoste, passa alla ZIP
+                completeChain();
+            }
         }
 
         function handleThirdWrongAnswer() {
@@ -2278,21 +2287,17 @@
             }
         }
 
-        // CORREZIONE: Questa funzione ora verifica correttamente che TUTTE le parole nascoste siano state rivelate
         function checkAllWordsRevealed() {
             const currentChain = chainList[thirdCurrentRound - 1];
             
-            // Controlla tutte le parole intermedie (dalla 1 alla 5, escludendo la prima e l'ultima)
             for (let i = 1; i < currentChain.words.length - 1; i++) {
                 const wordElement = document.getElementById(`chain-word-${i}`);
-                // Se una parola intermedia non è ancora stata rivelata completamente, ritorna false
                 if (wordElement && wordElement.classList.contains('hidden-word')) {
-                    return false;
+                    return false; // Trovata una parola ancora nascosta
                 }
             }
             
-            // Se tutte le parole intermedie sono state rivelate, ritorna true
-            return true;
+            return true; // Tutte le parole sono state rivelate
         }
 
         function completeChain() {
