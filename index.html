@@ -404,38 +404,60 @@
             justify-content: center;
         }
         
+        /* MIGLIORAMENTI GRAFICA SELEZIONE PERSONAGGI */
         .team-setup {
             display: flex;
             justify-content: space-between;
-            margin: 15px 0;
-            gap: 10px;
+            margin: 25px 0;
+            gap: 20px;
         }
         
         .team-input {
             flex: 1;
-            padding: 12px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+            border-radius: 16px;
+            border: 2px solid rgba(253, 187, 45, 0.3);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .team-input:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+            border-color: rgba(253, 187, 45, 0.6);
         }
         
         .team-input h3 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: var(--accent);
-            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            font-size: clamp(1rem, 2vw, 1.3rem);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(253, 187, 45, 0.2);
         }
         
         input {
-            padding: 8px;
-            margin: 6px 0;
+            padding: 12px;
+            margin: 8px 0;
             width: 100%;
             border: none;
-            border-radius: 8px;
-            font-size: clamp(0.8rem, 1.4vw, 0.9rem);
-            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(253, 187, 45, 0.5);
+            transform: scale(1.02);
         }
         
         .hidden {
@@ -833,21 +855,43 @@
             to { transform: rotate(360deg); }
         }
 
+        /* MIGLIORAMENTI GRAFICA SELEZIONE PLAYER */
         .player-selection {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-top: 6px;
+            gap: 10px;
+            margin-top: 15px;
         }
         
         .player-input {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         
         .add-player-btn {
             background: linear-gradient(135deg, var(--info), #2980b9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+        
+        .add-player-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .remove-player-btn {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
             color: white;
             border: none;
             border-radius: 50%;
@@ -857,30 +901,38 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            transition: var(--transition);
         }
         
-        .remove-player-btn {
-            background: linear-gradient(135deg, var(--danger), #c0392b);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 0.7rem;
+        .remove-player-btn:hover {
+            transform: scale(1.1);
         }
         
         .player-list {
-            margin-top: 6px;
-            max-height: 100px;
+            margin-top: 10px;
+            max-height: 150px;
             overflow-y: auto;
-            padding: 6px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .player-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .player-list-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
         }
 
         @keyframes scorePop {
@@ -1041,6 +1093,10 @@
             }
             
             .zip-layout {
+                flex-direction: column;
+            }
+            
+            .team-setup {
                 flex-direction: column;
             }
         }
@@ -1439,7 +1495,7 @@
             list.innerHTML = '';
             players.forEach((player, index) => {
                 const playerItem = document.createElement('div');
-                playerItem.className = 'player-item';
+                playerItem.className = 'player-list-item';
                 playerItem.innerHTML = `
                     <span>${player}</span>
                     <button class="remove-player-btn" onclick="removePlayer('${team}', ${index})">
@@ -2187,7 +2243,7 @@
             document.getElementById('thirdAnswerControls').classList.remove('hidden');
         }
 
-        // FUNZIONE CORRETTA DEFINITIVA - NON VA PIÙ DIRETTAMENTE ALLA ZIP
+        // FUNZIONE CORRETTA - ORA CONTROLLA CORRETTAMENTE SE CI SONO ALTRE PAROLE NASCOSTE
         function handleThirdCorrectAnswer() {
             // Riproduci il suono di parola esatta
             correctWordSound.currentTime = 0;
@@ -2208,23 +2264,30 @@
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
             
-            // CORREZIONE DEFINITIVA: Controlla se ci sono altre parole nascoste
-            let foundHiddenWord = false;
-            for (let i = 1; i < currentChain.words.length - 1; i++) {
-                const wordElement = document.getElementById(`chain-word-${i}`);
-                if (wordElement && wordElement.classList.contains('hidden-word')) {
-                    foundHiddenWord = true;
-                    break;
-                }
-            }
+            // CORREZIONE: Controlla se ci sono altre parole nascoste
+            const hasMoreHiddenWords = checkForMoreHiddenWords();
             
-            if (foundHiddenWord) {
+            if (hasMoreHiddenWords) {
                 // Ci sono ancora parole nascoste, mostra le opzioni di direzione
                 showDirectionOptions();
             } else {
                 // Non ci sono più parole nascoste, passa alla ZIP
                 completeChain();
             }
+        }
+
+        // FUNZIONE AGGIUNTA: Controlla se ci sono altre parole nascoste
+        function checkForMoreHiddenWords() {
+            const currentChain = chainList[thirdCurrentRound - 1];
+            
+            for (let i = 1; i < currentChain.words.length - 1; i++) {
+                const wordElement = document.getElementById(`chain-word-${i}`);
+                if (wordElement && wordElement.classList.contains('hidden-word')) {
+                    return true; // Trovata una parola ancora nascosta
+                }
+            }
+            
+            return false; // Tutte le parole sono state rivelate
         }
 
         function handleThirdWrongAnswer() {
@@ -2285,19 +2348,6 @@
                 wordElement.classList.remove('hidden-word');
                 wordElement.classList.add('revealed');
             }
-        }
-
-        function checkAllWordsRevealed() {
-            const currentChain = chainList[thirdCurrentRound - 1];
-            
-            for (let i = 1; i < currentChain.words.length - 1; i++) {
-                const wordElement = document.getElementById(`chain-word-${i}`);
-                if (wordElement && wordElement.classList.contains('hidden-word')) {
-                    return false; // Trovata una parola ancora nascosta
-                }
-            }
-            
-            return true; // Tutte le parole sono state rivelate
         }
 
         function completeChain() {
