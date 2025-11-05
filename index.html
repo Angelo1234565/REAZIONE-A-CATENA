@@ -1426,15 +1426,18 @@
         let moneySound = new Audio();
         let gongSound = new Audio();
         
-        // NUOVI AUDIO PER LE CATENE
+        // AUDIO DI SOTTOFONDO PER LE CATENE
         let firstChainBackground = new Audio();
         let secondChainBackground = new Audio();
+        let mainBackgroundMusic = new Audio();
         
         // Configurazione audio di sottofondo
         firstChainBackground.volume = 0.3;
         secondChainBackground.volume = 0.3;
+        mainBackgroundMusic.volume = 0.3;
         firstChainBackground.loop = true;
         secondChainBackground.loop = true;
+        mainBackgroundMusic.loop = true;
         
         let musicTimeout;
         
@@ -1547,6 +1550,9 @@
             
             // Inizializza il primo gioco
             initFirstGame();
+            
+            // AVVIA IL SOTTOFONDO PRINCIPALE
+            playSound(mainBackgroundMusic, 'Reazione a catena - Sottofondo.mp3');
         }
 
         // CORREZIONE: Funzione per riprodurre audio con gestione errori
@@ -2185,7 +2191,12 @@
             
             // AVVIA IL SOTTOFONDO MUSICALE PER LA PRIMA CATENA
             if (thirdCurrentRound === 1) {
-                playSound(firstChainBackground, 'Reazione a catena - Sottofondo prima catena.mp4');
+                // Ferma il sottofondo principale
+                mainBackgroundMusic.pause();
+                mainBackgroundMusic.currentTime = 0;
+                
+                // Avvia il sottofondo della prima catena
+                playSound(firstChainBackground, 'Reazione a catena - Sottofondo prima catena.mp3');
             }
             
             startChainTimer();
@@ -2515,8 +2526,8 @@
             document.getElementById('zipMessage').textContent = `Hai completato la catena! La ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent} ha 5 secondi extra per la ZIP!`;
             document.getElementById('zipOptions').classList.remove('hidden');
             document.getElementById('zipAnswerControls').classList.add('hidden');
-            document.getElementById('zipCorrectAnswer').classList.add('hidden');
             document.getElementById('zipTimer').classList.add('hidden');
+            document.getElementById('zipCorrectAnswer').classList.add('hidden');
             
             document.getElementById('prizeValue').textContent = `${zipData.prize.toLocaleString()}`;
         }
@@ -2654,7 +2665,12 @@
             
             // AVVIA IL SOTTOFONDO PER LA SECONDA CATENA
             if (thirdCurrentRound === 2) {
-                playSound(secondChainBackground, 'Reazione a catena - Sottofondo seconda.mp4');
+                // Ferma il sottofondo della prima catena
+                firstChainBackground.pause();
+                firstChainBackground.currentTime = 0;
+                
+                // Avvia il sottofondo della seconda catena
+                playSound(secondChainBackground, 'Reazione a catena - Sottofondo seconda.mp3');
             }
             
             // Reset del gioco per la nuova catena
@@ -2673,6 +2689,13 @@
             
             document.querySelector('.chain-container').classList.add('hidden');
             document.querySelector('.message').classList.add('hidden');
+            
+            // Ferma il sottofondo della seconda catena
+            secondChainBackground.pause();
+            secondChainBackground.currentTime = 0;
+            
+            // Riprendi il sottofondo principale
+            playSound(mainBackgroundMusic, 'Reazione a catena - Sottofondo.mp3');
             
             setTimeout(() => {
                 document.getElementById('thirdNextGameBtnCenter').classList.add('show');
@@ -2699,6 +2722,8 @@
             firstChainBackground.currentTime = 0;
             secondChainBackground.pause();
             secondChainBackground.currentTime = 0;
+            mainBackgroundMusic.pause();
+            mainBackgroundMusic.currentTime = 0;
             
             // Aggiorna display
             updateScores();
