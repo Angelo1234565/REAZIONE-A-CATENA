@@ -1373,8 +1373,9 @@
                         <div class="message" id="thirdMessage"><i class="fas fa-bullseye"></i> Scegli da che direzione iniziare la catena!</div>
                         
                         <div class="chain-direction" id="chainDirection">
-                            <button class="direction-btn" id="topDirectionBtn"><i class="fas fa-arrow-down"></i> Dall'alto</button>
-                            <button class="direction-btn" id="bottomDirectionBtn"><i class="fas fa-arrow-up"></i> Dal basso</button>
+                            <!-- CORREZIONE: Frecce invertite per essere più intuitive -->
+                            <button class="direction-btn" id="topDirectionBtn"><i class="fas fa-arrow-up"></i> Dall'alto</button>
+                            <button class="direction-btn" id="bottomDirectionBtn"><i class="fas fa-arrow-down"></i> Dal basso</button>
                         </div>
                         
                         <div class="chain-main-controls">
@@ -2406,6 +2407,9 @@
         function continueDirection() {
             document.getElementById('directionOptions').classList.add('hidden');
             
+            // CORREZIONE: Riabilita il buzzer
+            document.getElementById('thirdBuzzer').disabled = false;
+            
             // Trova la prossima parola nascosta nella stessa direzione
             const currentChain = chainList[thirdCurrentRound - 1];
             let nextWordIndex = -1;
@@ -2446,6 +2450,9 @@
 
         function changeDirection() {
             document.getElementById('directionOptions').classList.add('hidden');
+            
+            // CORREZIONE: Riabilita il buzzer
+            document.getElementById('thirdBuzzer').disabled = false;
             
             // Cambia direzione
             currentChainDirection = currentChainDirection === 'top' ? 'bottom' : 'top';
