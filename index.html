@@ -1416,21 +1416,23 @@
         let scoreA = 0;
         let scoreB = 0;
         let currentTeam = 'A';
-        let introMusic = new Audio('intro-music.mp3');
-        let wrongAnswerSound = new Audio('Reazione a Catena Soundtrack – Parola Sbagliata.mp4');
-        let wordAppearanceSound = new Audio('Reazione a Catena Soundtrack – Apparizione parola.mp4');
-        let correctWordSound = new Audio('Reazione a Catena Soundtrack – Parola esatta.mp4');
-        let moneySound = new Audio('Reazione a Catena Soundtrack – Suono effetto soldi.mp4');
-        let gongSound = new Audio('Reazione a Catena Soundtrack – Gong.mp4');
+        
+        // CORREZIONE: Audio con gestione errori
+        let introMusic = new Audio();
+        let wrongAnswerSound = new Audio();
+        let wordAppearanceSound = new Audio();
+        let correctWordSound = new Audio();
+        let moneySound = new Audio();
+        let gongSound = new Audio();
         
         // NUOVI AUDIO PER LE CATENE
-        let firstChainBackground = new Audio('Reazione a catena - Sottofondo prima catena.mp4');
-        let secondChainBackground = new Audio('Reazione a catena - Sottofondo seconda.mp4');
+        let firstChainBackground = new Audio();
+        let secondChainBackground = new Audio();
         
         // Configurazione audio di sottofondo
-        firstChainBackground.volume = 0.3; // Volume basso come sottofondo
+        firstChainBackground.volume = 0.3;
         secondChainBackground.volume = 0.3;
-        firstChainBackground.loop = true; // Riproduzione in loop
+        firstChainBackground.loop = true;
         secondChainBackground.loop = true;
         
         let musicTimeout;
@@ -1451,7 +1453,7 @@
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
                 videoScreen.classList.remove('hidden');
-                introVideo.play();
+                introVideo.play().catch(e => console.log("Errore riproduzione video:", e));
             }, 2000);
         });
 
@@ -1519,7 +1521,7 @@
 
         function startMainGame() {
             // Riproduci la sigla audio per 15 secondi
-            introMusic.play();
+            playSound(introMusic, 'intro-music.mp3');
             
             // Ferma la musica dopo 15 secondi
             musicTimeout = setTimeout(() => {
@@ -1544,6 +1546,18 @@
             
             // Inizializza il primo gioco
             initFirstGame();
+        }
+
+        // CORREZIONE: Funzione per riprodurre audio con gestione errori
+        function playSound(audioElement, soundFile) {
+            try {
+                audioElement.src = soundFile;
+                audioElement.play().catch(e => {
+                    console.log("Errore riproduzione audio:", e);
+                });
+            } catch (error) {
+                console.log("Errore caricamento audio:", error);
+            }
         }
 
         function updatePlayersInSidebars() {
@@ -1586,8 +1600,7 @@
 
         function updateScore(team, points) {
             // Riproduci il suono dei soldi
-            moneySound.currentTime = 0;
-            moneySound.play();
+            playSound(moneySound, 'Reazione a Catena Soundtrack – Suono effetto soldi.mp4');
             
             if (team === 'A') {
                 scoreA += points;
@@ -1713,8 +1726,7 @@
             revealedLetters.push(currentWord[position]);
             
             // Riproduci il suono di apparizione parola
-            wordAppearanceSound.currentTime = 0;
-            wordAppearanceSound.play();
+            playSound(wordAppearanceSound, 'Reazione a Catena Soundtrack – Apparizione parola.mp4');
             
             setTimeout(() => {
                 letterBox.classList.remove('pulse');
@@ -1735,8 +1747,7 @@
 
         function handleCorrectAnswer() {
             // Riproduci il suono di parola esatta
-            correctWordSound.currentTime = 0;
-            correctWordSound.play();
+            playSound(correctWordSound, 'Reazione a Catena Soundtrack – Parola esatta.mp4');
             
             document.getElementById('message').textContent = `Esatto! La parola è "${currentWord}". +€2.000 per la ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}!`;
             revealAllLetters();
@@ -1750,8 +1761,7 @@
 
         function handleWrongAnswer() {
             // Riproduci il suono di parola sbagliata
-            wrongAnswerSound.currentTime = 0;
-            wrongAnswerSound.play();
+            playSound(wrongAnswerSound, 'Reazione a Catena Soundtrack – Parola Sbagliata.mp4');
             
             currentTeam = currentTeam === 'A' ? 'B' : 'A';
             updateActiveTeam();
@@ -1759,7 +1769,7 @@
             document.getElementById('message').textContent = `Risposta errata! Adesso tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
             document.getElementById('answerControls').classList.add('hidden');
             startRevealingLetters();
-            document.getElementById('buzzer').disabled = false;
+            document.getElementById('buzzer').disabled = false; // CORREZIONE: Riabilita il buzzer
         }
 
         function revealAllLetters() {
@@ -2156,7 +2166,7 @@
             thirdGameStarted = true;
             document.getElementById('chainDirection').classList.add('hidden');
             document.getElementById('thirdStartBtn').disabled = true;
-            document.getElementById('thirdBuzzer').disabled = false;
+            document.getElementById('thirdBuzzer').disabled = false; // CORREZIONE: Riabilita il buzzer
             document.getElementById('thirdNextBtn').disabled = true;
             
             // Imposta la prima parola nascosta in base alla direzione
@@ -2174,8 +2184,7 @@
             
             // AVVIA IL SOTTOFONDO MUSICALE PER LA PRIMA CATENA
             if (thirdCurrentRound === 1) {
-                firstChainBackground.currentTime = 0;
-                firstChainBackground.play();
+                playSound(firstChainBackground, 'Reazione a catena - Sottofondo prima catena.mp4');
             }
             
             startChainTimer();
@@ -2193,8 +2202,7 @@
             wordElement.classList.add('hidden-word');
             
             // Riproduci il suono di apparizione parola
-            wordAppearanceSound.currentTime = 0;
-            wordAppearanceSound.play();
+            playSound(wordAppearanceSound, 'Reazione a Catena Soundtrack – Apparizione parola.mp4');
         }
 
         function startChainTimer() {
@@ -2222,8 +2230,7 @@
 
         function handleChainTimeExpired() {
             // Riproduci il suono del gong
-            gongSound.currentTime = 0;
-            gongSound.play();
+            playSound(gongSound, 'Reazione a Catena Soundtrack – Gong.mp4');
             
             document.getElementById('chainTimer').classList.add('hidden');
             document.getElementById('thirdMessage').textContent = `Tempo scaduto! La parola passa alla ${currentTeam === 'A' ? document.getElementById('displayTeamB').textContent : document.getElementById('displayTeamA').textContent} e viene aggiunta una lettera!`;
@@ -2233,7 +2240,7 @@
             updateActiveTeam();
             
             document.getElementById('thirdAnswerControls').classList.add('hidden');
-            document.getElementById('thirdBuzzer').disabled = false;
+            document.getElementById('thirdBuzzer').disabled = false; // CORREZIONE: Riabilita il buzzer
             
             highlightCurrentWord();
             startChainTimer();
@@ -2262,8 +2269,7 @@
 
         function handleThirdCorrectAnswer() {
             // Riproduci il suono di parola esatta
-            correctWordSound.currentTime = 0;
-            correctWordSound.play();
+            playSound(correctWordSound, 'Reazione a Catena Soundtrack – Parola esatta.mp4');
             
             const currentChain = chainList[thirdCurrentRound - 1];
             const correctWord = currentChain.words[currentHiddenWordIndex];
@@ -2310,7 +2316,7 @@
 
         function handleThirdWrongAnswer() {
             // Riproduci il suono di parola sbagliata
-            wrongAnswerSound.play();
+            playSound(wrongAnswerSound, 'Reazione a Catena Soundtrack – Parola Sbagliata.mp4');
             
             const wordElement = document.getElementById(`chain-word-${currentHiddenWordIndex}`);
             wordElement.classList.add('wrong-answer');
@@ -2322,7 +2328,7 @@
                 
                 document.getElementById('thirdMessage').textContent = `Risposta errata! Una lettera è stata rivelata. Adesso tocca alla ${currentTeam === 'A' ? document.getElementById('displayTeamA').textContent : document.getElementById('displayTeamB').textContent}`;
                 document.getElementById('thirdAnswerControls').classList.add('hidden');
-                document.getElementById('thirdBuzzer').disabled = false;
+                document.getElementById('thirdBuzzer').disabled = false; // CORREZIONE: Riabilita il buzzer
                 
                 highlightCurrentWord();
                 startChainTimer();
@@ -2340,8 +2346,7 @@
                 updateWordDisplay(currentHiddenWordIndex);
                 
                 // Riproduci il suono di apparizione parola
-                wordAppearanceSound.currentTime = 0;
-                wordAppearanceSound.play();
+                playSound(wordAppearanceSound, 'Reazione a Catena Soundtrack – Apparizione parola.mp4');
             }
         }
 
@@ -2642,8 +2647,7 @@
             
             // AVVIA IL SOTTOFONDO PER LA SECONDA CATENA
             if (thirdCurrentRound === 2) {
-                secondChainBackground.currentTime = 0;
-                secondChainBackground.play();
+                playSound(secondChainBackground, 'Reazione a catena - Sottofondo seconda.mp4');
             }
             
             // Reset del gioco per la nuova catena
